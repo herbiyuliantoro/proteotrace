@@ -1,0 +1,24 @@
+{
+  "margin": 0.2,
+  "specificity": 0.99,
+  "cohorts": {
+    "PXD001064": {
+      "sensitivity": 0.8055555555555556,
+      "false_alarm_rate": 0.12174411933448077,
+      "repeats": 5,
+      "planted_pairs_per_repeat": 12,
+      "runs": 231,
+      "donors": 116,
+      "note": "twin cohort, 2 visits per donor: the hardest case"
+    },
+    "PXD004242": {
+      "sensitivity": 0.9333333333333332,
+      "false_alarm_rate": 0.04927536231884059,
+      "repeats": 5,
+      "planted_pairs_per_repeat": 12,
+      "runs": 300,
+      "donors": 43,
+      "note": "7 visits per donor, no twins: the typical case"
+    }
+  }
+}

@@ -85,21 +85,91 @@ Stated up front, because you'll hit these:
 ```sh
 git clone https://github.com/herbiyuliantoro/proteotrace.git
 cd proteotrace
-pip install -r requirements.txt
+pip install -e .
 
-# rebuild every figure in the paper
+# try it on one of the validation cohorts
+proteotrace check \
+  --matrix  data/PXD001064_protein_matrix.tsv \
+  --samples examples/PXD001064_samples.tsv \
+  --out     qc/
+```
+
+To rebuild every figure in the paper instead:
+
+```sh
+pip install -r requirements.txt
 for f in plot_fig*.py; do python "$f"; done
 ```
 
-That's it — no downloads. The two quantitative matrices are in the repo, so the
-figures come straight out. 📈
+No downloads either way — both quantitative matrices are in the repo. 📈
 
 ---
+
+## 🛠️ Using it on your own data
+
+```sh
+pip install -e .
+
+proteotrace check \
+  --matrix   proteinGroups.txt \
+  --samples  samples.tsv \
+  --out      qc/
+```
+
+`samples.tsv` needs three columns. `batch` is whatever groups your runs
+technically — plate, acquisition day, LC column:
+
+```
+run           donor      batch
+Plate1_A01    subj_014   plate1
+Plate1_A02    subj_014   plate1
+Plate2_A01    subj_014   plate2
+Plate2_A02    subj_027   plate2
+```
+
+It reads a MaxQuant `proteinGroups.txt` (or its zip), a DIA-NN report, or any
+plain runs × features table, and works it out from the file. You get back a
+per-run verdict:
+
+| Verdict | What it means | What to do |
+|:--|:--|:--|
+| ✅ `ok` | Matches its own donor above threshold | Nothing |
+| 🔍 `review` | Doesn't convincingly match its own donor, but nobody else claims it either | Check the run quality first |
+| 🚩 `swap_suspected` | Fails its own donor, and another donor matches it better | Investigate before using the donor |
+| ➖ `no_reference` | Donor has only this one run, so nothing can be said | Out of scope |
+
+Plus `pair_scores.tsv` and a `summary.json`.
+
+The threshold isn't hard-coded — it's calibrated on **your** cohort's own
+different-donor pairs, because the score scale shifts with platform, depth and
+matrix.
+
+### 📐 How well does it actually work?
+
+We plant swaps we know the answer to, then check what the tool catches.
+`python validate_tool.py` reproduces this:
+
+| Cohort | Catches planted swaps | Flags clean runs |
+|:--|:--:|:--:|
+| PXD004242 — 7 visits/donor, no twins | **93.3%** | 4.9% |
+| PXD001064 — 2 visits/donor, twin cohort | **80.6%** | 12.2% |
+
+The second row is the hard case on purpose: half the cohort has an identical
+twin in it, and each donor has only two visits, so the "does it match itself"
+estimate rests on a single pair. **More visits per donor makes this much
+better** — that's the same dependence Figure 6B shows.
+
+`--margin` is the knob. Lower catches more swaps and flags more clean runs;
+0.20 is the default because it sat at the best point on both cohorts. The
+numbers above are for the default.
 
 ## 🗂️ What's in here
 
 | Path | What it is |
 |:--|:--|
+| `proteotrace/` | 🛠️ The tool: `core`, `io`, `report`, `cli` |
+| `validate_tool.py` | 📐 Plants known swaps and measures what the tool catches |
+| `examples/` | 📋 Sample annotation files for both cohorts |
 | `plot_fig*.py` | 🎨 The six main figures, one script each |
 | `proteotrace_style.py` | 🖌️ Shared style: type, colour, sizing, export |
 | `figure_data.py` | 🔌 Loaders, so every figure reads the same frozen numbers |

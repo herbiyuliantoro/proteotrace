@@ -1,4 +1,4 @@
-name: rebuild figures
+name: tool and figures
 
 # Proves the claim the README makes: the tracked files alone are enough to
 # rebuild every main figure, with no download and no local state.
@@ -20,6 +20,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Install the package and run the tool end to end
+        run: |
+          pip install -e .
+          proteotrace check \
+            --matrix  data/PXD001064_protein_matrix.tsv \
+            --samples examples/PXD001064_samples.tsv \
+            --out     /tmp/qc
+          test -s /tmp/qc/run_report.tsv
       - name: Rebuild every main figure from a clean tree
         run: |
           rm -rf figures

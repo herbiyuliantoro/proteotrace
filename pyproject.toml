@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proteotrace"
+version = "0.1.0"
+description = "Proteomics-only sample-consistency QC for longitudinal cohorts"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Herbi Yuliantoro", email = "hey325@lehigh.edu"}]
+keywords = ["proteomics", "quality control", "sample swap", "mass spectrometry"]
+dependencies = ["numpy>=1.26", "pandas>=2.1"]
+
+[project.urls]
+Homepage = "https://github.com/herbiyuliantoro/proteotrace"
+Issues = "https://github.com/herbiyuliantoro/proteotrace/issues"
+
+[project.scripts]
+proteotrace = "proteotrace.cli:main"
+
+[tool.setuptools]
+packages = ["proteotrace"]
