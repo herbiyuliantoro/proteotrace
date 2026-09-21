@@ -38,6 +38,21 @@ The two quantitative matrices are tracked, so the figures rebuild without any
 download. See `data/README.md` for the two large public inputs that are not
 tracked and how to fetch them.
 
+## Reproducibility
+
+The tracked files are enough to rebuild every main figure. This is checked two
+ways, not asserted:
+
+- `.github/workflows/figures.yml` deletes `figures/`, installs only
+  `requirements.txt`, and rebuilds all six from a clean checkout on every push.
+- `export_pxd004242_pairs.py` recomputes the raw and corrected AUCs of the
+  assignment it exports and refuses to write unless both match the frozen
+  rotation result to within 5e-4, so a figure cannot drift from the recorded
+  analysis without the export failing first.
+
+Arial is used when available and DejaVu Sans otherwise, so the figures build on
+any platform; only the typeface changes.
+
 ## Paper claim currently supported
 
 The current paper should make one focused claim: an unsupervised, acquisition-day
