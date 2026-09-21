@@ -1,0 +1,2 @@
+draw	seed	n_runs	n_actual_plates	selected_features	raw_auc	corrected_auc	n_pairs	same_donor_pairs	different_donor_pairs	corrected_sens_95	corrected_sens_99
+0		300	16	273	0.7491510901862253	0.937124082515128	8826	759	8067	0.7180500658761528	0.47167325428194995

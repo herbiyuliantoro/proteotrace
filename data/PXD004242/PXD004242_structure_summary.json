@@ -1,0 +1,122 @@
+{
+  "api_manifest": {
+    "files_total": 1294,
+    "non_raw_files": 4,
+    "raw_files": 1290,
+    "raw_size_bytes": 830600348220
+  },
+  "biological_sample_units": {
+    "all_groups": 324,
+    "baseline_only_groups": 18,
+    "longitudinal_groups": 300,
+    "participant_groups": 318,
+    "participant_technical_replicate_distribution": {
+      "4": 1272
+    },
+    "reference_groups": 6,
+    "reference_technical_replicate_distribution": {
+      "3": 18
+    }
+  },
+  "errors": [],
+  "inputs": {
+    "manifest": "data/PXD004242/PXD004242_file_manifest.tsv",
+    "manifest_sha256": "575e0c6b8961c61009a66e195fb6864d08c7e87f6fef2d36db97685ec94034c6",
+    "sdrf": "data/PXD004242/PXD004242_community_annotated.sdrf.tsv",
+    "sdrf_sha256": "eab1dcc720e8569ed90945b1265cf452ffe2ed5d427ffa66a26a552b23d39f69"
+  },
+  "maxquant": {
+    "expected_labels": 1290,
+    "labels_intersection": 1290,
+    "missing_expected_labels": [],
+    "proteinGroups_intensity_columns": 1290,
+    "unexpected_observed_labels": [],
+    "zip_sha256": "a72086382008e5059b2a465b6b1f0a651acfd09ca4cb4f58befceeff8d05e83d"
+  },
+  "participants": {
+    "baseline_only": 9,
+    "baseline_only_ids": [
+      "24",
+      "31",
+      "33",
+      "35",
+      "49",
+      "50",
+      "51",
+      "53",
+      "54"
+    ],
+    "longitudinal": 43,
+    "longitudinal_ids": [
+      "1",
+      "10",
+      "11",
+      "12",
+      "14",
+      "15",
+      "16",
+      "17",
+      "19",
+      "2",
+      "20",
+      "21",
+      "22",
+      "23",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "3",
+      "30",
+      "34",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "5",
+      "52",
+      "57",
+      "58",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "numeric_participants": 52,
+    "other": 0,
+    "other_ids": []
+  },
+  "project_accession": "PXD004242",
+  "reference_library": {
+    "ids": [
+      "F1",
+      "F2",
+      "F3",
+      "M1",
+      "M2",
+      "M3"
+    ],
+    "samples": 6
+  },
+  "run_reconciliation": {
+    "manifest_raw_missing_from_sdrf": 0,
+    "sdrf_raw_manifest_intersection": 1290,
+    "sdrf_raw_missing_from_manifest": 0
+  },
+  "sdrf": {
+    "participant_runs": 1272,
+    "reference_runs": 18,
+    "rows": 1290,
+    "unique_data_files": 1290
+  }
+}

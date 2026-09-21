@@ -1,0 +1,90 @@
+{
+  "method": "leave_one_acquisition_day_out",
+  "normalization": "training feature selection and standardization; held-out batch median from unlabeled held-out runs",
+  "folds": [
+    {
+      "heldout_batch": "130104",
+      "train_runs": 206,
+      "test_runs": 25,
+      "selected_features": 275,
+      "pairs": 5150,
+      "same_donor_pairs": 19,
+      "auc": 0.9624880755777574
+    },
+    {
+      "heldout_batch": "130109",
+      "train_runs": 195,
+      "test_runs": 36,
+      "selected_features": 261,
+      "pairs": 7020,
+      "same_donor_pairs": 32,
+      "auc": 0.9680076559816828
+    },
+    {
+      "heldout_batch": "130116",
+      "train_runs": 207,
+      "test_runs": 24,
+      "selected_features": 276,
+      "pairs": 4968,
+      "same_donor_pairs": 18,
+      "auc": 0.9726150392817059
+    },
+    {
+      "heldout_batch": "130124",
+      "train_runs": 205,
+      "test_runs": 26,
+      "selected_features": 274,
+      "pairs": 5330,
+      "same_donor_pairs": 24,
+      "auc": 0.990325417766051
+    },
+    {
+      "heldout_batch": "130211",
+      "train_runs": 209,
+      "test_runs": 22,
+      "selected_features": 277,
+      "pairs": 4598,
+      "same_donor_pairs": 20,
+      "auc": 0.9689274792485801
+    },
+    {
+      "heldout_batch": "130220",
+      "train_runs": 216,
+      "test_runs": 15,
+      "selected_features": 279,
+      "pairs": 3240,
+      "same_donor_pairs": 11,
+      "auc": 0.93304991694586
+    },
+    {
+      "heldout_batch": "130308",
+      "train_runs": 200,
+      "test_runs": 31,
+      "selected_features": 277,
+      "pairs": 6200,
+      "same_donor_pairs": 23,
+      "auc": 0.9713523519930176
+    },
+    {
+      "heldout_batch": "130313",
+      "train_runs": 195,
+      "test_runs": 36,
+      "selected_features": 264,
+      "pairs": 7020,
+      "same_donor_pairs": 23,
+      "auc": 0.9850432794178872
+    },
+    {
+      "heldout_batch": "130319",
+      "train_runs": 215,
+      "test_runs": 16,
+      "selected_features": 280,
+      "pairs": 3440,
+      "same_donor_pairs": 16,
+      "auc": 0.9609192464953271
+    }
+  ],
+  "mean_fold_auc": 0.9680809403008743,
+  "pooled_unique_cross_batch_pairs": 23483,
+  "pooled_unique_auc": 0.9704721712706929
+}

@@ -1,0 +1,80 @@
+{
+  "cohort": "longitudinal_only",
+  "folds": [
+    {
+      "auc": null,
+      "heldout_plate": "1B",
+      "pairs": 18011,
+      "same_donor_pairs": 0,
+      "selected_features": 154,
+      "test_runs": 83,
+      "train_runs": 217
+    },
+    {
+      "auc": 0.792108507409172,
+      "heldout_plate": "2A",
+      "pairs": 18531,
+      "same_donor_pairs": 22,
+      "selected_features": 150,
+      "test_runs": 87,
+      "train_runs": 213
+    },
+    {
+      "auc": 0.8327857142857142,
+      "heldout_plate": "2B",
+      "pairs": 891,
+      "same_donor_pairs": 16,
+      "selected_features": 148,
+      "test_runs": 3,
+      "train_runs": 297
+    },
+    {
+      "auc": 0.34072810011376564,
+      "heldout_plate": "2C",
+      "pairs": 299,
+      "same_donor_pairs": 6,
+      "selected_features": 148,
+      "test_runs": 1,
+      "train_runs": 299
+    },
+    {
+      "auc": 0.7441821716189948,
+      "heldout_plate": "3A",
+      "pairs": 18011,
+      "same_donor_pairs": 6,
+      "selected_features": 155,
+      "test_runs": 83,
+      "train_runs": 217
+    },
+    {
+      "auc": 0.5546075085324231,
+      "heldout_plate": "3C",
+      "pairs": 299,
+      "same_donor_pairs": 6,
+      "selected_features": 148,
+      "test_runs": 1,
+      "train_runs": 299
+    },
+    {
+      "auc": null,
+      "heldout_plate": "4B",
+      "pairs": 10836,
+      "same_donor_pairs": 0,
+      "selected_features": 149,
+      "test_runs": 42,
+      "train_runs": 258
+    }
+  ],
+  "interpretation": "This is plate-correction transfer, not donor-held-out validation; donors remain assigned to plate families.",
+  "mean_fold_auc": 0.652882400392014,
+  "method": "leave_one_plate_out",
+  "n_donors": 43,
+  "n_plates": 7,
+  "n_runs": 300,
+  "normalization": "training feature selection and standardization; held-out plate median from unlabeled held-out runs",
+  "pooled_unique_auc": 0.7327158078819208,
+  "pooled_unique_cross_plate_pairs": 33439,
+  "seed": null,
+  "selection": "fixed",
+  "technical_replicate": 1
+}

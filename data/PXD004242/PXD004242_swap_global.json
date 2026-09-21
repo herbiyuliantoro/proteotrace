@@ -1,0 +1,33 @@
+{
+  "baseline_top1_accuracy": 0.9115,
+  "candidate_group_policy": "all groups",
+  "cohort": "longitudinal_only",
+  "constraint": "global",
+  "interpretation": "Detection is top donor disagreement after exchanging two labels; swapped query/reference runs are left out of donor medians.",
+  "median_margin_true_minus_assigned": 0.32632114302102144,
+  "n_queries": 2000,
+  "n_swaps": 1000,
+  "plate_counts": {
+    "1B": 172,
+    "1C": 113,
+    "1D": 113,
+    "1E": 157,
+    "2A": 126,
+    "2B": 140,
+    "2C": 143,
+    "2D": 200,
+    "3A": 134,
+    "3B": 141,
+    "3C": 133,
+    "3D": 149,
+    "4B": 65,
+    "4C": 87,
+    "4D": 74,
+    "4E": 53
+  },
+  "seed": 20260919,
+  "selected_features": 148,
+  "selection": "random",
+  "swap_detection_sensitivity": 0.997,
+  "swap_detection_when_baseline_true": 1.0
+}

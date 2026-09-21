@@ -1,0 +1,18 @@
+{
+  "cohort": "longitudinal_only",
+  "constraint": "within_plate",
+  "seed": 20260919,
+  "n_swaps": 1000,
+  "n_queries": 2000,
+  "n_reference_resamples": 20,
+  "selected_features": 148,
+  "interpretation": "n_total_visits is the assumed number of visits per donor. The query donor contributes n_total_visits-1 references and other candidates contribute n_total_visits references after exclusions. Quantiles describe reference-subset resampling, not a statistical confidence interval or unknown-cohort validation.",
+  "rows": [
+    {"n_total_visits": 2, "n_eligible_median": 2000, "correct_swap_recovery_median": 0.88225, "correct_swap_recovery_q025": 0.8689, "correct_swap_recovery_q975": 0.89055, "swap_disagreement_median": 0.992, "swap_disagreement_q025": 0.9892375, "swap_disagreement_q975": 0.9935},
+    {"n_total_visits": 3, "n_eligible_median": 2000, "correct_swap_recovery_median": 0.92075, "correct_swap_recovery_q025": 0.91245, "correct_swap_recovery_q975": 0.9303375, "swap_disagreement_median": 0.994, "swap_disagreement_q025": 0.990975, "swap_disagreement_q975": 0.9965},
+    {"n_total_visits": 4, "n_eligible_median": 2000, "correct_swap_recovery_median": 0.9505, "correct_swap_recovery_q025": 0.9467125, "correct_swap_recovery_q975": 0.9547625, "swap_disagreement_median": 0.996, "swap_disagreement_q025": 0.99395, "swap_disagreement_q975": 0.9972625},
+    {"n_total_visits": 5, "n_eligible_median": 2000, "correct_swap_recovery_median": 0.9625, "correct_swap_recovery_q025": 0.9577375, "correct_swap_recovery_q975": 0.9677875, "swap_disagreement_median": 0.9965, "swap_disagreement_q025": 0.9957375, "swap_disagreement_q975": 0.9975},
+    {"n_total_visits": 6, "n_eligible_median": 2000, "correct_swap_recovery_median": 0.96925, "correct_swap_recovery_q025": 0.966975, "correct_swap_recovery_q975": 0.9725, "swap_disagreement_median": 0.9965, "swap_disagreement_q025": 0.9952375, "swap_disagreement_q975": 0.9972625},
+    {"n_total_visits": 7, "n_eligible_median": 1958, "correct_swap_recovery_median": 0.9744637385086823, "correct_swap_recovery_q025": 0.9744637385086823, "correct_swap_recovery_q975": 0.9744637385086823, "swap_disagreement_median": 1.0, "swap_disagreement_q025": 1.0, "swap_disagreement_q975": 1.0}
+  ]
+}

@@ -1,0 +1,15 @@
+# Large public inputs. These are re-downloadable from PRIDE; see data/README.md.
+data/PXD004242/MaxQuant_Output.zip
+data/PXD062541_report.tsv
+
+# Derived pair tables that any analysis script regenerates.
+data/PXD001064_leave_one_batch_out.tsv
+data/PXD004242/PXD004242_layer1_fixed*_pairs.tsv
+data/PXD004242/PXD004242_lopo_fixed*_pairs.tsv
+data/PXD004242/PXD004242_lopo_round_*_pairs.tsv
+
+# Local artefacts
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store

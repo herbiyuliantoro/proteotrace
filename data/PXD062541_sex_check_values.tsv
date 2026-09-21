@@ -1,0 +1,57 @@
+sample	participant	sex	timepoint	metadata_label_source	description	SHBG	log10_SHBG	n_SHBG_rows	PZP	log10_PZP	n_PZP_rows
+M1_A	M1	M	A	sample_metadata_description	Men 1 after intervention	2.81e+11	11.448706	2	1.85e+11	11.267172	13
+M1_B	M1	M	B	sample_metadata_description	Men 1 before intervention	879716	5.9443425	3	2.54e+11	11.404834	13
+M10_A	M10	M	A	sample_metadata_description	Men 10 after intervention			0	4.08e+09	9.6106602	2
+M10_B	M10	M	B	sample_metadata_description	Men 10 before intervention			0	671608	5.8271159	1
+M11_A	M11	M	A	sample_metadata_description	Men 11 after intervention	218740	5.3399282	2	458666	5.6614965	3
+M11_B	M11	M	B	sample_metadata_description	Men 11 before intervention	58561.6	4.7676129	2	451936	5.6550769	5
+M12_A	M12	M	A	sample_metadata_description	Men 12 after intervention	489093	5.6893914	2	8.77e+10	10.943	11
+M12_B	M12	M	B	sample_metadata_description	Men 12 before intervention			0	4.53e+11	11.656098	14
+M13_A	M13	M	A	sample_metadata_description	Men 13 after intervention			0	2.62e+11	11.418301	9
+M13_B	M13	M	B	sample_metadata_description	Men 13 before intervention			0	3.07e+11	11.487138	11
+M14_A	M14	M	A	sample_metadata_description	Men 14 after intervention			0			0
+M14_B	M14	M	B	sample_metadata_description	Men 14 before intervention	102046	5.008796	1	159891	5.203824	1
+M15_A	M15	M	A	sample_metadata_description	Men 15 after intervention			0	1.35e+11	11.130334	4
+M15_B	M15	M	B	sample_metadata_description	Men 15 before intervention			0	6.87e+11	11.836957	3
+M2_A	M2	M	A	sample_metadata_description	Men 2 after intervention	68937.8	4.8384574	1	21778.3	4.338024	1
+M2_B	M2	M	B	sample_metadata_description	Men 2 before intervention	730453	5.8635923	3	25754.1	4.4108464	1
+M3_A	M3	M	A	sample_metadata_description	Men 3 after intervention	11380.3	4.0561537	1	1.32e+12	12.120574	20
+M3_B	M3	M	B	sample_metadata_description	Men 3 before intervention			0	6.35e+11	11.802774	10
+M4_A	M4	M	A	sample_metadata_description	Men 4 after intervention	459086	5.661894	2	9.98e+11	11.999131	19
+M4_B	M4	M	B	sample_metadata_description	Men 4 before intervention	389155	5.5901226	1	7.62e+11	11.881955	19
+M5_A	M5	M	A	sample_metadata_description	Men 5 after intervention	823570	5.9157005	1	8.99e+11	11.95376	14
+M5_B	M5	M	B	sample_metadata_description	Men 5 before intervention	1.25e+11	11.09691	4	7.94e+11	11.899821	19
+M6_A	M6	M	A	sample_metadata_description	Men 6 after intervention	2.04e+11	11.30963	4	123670	5.0922644	3
+M6_B	M6	M	B	sample_metadata_description	Men 6 before intervention	549574	5.7400262	3	860402	5.9347014	5
+M7_A	M7	M	A	sample_metadata_description	Men 7 after intervention			0	527012	5.7218205	1
+M7_B	M7	M	B	sample_metadata_description	Men 7 before intervention			0			0
+M8_A	M8	M	A	sample_metadata_description	Men 8 after intervention	596547	5.7756447	1	7.66e+12	12.884229	4
+M8_B	M8	M	B	sample_metadata_description	Men 8 before intervention			0	2.13e+10	10.32838	5
+M9_A	M9	M	A	sample_metadata_description	Men 9 after intervention			0	2.33e+10	10.367356	10
+M9_B	M9	M	B	sample_metadata_description	Men 9 before intervention	32129.7	4.5069067	1	1.37e+11	11.136721	7
+W1_A	W1	W	A	sample_metadata_description	Women 1 after intervention	573833	5.7587855	2	1.28e+12	12.10721	17
+W1_B	W1	W	B	sample_metadata_description	Women 1 before intervention			0			0
+W10_A	W10	W	A	sample_metadata_description	Women 10 after intervention	303036	5.4814942	1	3.01e+12	12.478566	4
+W10_B	W10	W	B	sample_metadata_description	Women 10 before intervention			0	1.26e+12	12.100371	20
+W11_A	W11	W	A	sample_metadata_description	Women 11 after intervention			0	7.91e+11	11.898176	9
+W11_B	W11	W	B	sample_metadata_description	Women 11 before intervention			0	2.95e+11	11.469822	3
+W12_A	W12	W	A	sample_metadata_description	Women 12 after intervention	1.38e+11	11.139879	3	2.21e+12	12.344392	22
+W12_B	W12	W	B	sample_metadata_description	Women 12 before intervention	626664	5.7970347	1	1.93e+12	12.285557	19
+W13_A	W13	W	A	sample_metadata_description	Women 13 after intervention	1.66e+11	11.220108	3	7.35e+11	11.866287	21
+W13_B	W13	W	B	sample_metadata_description	Women 13 before intervention	101882	5.0080975	1	4.84e+12	12.684845	17
+W2_A	W2	W	A	sample_metadata_description	Women 2 after intervention	409512	5.6122666	2	6.41e+11	11.806858	17
+W2_B	W2	W	B	sample_metadata_description	Women 2 before intervention	70335.7	4.8471758	1	7.4e+11	11.869232	13
+W3_A	W3	W	A	sample_metadata_description	Women 3 after intervention			0	2.09e+11	11.320146	4
+W3_B	W3	W	B	sample_metadata_description	Women 3 before intervention	787282	5.8961303	3	2.31e+12	12.363612	20
+W4_A	W4	W	A	sample_metadata_description	Women 4 after intervention	1.66e+11	11.220108	4	2.23e+12	12.348305	22
+W4_B	W4	W	B	sample_metadata_description	Women 4 before intervention	1.64e+11	11.214844	3	2.24e+12	12.350248	22
+W5_A	W5	W	A	sample_metadata_description	Women 5 after intervention	2.49e+11	11.396199	4	1.48e+11	11.170262	21
+W5_B	W5	W	B	sample_metadata_description	Women 5 before intervention	610610	5.7857639	2	1.57e+11	11.1959	17
+W6_A	W6	W	A	sample_metadata_description	Women 6 after intervention	1.28e+12	12.10721	3	1.52e+12	12.181844	19
+W6_B	W6	W	B	sample_metadata_description	Women 6 before intervention	1.17e+11	11.068186	1	8.73e+11	11.941014	13
+W7_A	W7	W	A	sample_metadata_description	Women 7 after intervention	4.32e+11	11.635484	3	9.85e+11	11.993436	20
+W7_B	W7	W	B	sample_metadata_description	Women 7 before intervention	3.64e+11	11.561101	2	6.26e+11	11.796574	11
+W8_A	W8	W	A	sample_metadata_description	Women 8 after intervention			0	1.1e+12	12.041393	7
+W8_B	W8	W	B	sample_metadata_description	Women 8 before intervention	509740	5.7073487	2	9.58e+11	11.981366	15
+W9_A	W9	W	A	sample_metadata_description	Women 9 after intervention	256211	5.4085978	2	9.28e+11	11.967548	12
+W9_B	W9	W	B	sample_metadata_description	Women 9 before intervention			0	3.21e+11	11.506505	6

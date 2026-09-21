@@ -1,0 +1,64 @@
+{
+  "cohort": "longitudinal_only",
+  "corrected_all_pairs": {
+    "auc": 0.9707631474494102,
+    "different_donor_median": -0.011546553080763682,
+    "n_different_donor": 43953,
+    "n_pairs": 44850,
+    "n_same_donor": 897,
+    "same_donor_cross_plate": 113,
+    "same_donor_median": 0.3654445511001276,
+    "same_donor_same_plate": 784
+  },
+  "corrected_cross_plate_pairs": {
+    "auc": 0.9122440644460832,
+    "different_donor_median": -0.003919092004286704,
+    "n_different_donor": 34560,
+    "n_pairs": 34673,
+    "n_same_donor": 113,
+    "same_donor_cross_plate": 113,
+    "same_donor_median": 0.2654000798160556,
+    "same_donor_same_plate": 0
+  },
+  "interpretation": "LOPO/plate transfer is not donor-held-out because donor timepoints share a plate family; cross-plate positives are required for a PXD001064-comparable AUC.",
+  "n_donors": 43,
+  "n_plates": 9,
+  "n_runs": 300,
+  "plates": [
+    "1C",
+    "1D",
+    "2B",
+    "2C",
+    "2D",
+    "3B",
+    "3C",
+    "3D",
+    "4E"
+  ],
+  "protein_groups_selected": 147,
+  "raw_all_pairs": {
+    "auc": 0.9050668570392704,
+    "different_donor_median": 0.9575887474127985,
+    "n_different_donor": 43953,
+    "n_pairs": 44850,
+    "n_same_donor": 897,
+    "same_donor_cross_plate": 113,
+    "same_donor_median": 0.9756203358364668,
+    "same_donor_same_plate": 784
+  },
+  "raw_cross_plate_pairs": {
+    "auc": 0.8362312049328089,
+    "different_donor_median": 0.9566036725787431,
+    "n_different_donor": 34560,
+    "n_pairs": 34673,
+    "n_same_donor": 113,
+    "same_donor_cross_plate": 113,
+    "same_donor_median": 0.9710951565272433,
+    "same_donor_same_plate": 0
+  },
+  "same_donor_cross_plate_available": true,
+  "same_donor_cross_plate_pairs": 113,
+  "seed": null,
+  "selection": "fixed",
+  "technical_replicate": 2
+}

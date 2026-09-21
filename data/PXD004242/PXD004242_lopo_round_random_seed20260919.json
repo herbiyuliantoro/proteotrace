@@ -1,0 +1,61 @@
+{
+  "cohort": "longitudinal_only",
+  "folds": [
+    {
+      "auc": 0.9680377785070927,
+      "heldout_round": "A",
+      "pairs": 2691,
+      "same_donor_pairs": 198,
+      "selected_features": 147,
+      "test_runs": 40,
+      "train_runs": 260
+    },
+    {
+      "auc": 0.9630936469375118,
+      "heldout_round": "B",
+      "pairs": 4573,
+      "same_donor_pairs": 337,
+      "selected_features": 149,
+      "test_runs": 78,
+      "train_runs": 222
+    },
+    {
+      "auc": 0.9506294868888385,
+      "heldout_round": "C",
+      "pairs": 4340,
+      "same_donor_pairs": 330,
+      "selected_features": 150,
+      "test_runs": 73,
+      "train_runs": 227
+    },
+    {
+      "auc": 0.9639884166094042,
+      "heldout_round": "D",
+      "pairs": 4604,
+      "same_donor_pairs": 334,
+      "selected_features": 149,
+      "test_runs": 78,
+      "train_runs": 222
+    },
+    {
+      "auc": 0.967658824327073,
+      "heldout_round": "E",
+      "pairs": 1652,
+      "same_donor_pairs": 147,
+      "selected_features": 142,
+      "test_runs": 31,
+      "train_runs": 269
+    }
+  ],
+  "interpretation": "This tests transfer of unsupervised plate correction across a full plate round; donor identity remains nested in leading-digit plate groups.",
+  "mean_fold_auc": 0.962681630653984,
+  "method": "leave_one_plate_round_out",
+  "n_donors": 43,
+  "n_runs": 300,
+  "negative_restriction": "same leading-digit plate group",
+  "pooled_unique_auc": 0.9620330248853644,
+  "pooled_unique_pairs": 8930,
+  "round_definition": "last character of actual plate label; held out across all leading-digit plate groups",
+  "seed": 20260919,
+  "selection": "random"
+}

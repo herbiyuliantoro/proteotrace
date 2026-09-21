@@ -1,0 +1,125 @@
+{
+  "cohort": "longitudinal_only",
+  "folds": [
+    {
+      "auc": 0.9692307692307692,
+      "heldout_plate": "1C",
+      "pairs": 596,
+      "same_donor_pairs": 11,
+      "selected_features": 149,
+      "test_runs": 2,
+      "train_runs": 298
+    },
+    {
+      "auc": 0.3646188850967008,
+      "heldout_plate": "1D",
+      "pairs": 299,
+      "same_donor_pairs": 6,
+      "selected_features": 149,
+      "test_runs": 1,
+      "train_runs": 299
+    },
+    {
+      "auc": 0.7904292582072925,
+      "heldout_plate": "1E",
+      "pairs": 17600,
+      "same_donor_pairs": 17,
+      "selected_features": 152,
+      "test_runs": 80,
+      "train_runs": 220
+    },
+    {
+      "auc": 0.8761428571428571,
+      "heldout_plate": "2A",
+      "pairs": 891,
+      "same_donor_pairs": 16,
+      "selected_features": 149,
+      "test_runs": 3,
+      "train_runs": 297
+    },
+    {
+      "auc": 0.6860068259385667,
+      "heldout_plate": "2B",
+      "pairs": 299,
+      "same_donor_pairs": 6,
+      "selected_features": 149,
+      "test_runs": 1,
+      "train_runs": 299
+    },
+    {
+      "auc": 0.1410693970420933,
+      "heldout_plate": "2C",
+      "pairs": 299,
+      "same_donor_pairs": 6,
+      "selected_features": 149,
+      "test_runs": 1,
+      "train_runs": 299
+    },
+    {
+      "auc": 0.7731552024379625,
+      "heldout_plate": "2D",
+      "pairs": 18404,
+      "same_donor_pairs": 28,
+      "selected_features": 157,
+      "test_runs": 86,
+      "train_runs": 214
+    },
+    {
+      "auc": 0.962101117273531,
+      "heldout_plate": "3B",
+      "pairs": 4544,
+      "same_donor_pairs": 78,
+      "selected_features": 150,
+      "test_runs": 16,
+      "train_runs": 284
+    },
+    {
+      "auc": 0.9731735159817352,
+      "heldout_plate": "3C",
+      "pairs": 596,
+      "same_donor_pairs": 12,
+      "selected_features": 149,
+      "test_runs": 2,
+      "train_runs": 298
+    },
+    {
+      "auc": 0.9675330181679422,
+      "heldout_plate": "3D",
+      "pairs": 15444,
+      "same_donor_pairs": 86,
+      "selected_features": 154,
+      "test_runs": 66,
+      "train_runs": 234
+    },
+    {
+      "auc": 0.6767172335814567,
+      "heldout_plate": "4C",
+      "pairs": 10619,
+      "same_donor_pairs": 6,
+      "selected_features": 155,
+      "test_runs": 41,
+      "train_runs": 259
+    },
+    {
+      "auc": 0.555745164960182,
+      "heldout_plate": "4D",
+      "pairs": 299,
+      "same_donor_pairs": 6,
+      "selected_features": 149,
+      "test_runs": 1,
+      "train_runs": 299
+    }
+  ],
+  "interpretation": "This is plate-correction transfer, not donor-held-out validation; donors remain assigned to plate families.",
+  "mean_fold_auc": 0.7279936037550908,
+  "method": "leave_one_plate_out",
+  "n_donors": 43,
+  "n_plates": 12,
+  "n_runs": 300,
+  "normalization": "training feature selection and standardization; held-out plate median from unlabeled held-out runs",
+  "pooled_unique_auc": 0.8790078779934163,
+  "pooled_unique_cross_plate_pairs": 34945,
+  "seed": null,
+  "selection": "fixed",
+  "technical_replicate": 4
+}

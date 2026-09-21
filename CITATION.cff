@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the preprint below."
+title: "ProteoTrace: proteomics-only sample-consistency QC for longitudinal cohorts"
+abstract: >-
+  Batch-corrected proteomic similarity preserves donor identity across visits
+  and remains detectable through a 12% weight-loss intervention over 60 weeks.
+  ProteoTrace screens longitudinal mass-spectrometry cohorts for sample swaps
+  and donor inconsistencies without requiring genotype data.
+authors:
+  - family-names: "<FAMILY NAME>"
+    given-names: "<GIVEN NAME>"
+    email: "hey325@lehigh.edu"
+    affiliation: "Lehigh University"
+license: MIT
+repository-code: "https://github.com/<ORG-OR-USER>/proteotrace"
+keywords:
+  - proteomics
+  - quality control
+  - sample swap
+  - longitudinal cohorts
+  - batch correction
+preferred-citation:
+  type: article
+  title: "<PREPRINT TITLE>"
+  authors:
+    - family-names: "<FAMILY NAME>"
+      given-names: "<GIVEN NAME>"
+  year: 2026
+  doi: "<BIORXIV DOI>"

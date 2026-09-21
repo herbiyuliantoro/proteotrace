@@ -1,0 +1,133 @@
+{
+  "cohort": "longitudinal_only",
+  "draw_summary": {
+    "corrected_primary_auc": {
+      "max": 0.9839120749755056,
+      "median": 0.9839120749755056,
+      "min": 0.9839120749755056,
+      "q025": 0.9839120749755056,
+      "q975": 0.9839120749755056
+    },
+    "corrected_primary_n": {
+      "max": 8826.0,
+      "median": 8826.0,
+      "min": 8826.0,
+      "q025": 8826.0,
+      "q975": 8826.0
+    },
+    "corrected_primary_same": {
+      "max": 759.0,
+      "median": 759.0,
+      "min": 759.0,
+      "q025": 759.0,
+      "q975": 759.0
+    },
+    "corrected_sens_95": {
+      "max": 0.922266139657444,
+      "median": 0.922266139657444,
+      "min": 0.922266139657444,
+      "q025": 0.922266139657444,
+      "q975": 0.922266139657444
+    },
+    "corrected_sens_99": {
+      "max": 0.7760210803689065,
+      "median": 0.7760210803689065,
+      "min": 0.7760210803689065,
+      "q025": 0.7760210803689065,
+      "q975": 0.7760210803689065
+    },
+    "n_draws": 1,
+    "raw_primary_auc": {
+      "max": 0.8425113260109298,
+      "median": 0.8425113260109298,
+      "min": 0.8425113260109298,
+      "q025": 0.8425113260109298,
+      "q975": 0.8425113260109298
+    }
+  },
+  "draws": [
+    {
+      "corrected": {
+        "all_pairs": {
+          "auc": 0.9761054938561744,
+          "n": 44850,
+          "same": 897
+        },
+        "cross_plate_all_groups": {
+          "auc": 0.9794457164589785,
+          "n": 41831,
+          "same": 759
+        },
+        "primary_within_group_cross_plate": {
+          "auc": 0.9839120749755056,
+          "different": 8067,
+          "n": 8826,
+          "same": 759,
+          "specificity_95": {
+            "n_negative": 8067,
+            "n_positive": 759,
+            "sensitivity": 0.922266139657444,
+            "threshold": 0.16881388989766544
+          },
+          "specificity_99": {
+            "n_negative": 8067,
+            "n_positive": 759,
+            "sensitivity": 0.7760210803689065,
+            "threshold": 0.2505767168620259
+          }
+        },
+        "within_group_all_pairs": {
+          "auc": 0.9785472135633372,
+          "n": 11845,
+          "same": 897
+        }
+      },
+      "draw": 0,
+      "n_actual_plates": 16,
+      "n_donors": 43,
+      "n_plate_groups": 4,
+      "n_runs": 300,
+      "raw": {
+        "all_pairs": {
+          "auc": 0.8421310277185969,
+          "n": 44850,
+          "same": 897
+        },
+        "cross_plate_all_groups": {
+          "auc": 0.8408092630031622,
+          "n": 41831,
+          "same": 759
+        },
+        "primary_within_group_cross_plate": {
+          "auc": 0.8425113260109298,
+          "different": 8067,
+          "n": 8826,
+          "same": 759,
+          "specificity_95": {
+            "n_negative": 8067,
+            "n_positive": 759,
+            "sensitivity": 0.46903820816864294,
+            "threshold": 0.9684401041624057
+          },
+          "specificity_99": {
+            "n_negative": 8067,
+            "n_positive": 759,
+            "sensitivity": 0.25823451910408435,
+            "threshold": 0.9732307678653526
+          }
+        },
+        "within_group_all_pairs": {
+          "auc": 0.8249823122501873,
+          "n": 11845,
+          "same": 897
+        }
+      },
+      "selected_features": 148,
+      "selection": "timepoint_mod_4"
+    }
+  ],
+  "interpretation": "Quantiles describe run-selection variability, not a statistical confidence interval. Plate-group restriction removes the donor-nested-group negative confound.",
+  "method": "one_run_assignment_sensitivity",
+  "mode": "rotation",
+  "negative_restriction": "different actual plates within the same plate group (plate-group is the leading digit)"
+}

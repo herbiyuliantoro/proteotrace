@@ -1,0 +1,992 @@
+{
+  "dataset": "PXD062541",
+  "report": "/tmp/PXD062541_report.tsv",
+  "metadata": "/tmp/PXD062541_sample_metadata.txt",
+  "value_column": "PG.Normalised",
+  "label_source": "sample_metadata_description (W/M in Sample_ID and Description)",
+  "markers": [
+    "SHBG",
+    "PZP"
+  ],
+  "samples": 56,
+  "participants": 28,
+  "baseline_samples": 28,
+  "after_samples": 28,
+  "marker_coverage": {
+    "SHBG": {
+      "baseline": 17,
+      "after": 19
+    },
+    "PZP": {
+      "baseline": 26,
+      "after": 27
+    }
+  },
+  "two_marker": {
+    "features": [
+      "SHBG",
+      "PZP"
+    ],
+    "baseline_complete": 17,
+    "baseline_loso": {
+      "n": 17,
+      "participants": 17,
+      "accuracy": 0.7647058823529411,
+      "auc": 0.6944444444444446,
+      "confusion_matrix_W_M": [
+        [
+          9,
+          0
+        ],
+        [
+          4,
+          4
+        ]
+      ]
+    },
+    "after_complete": 19,
+    "after_using_baseline_model": {
+      "n": 19,
+      "accuracy": 0.6842105263157895,
+      "confusion_matrix_W_M": [
+        [
+          10,
+          0
+        ],
+        [
+          6,
+          3
+        ]
+      ]
+    }
+  },
+  "pzp_only": {
+    "features": [
+      "PZP"
+    ],
+    "baseline_complete": 26,
+    "baseline_loso": {
+      "n": 26,
+      "participants": 26,
+      "accuracy": 0.6538461538461539,
+      "auc": 0.7142857142857143,
+      "confusion_matrix_W_M": [
+        [
+          11,
+          1
+        ],
+        [
+          8,
+          6
+        ]
+      ]
+    },
+    "after_complete": 27,
+    "after_using_baseline_model": {
+      "n": 27,
+      "accuracy": 0.7777777777777778,
+      "confusion_matrix_W_M": [
+        [
+          13,
+          0
+        ],
+        [
+          6,
+          8
+        ]
+      ]
+    }
+  },
+  "prediction_rows": [
+    {
+      "sample": "M1_B",
+      "participant": "M1",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.36448922247099075,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M11_B",
+      "participant": "M11",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.8965590253394167,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M14_B",
+      "participant": "M14",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.9166139554302908,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M2_B",
+      "participant": "M2",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.9435086488278265,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M4_B",
+      "participant": "M4",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.3111221274578642,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M5_B",
+      "participant": "M5",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.09944335890504344,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M6_B",
+      "participant": "M6",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.8717315801701507,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M9_B",
+      "participant": "M9",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.398674608988769,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W12_B",
+      "participant": "W12",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3529747612337681,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W13_B",
+      "participant": "W13",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3410831475111263,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W2_B",
+      "participant": "W2",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.42970179418420534,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W3_B",
+      "participant": "W3",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3426061297159111,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W4_B",
+      "participant": "W4",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.2737491814614517,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W5_B",
+      "participant": "W5",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.4652676410394649,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W6_B",
+      "participant": "W6",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.317125820426076,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W7_B",
+      "participant": "W7",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3361155471202652,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "W8_B",
+      "participant": "W8",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3856041592308012,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_SHBG_PZP"
+    },
+    {
+      "sample": "M1_A",
+      "participant": "M1",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.3133937816830808,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M11_A",
+      "participant": "M11",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.8940443411600156,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M12_A",
+      "participant": "M12",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.4619279466813257,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M2_A",
+      "participant": "M2",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.9393947740310902,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M3_A",
+      "participant": "M3",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.3738904301927857,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M4_A",
+      "participant": "M4",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.3540615801442407,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M5_A",
+      "participant": "M5",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.35352122381855094,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M6_A",
+      "participant": "M6",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.865822122238418,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M8_A",
+      "participant": "M8",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.2711207117030941,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W1_A",
+      "participant": "W1",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.341709411657169,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W10_A",
+      "participant": "W10",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.31205744244587924,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W12_A",
+      "participant": "W12",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.2283132049960327,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W13_A",
+      "participant": "W13",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.2649174744501798,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W2_A",
+      "participant": "W2",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.37405125751844653,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W4_A",
+      "participant": "W4",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.22681164376791016,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W5_A",
+      "participant": "W5",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3233499027777351,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W6_A",
+      "participant": "W6",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.22595431539040844,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W7_A",
+      "participant": "W7",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.24778918960747354,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "W9_A",
+      "participant": "W9",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3621483751066597,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_SHBG_PZP"
+    },
+    {
+      "sample": "M1_B",
+      "participant": "M1",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.44786908549532956,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M10_B",
+      "participant": "M10",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.9339025373977976,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M11_B",
+      "participant": "M11",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.940231705226544,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M12_B",
+      "participant": "M12",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.4155595203428816,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M13_B",
+      "participant": "M13",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.4373413327574324,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M14_B",
+      "participant": "M14",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.9546229560086721,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M15_B",
+      "participant": "M15",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.3920278441315439,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M2_B",
+      "participant": "M2",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.9731819594968191,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M3_B",
+      "participant": "M3",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.39649015796888804,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M4_B",
+      "participant": "M4",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.3861445594577832,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M5_B",
+      "participant": "M5",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.38380604801681306,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M6_B",
+      "participant": "M6",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.9296935424213534,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M8_B",
+      "participant": "M8",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.5790192771941224,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M9_B",
+      "participant": "M9",
+      "timepoint": "B",
+      "sex": "M",
+      "prediction_probability_male": 0.4817329115431441,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W10_B",
+      "participant": "W10",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.40544943046712684,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W11_B",
+      "participant": "W11",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.48082491048709636,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W12_B",
+      "participant": "W12",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3844525834283678,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W13_B",
+      "participant": "W13",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3409835998782139,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W2_B",
+      "participant": "W2",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.43238842513728026,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W3_B",
+      "participant": "W3",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.37576031078822514,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W4_B",
+      "participant": "W4",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.3772418715716673,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W5_B",
+      "participant": "W5",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.515391585637599,
+      "prediction": "M",
+      "mismatch": true,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W6_B",
+      "participant": "W6",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.42393577106954655,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W7_B",
+      "participant": "W7",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.4410229803802616,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W8_B",
+      "participant": "W8",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.41921839285981816,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "W9_B",
+      "participant": "W9",
+      "timepoint": "B",
+      "sex": "W",
+      "prediction_probability_male": 0.47627809414899663,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "baseline_loso_PZP"
+    },
+    {
+      "sample": "M1_A",
+      "participant": "M1",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.48701042241077014,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M10_A",
+      "participant": "M10",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.6817375316466784,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M11_A",
+      "participant": "M11",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.937129248160023,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M12_A",
+      "participant": "M12",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.5267930753099836,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M13_A",
+      "participant": "M13",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.4684892406287654,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M15_A",
+      "participant": "M15",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.5038123623501705,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M2_A",
+      "participant": "M2",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.9661662693557431,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M3_A",
+      "participant": "M3",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.3843341530832182,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M4_A",
+      "participant": "M4",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.3985442063500448,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M5_A",
+      "participant": "M5",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.40389862781824837,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M6_A",
+      "participant": "M6",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.951725241885076,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M7_A",
+      "participant": "M7",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.9353605305983135,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M8_A",
+      "participant": "M8",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.3002039540237128,
+      "prediction": "W",
+      "mismatch": true,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "M9_A",
+      "participant": "M9",
+      "timepoint": "A",
+      "sex": "M",
+      "prediction_probability_male": 0.5962952234982036,
+      "prediction": "M",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W1_A",
+      "participant": "W1",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3858887145310676,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W10_A",
+      "participant": "W10",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3436544231403488,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W11_A",
+      "participant": "W11",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.4104894628388486,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W12_A",
+      "participant": "W12",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3586704022059909,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W13_A",
+      "participant": "W13",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.4142854719640159,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W2_A",
+      "participant": "W2",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.42138670677417805,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W3_A",
+      "participant": "W3",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.48051162265667513,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W4_A",
+      "participant": "W4",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3582284113320616,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W5_A",
+      "participant": "W5",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.49890892548389604,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W6_A",
+      "participant": "W6",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.37723759381441535,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W7_A",
+      "participant": "W7",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.39921491616617005,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W8_A",
+      "participant": "W8",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.3935783668430444,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    },
+    {
+      "sample": "W9_A",
+      "participant": "W9",
+      "timepoint": "A",
+      "sex": "W",
+      "prediction_probability_male": 0.4022689236673459,
+      "prediction": "W",
+      "mismatch": false,
+      "evaluation": "after_using_baseline_model_PZP"
+    }
+  ]
+}
