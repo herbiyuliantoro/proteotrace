@@ -107,6 +107,11 @@ No downloads either way — both quantitative matrices are in the repo. 📈
 
 ## 🛠️ Using it on your own data
 
+> 📖 **New here? Start with the [tutorial](docs/TUTORIAL.md).** It walks through
+> a complete run on data already in this repository, shows the real output, and
+> explains how to read a flag — including the three flags in that run that turn
+> out to be identical twins rather than mix-ups.
+
 ```sh
 pip install -e .
 
@@ -177,6 +182,7 @@ numbers above are for the default.
 | `export_pxd004242_pairs.py` | ✅ Exports per-pair scores, refuses to write if they drift |
 | `data/` | 💾 Matrices, sample tables, frozen result summaries — see [`data/README.md`](data/README.md) |
 | `figures/` | 🖼️ PDF (vector) and PNG (600 dpi) |
+| `docs/TUTORIAL.md` | 📖 Step-by-step walkthrough on real data |
 | `docs/FIGURES.md` | 📝 What each figure claims, plus draft captions |
 | `docs/ANALYSIS_LOG.md` | 📓 The full running record, including retired conclusions |
 | `archive/` | 🗄️ Earlier figure set, kept for provenance |
