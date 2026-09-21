@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12+-3776AB.svg?logo=python&logoColor=white)](requirements.txt)
-[![Figures](https://img.shields.io/badge/figures-rebuild%20from%20a%20clean%20checkout-success.svg)](.github/workflows/figures.yml)
+[![Figures](https://github.com/herbiyuliantoro/proteotrace/actions/workflows/figures.yml/badge.svg)](https://github.com/herbiyuliantoro/proteotrace/actions/workflows/figures.yml)
 [![Cohorts](https://img.shields.io/badge/validated%20on-2%20public%20cohorts-orange.svg)](#-the-data)
 [![No genotype needed](https://img.shields.io/badge/genotype%20data-not%20required-brightgreen.svg)](#-why-this-exists)
 
@@ -83,7 +83,7 @@ Stated up front, because you'll hit these:
 ## 🚀 Quick start
 
 ```sh
-git clone https://github.com/<your-username>/proteotrace.git
+git clone https://github.com/herbiyuliantoro/proteotrace.git
 cd proteotrace
 pip install -r requirements.txt
 

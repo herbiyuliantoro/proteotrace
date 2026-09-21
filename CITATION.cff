@@ -12,7 +12,7 @@ authors:
     email: "hey325@lehigh.edu"
     affiliation: "Lehigh University"
 license: MIT
-repository-code: "https://github.com/<ORG-OR-USER>/proteotrace"
+repository-code: "https://github.com/herbiyuliantoro/proteotrace"
 keywords:
   - proteomics
   - quality control

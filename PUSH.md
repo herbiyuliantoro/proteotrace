@@ -29,11 +29,11 @@ it, so signing in happens in your browser. No token to create.
 
 ```bash
 cd /mnt/c/ProteoTrace
-git remote add origin https://github.com/YOURNAME/proteotrace.git
+git remote add origin https://github.com/herbiyuliantoro/proteotrace.git
 git push -u origin main
 ```
 
-A browser window opens, you approve, and it pushes. Replace `YOURNAME` with
+A browser window opens, you approve, and it pushes. Replace `herbiyuliantoro` with
 your GitHub username.
 
 ---
@@ -61,11 +61,11 @@ This route creates the repository for you, so you can skip the browser step.
 
 ## After the first push
 
-Two links still say `YOURNAME`. In **WSL**:
+Two links still say `herbiyuliantoro`. In **WSL**:
 
 ```bash
 cd /mnt/c/ProteoTrace
-sed -i 's|<your-username>|YOURNAME|; s|<ORG-OR-USER>|YOURNAME|' README.md CITATION.cff
+sed -i 's|herbiyuliantoro|herbiyuliantoro|; s|herbiyuliantoro|herbiyuliantoro|' README.md CITATION.cff
 git commit -am "Point the repository links at the real GitHub account"
 git push
 ```
