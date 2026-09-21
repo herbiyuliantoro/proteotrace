@@ -1,53 +1,92 @@
 # Pushing this to GitHub
 
-There is no `gh` CLI and no GitHub credentials on this machine, so the last
-step has to run from your side. Two ways.
+One thing to get straight first, because it causes most of the confusion:
 
-## Option A — with the GitHub CLI (easiest)
+**This folder has two names.** In Windows it is `C:\ProteoTrace`. In WSL the
+same folder is `/mnt/c/ProteoTrace`. Same files, two shells. Pick one shell and
+stay in it — Linux commands like `sudo apt` will not work in PowerShell, and
+the `/mnt/c/...` path does not exist there.
 
-```sh
-# install once
-sudo apt install gh          # or: winget install GitHub.cli
+The recommended route is WSL, because git is already set up there and nothing
+needs installing.
 
-gh auth login                # pick GitHub.com → HTTPS → browser
+---
 
+## Route 1 — WSL, nothing to install ⭐
+
+Git for Windows ships a credential manager, and this repo is already pointed at
+it, so signing in happens in your browser. No token to create.
+
+**Step 1.** Create the repository on GitHub, in your browser:
+<https://github.com/new>
+
+- Name: `proteotrace`
+- Visibility: **Private**
+- Leave "Add a README", ".gitignore" and "licence" **unticked** — this repo
+  already has all three, and ticking them will cause a conflict.
+
+**Step 2.** In a **WSL / Ubuntu** terminal:
+
+```bash
 cd /mnt/c/ProteoTrace
-gh repo create proteotrace --private --source=. --remote=origin --push
-```
-
-## Option B — without it
-
-1. Create an **empty private** repo named `proteotrace` on github.com.
-   Do not let it add a README, .gitignore or licence — this repo already has them.
-2. Then:
-
-```sh
-cd /mnt/c/ProteoTrace
-git remote add origin https://github.com/<your-username>/proteotrace.git
+git remote add origin https://github.com/YOURNAME/proteotrace.git
 git push -u origin main
 ```
 
-When it asks for a password, paste a personal access token, not your account
-password. Create one at github.com → Settings → Developer settings → Personal
-access tokens → Fine-grained, with **Contents: read and write** on this repo.
+A browser window opens, you approve, and it pushes. Replace `YOURNAME` with
+your GitHub username.
+
+---
+
+## Route 2 — PowerShell with the GitHub CLI
+
+If you would rather work in PowerShell, install the CLI first. Note `winget`,
+not `apt`; `apt` is a Linux tool.
+
+```powershell
+winget install --id GitHub.cli
+```
+
+Close PowerShell and open a new one, so it picks up the new command. Then:
+
+```powershell
+cd C:\ProteoTrace
+gh auth login
+gh repo create proteotrace --private --source=. --remote=origin --push
+```
+
+This route creates the repository for you, so you can skip the browser step.
+
+---
 
 ## After the first push
 
-Two placeholders still say `<your-username>` / `<ORG-OR-USER>`:
+Two links still say `YOURNAME`. In **WSL**:
 
-```sh
+```bash
 cd /mnt/c/ProteoTrace
 sed -i 's|<your-username>|YOURNAME|; s|<ORG-OR-USER>|YOURNAME|' README.md CITATION.cff
 git commit -am "Point the repository links at the real GitHub account"
 git push
 ```
 
+---
+
+## If the push is rejected
+
+`Updates were rejected because the remote contains work that you do not have`
+means GitHub added a README when the repository was created. Easiest fix is to
+delete that repository and make a new empty one, following step 1 exactly.
+
+---
+
 ## When the preprint goes out
 
-1. Flip the repo to public.
-2. Link it to Zenodo (zenodo.org → GitHub → toggle the repo on), then cut a
-   release. Zenodo mints a DOI for that exact snapshot.
+1. Switch the repository to public.
+2. Connect it to Zenodo: <https://zenodo.org/account/settings/github/>, toggle
+   `proteotrace` on, then cut a release on GitHub. Zenodo mints a DOI for that
+   exact snapshot.
 3. Put the bioRxiv DOI into `CITATION.cff` under `preferred-citation`.
 
-That order matters. A public repo on its own gives you no timestamp anyone can
-cite; the preprint DOI and the Zenodo DOI are what establish priority.
+The order matters. A public repository by itself gives you nothing anyone can
+cite. The preprint DOI and the Zenodo DOI are what establish priority.
