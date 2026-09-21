@@ -7,8 +7,8 @@ abstract: >-
   ProteoTrace screens longitudinal mass-spectrometry cohorts for sample swaps
   and donor inconsistencies without requiring genotype data.
 authors:
-  - family-names: "<FAMILY NAME>"
-    given-names: "<GIVEN NAME>"
+  - family-names: "Yuliantoro"
+    given-names: "Herbi"
     email: "hey325@lehigh.edu"
     affiliation: "Lehigh University"
 license: MIT
@@ -23,7 +23,7 @@ preferred-citation:
   type: article
   title: "<PREPRINT TITLE>"
   authors:
-    - family-names: "<FAMILY NAME>"
-      given-names: "<GIVEN NAME>"
+    - family-names: "Yuliantoro"
+      given-names: "Herbi"
   year: 2026
   doi: "<BIORXIV DOI>"
