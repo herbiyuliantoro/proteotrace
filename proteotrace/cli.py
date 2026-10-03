@@ -110,7 +110,9 @@ def build_parser() -> argparse.ArgumentParser:
                        default="auto", help="matrix format (default: auto)")
     check.add_argument("--min-coverage", type=float, default=0.99,
                        help="keep features observed in at least this fraction of "
-                            "runs (default: 0.99)")
+                            "runs; a feature missing from only one run is always "
+                            "kept unless this is 1. On shallow cohorts 0.90 can "
+                            "work better (default: 0.99)")
     check.add_argument("--specificity", type=float, default=0.99,
                        help="false-flag rate to calibrate the threshold at "
                             "(default: 0.99)")

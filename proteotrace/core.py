@@ -44,6 +44,11 @@ def normalise(matrix: pd.DataFrame, batches: pd.Series,
     loading differences drop out, subtract the median of each feature within
     each batch, then scale each feature to unit variance so no single abundant
     protein dominates the correlation.
+
+    A feature missing from a single run is always kept (unless `min_coverage`
+    is 1). Below 100 runs a 99% rule would otherwise demand a complete
+    feature, so one failed run could empty the panel. From 100 runs upward
+    this changes nothing: 99% already tolerates at least one missing run.
     """
     if matrix.empty:
         raise ValueError("the feature matrix is empty")
@@ -56,6 +61,8 @@ def normalise(matrix: pd.DataFrame, batches: pd.Series,
     positive = matrix.replace(0, np.nan)
     coverage = positive.notna().mean(axis=0)
     keep = coverage >= min_coverage
+    if min_coverage < 1:
+        keep |= positive.isna().sum(axis=0) <= 1
     if int(keep.sum()) < 20:
         raise ValueError(
             f"only {int(keep.sum())} features are observed in {min_coverage:.0%} "

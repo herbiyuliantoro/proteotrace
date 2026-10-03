@@ -5,12 +5,51 @@ nobody has to reshape a MaxQuant or DIA-NN file by hand before trying the tool.
 """
 from __future__ import annotations
 
+import sys
 import zipfile
 from pathlib import Path
 
 import pandas as pd
 
 REQUIRED_SAMPLE_COLUMNS = ("run", "donor")
+
+
+def _parse_numbers(values: pd.Series) -> tuple[pd.Series, bool]:
+    """Numbers from a column, accepting a decimal comma (`7,04E+12`).
+
+    Exports made under a European locale write decimal commas, which plain
+    `to_numeric` turns into NaN without complaint. The comma reading is used
+    only when the column never mixes "." and "," and the comma reading parses
+    essentially every value the plain reading could not. Returns the parsed
+    column and whether the decimal-comma reading was used.
+    """
+    if pd.api.types.is_numeric_dtype(values):
+        return values, False
+    text = values.astype("string").str.strip()
+    plain = pd.to_numeric(text, errors="coerce")
+    unparsed = text.notna() & (text != "") & plain.isna()
+    if not unparsed.any():
+        return plain.astype("float64"), False
+    mixed = (text.str.contains(".", regex=False) & text.str.contains(",", regex=False)).any()
+    comma = pd.to_numeric(text.str.replace(",", ".", regex=False), errors="coerce")
+    if not mixed and comma[unparsed].notna().mean() >= 0.99:
+        return comma.astype("float64"), True
+    return plain.astype("float64"), False
+
+
+def _parse_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    parsed, used = {}, False
+    for column in frame.columns:
+        parsed[column], hit = _parse_numbers(frame[column])
+        used |= hit
+    if used:
+        _note_decimal_comma()
+    return pd.DataFrame(parsed, index=frame.index)
+
+
+def _note_decimal_comma() -> None:
+    print("note: values use a decimal comma (e.g. 7,04E+12); read as decimal numbers.",
+          file=sys.stderr)
 
 
 def read_samples(path: Path) -> pd.DataFrame:
@@ -38,8 +77,8 @@ def read_samples(path: Path) -> pd.DataFrame:
 
 def read_generic(path: Path) -> pd.DataFrame:
     """A table whose first column names the run and whose others are features."""
-    table = pd.read_csv(path, sep=None, engine="python", index_col=0)
-    return table.apply(pd.to_numeric, errors="coerce")
+    table = pd.read_csv(path, sep=None, engine="python", index_col=0, dtype=str)
+    return _parse_frame(table)
 
 
 def read_maxquant(path: Path) -> pd.DataFrame:
@@ -72,7 +111,7 @@ def read_maxquant(path: Path) -> pd.DataFrame:
     values = table[columns].copy()
     values.columns = [c[len(prefix):] for c in columns]
     values.index = index
-    return values.T.apply(pd.to_numeric, errors="coerce")
+    return _parse_frame(values).T
 
 
 def read_diann(path: Path) -> pd.DataFrame:
@@ -86,9 +125,13 @@ def read_diann(path: Path) -> pd.DataFrame:
         raise ValueError(
             "this does not look like a DIA-NN report: expected a run column, a "
             "protein-group column and a PG quantity column")
+    # Parse before pivoting: taking the max of text values would compare strings.
+    table[value_col], used_comma = _parse_numbers(table[value_col])
+    if used_comma:
+        _note_decimal_comma()
     wide = table.pivot_table(index=run_col, columns=group_col, values=value_col,
                              aggfunc="max")
-    return wide.apply(pd.to_numeric, errors="coerce")
+    return wide.astype(float)
 
 
 READERS = {"generic": read_generic, "maxquant": read_maxquant, "diann": read_diann}
@@ -110,4 +153,9 @@ def read_matrix(path: Path, fmt: str = "auto") -> tuple[pd.DataFrame, str]:
     resolved = sniff(path) if fmt == "auto" else fmt
     if resolved not in READERS:
         raise ValueError(f"unknown format {resolved!r}; choose from {sorted(READERS)}")
-    return READERS[resolved](path), resolved
+    matrix = READERS[resolved](path)
+    if not (matrix > 0).to_numpy().any():
+        raise ValueError(
+            f"no positive numbers could be read from {path.name} (format {resolved}). "
+            "Check the decimal separator, the column layout, or pass --format.")
+    return matrix, resolved
