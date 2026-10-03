@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Figure 2: batch correction is what separates the two pair classes.
+"""Figure 2: what each preprocessing step adds.
+
+Three columns: raw (log2, run-median centred), plus per-protein scaling, plus
+per-batch median subtraction. The earlier two-column version compared raw with
+"after batch correction" while the second column also contained the scaling
+step, which credited batch correction with gains that scaling makes (audit F1).
 
 Raw and corrected scores live on different scales (raw correlations sit near
 0.95 because overall abundance dominates), so a shared raw axis would hide the
 comparison. Every panel is therefore standardised against its own
 different-donor distribution: the null is centred at zero with unit spread, and
-how far the same-donor distribution sits above it is what the method changes.
+how far the same-donor distribution sits above it is what each step changes.
+This is a per-panel affine map, so it leaves every AUC unchanged.
 """
 from __future__ import annotations
 
@@ -25,8 +31,7 @@ BINS = np.linspace(-4.0, 6.0, 51)
 CENTRES = (BINS[:-1] + BINS[1:]) / 2
 
 
-def draw(ax, block: dict, letter: str, title: str | None, cohort: str | None,
-         note: str | None = None) -> None:
+def draw(ax, block: dict, letter: str | None, title: str | None, cohort: str | None) -> None:
     labels, raw_values = block["labels"], block["values"]
     null = raw_values[~labels]
     values = (raw_values - null.mean()) / null.std()
@@ -42,44 +47,39 @@ def draw(ax, block: dict, letter: str, title: str | None, cohort: str | None,
             va="top", fontsize=9, fontweight="bold", color=S.INK)
     ax.text(0.97, 0.80, f"gap {gap:.2f} SD", transform=ax.transAxes, ha="right",
             va="top", fontsize=9, color=S.MUTED)
-    if note:
-        ax.text(0.03, 0.94, note, transform=ax.transAxes, ha="left", va="top",
-                fontsize=8, color=S.MUTED)
 
     ax.set_xlim(BINS[0], BINS[-1])
-    ax.set_ylim(0, 0.62)
+    ax.set_ylim(0, 0.84)
     ax.tick_params(axis="y", labelleft=False, left=False)
     if cohort:
         ax.set_ylabel(cohort, linespacing=1.6)
     S.ygrid(ax)
-    S.head(ax, letter, title)
+    if letter:
+        S.head(ax, letter, title)
 
 
 def make_figure(root: Path, out_dir: Path):
-    internal = D.pxd001064_raw_vs_corrected(root)
+    internal = D.pxd001064_modes(root)
     external = D.pxd004242_pair_scores(root)
 
     fig = plt.figure(figsize=(S.WIDTH_2COL, 112 * S.MM))
-    gs = fig.add_gridspec(2, 2, wspace=0.10, hspace=0.42,
-                          left=0.135, right=0.985, top=0.905, bottom=0.095)
-    ax_a = fig.add_subplot(gs[0, 0])
-    ax_b = fig.add_subplot(gs[0, 1], sharey=ax_a)
-    ax_c = fig.add_subplot(gs[1, 0], sharey=ax_a)
-    ax_d = fig.add_subplot(gs[1, 1], sharey=ax_a)
+    gs = fig.add_gridspec(2, 3, wspace=0.08, hspace=0.42,
+                          left=0.105, right=0.99, top=0.885, bottom=0.095)
+    axes = [[fig.add_subplot(gs[r, c]) for c in range(3)] for r in range(2)]
+    for row in axes:
+        for ax in row[1:]:
+            ax.sharey(row[0])
 
-    draw(ax_a, internal["raw"], "A", "Before correction",
-         "PXD001064 (DIA)\nall cross-batch pairs")
-    draw(ax_b, internal["corrected"], "B", "After per-batch median subtraction", None)
-    draw(ax_c, external["raw"], "C", None,
-         "PXD004242 (DDA)\none rotation assignment")
-    draw(ax_d, external["corrected"], "D", None, None,
-         note="median over 200 assignments 0.9733")
-
-    for ax in (ax_c, ax_d):
-        ax.set_xlabel("score, in different-donor SD units")
-    for ax in (ax_a, ax_b):
-        ax.tick_params(axis="x", labelbottom=False)
-    ax_a.legend(loc="upper left", bbox_to_anchor=(0.0, 0.99))
+    columns = [("raw", "A", "Raw"), ("scaled", "B", "+ per-protein scaling"),
+               ("corrected", "C", "+ per-batch median")]
+    cohorts = ["PXD001064 (DIA)\nunrelated, cross-batch",
+               "PXD004242 (DDA)\nmedian of 200 draws"]
+    for c, (mode, letter, title) in enumerate(columns):
+        draw(axes[0][c], internal[mode], letter, title, cohorts[0] if c == 0 else None)
+        draw(axes[1][c], external[mode], None, None, cohorts[1] if c == 0 else None)
+        axes[1][c].set_xlabel("score, in different-donor SD")
+        axes[0][c].tick_params(axis="x", labelbottom=False)
+    axes[0][0].legend(loc="upper left", bbox_to_anchor=(0.0, 0.99))
     return S.save(fig, out_dir, "fig2_batch_correction")
 
 

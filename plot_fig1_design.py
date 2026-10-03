@@ -3,8 +3,9 @@
 
 A  the three steps, shown on a real slice of PXD001064: quantify, remove the
    per-batch offset, then correlate two runs
-B  the pairing rule. Donor identity is nested inside plate groups in PXD004242,
-   so the primary comparison uses pairs from different plates within one group
+B  the pairing rule. Only pairs on different batches are read; across plate
+   groups as well as within them, because the tool compares a run with every
+   other batch. Same-batch pairs are never used
 """
 from __future__ import annotations
 
@@ -62,7 +63,7 @@ def draw_scatter(ax, illustration):
     ax.set_yticks([-2, 0, 2])
     ax.set_xlabel("run on batch 1")
     ax.set_ylabel("run on batch 2")
-    ax.set_title("3. Correlate two runs", fontsize=8.5, fontweight="bold", loc="left", pad=3)
+    ax.set_title("3. Scale proteins, correlate", fontsize=8.5, fontweight="bold", loc="left", pad=3)
     ax.text(0.04, 0.96, f"same donor\nr = {illustration['pair_r']:.3f}",
             transform=ax.transAxes, ha="left", va="top", fontsize=8.5,
             color=S.INK, linespacing=1.4)
@@ -80,11 +81,11 @@ def draw_pairing(ax):
                                 linewidth=0.8, edgecolor="#b9b8b3", facecolor="#f7f7f5"))
     ax.add_patch(FancyBboxPatch((0.60, 0.34), 0.30, 0.50,
                                 boxstyle="round,pad=0.012,rounding_size=0.03",
-                                linewidth=0.8, edgecolor="#e2e1dd", facecolor="#fbfbfa"))
+                                linewidth=0.8, edgecolor="#b9b8b3", facecolor="#f7f7f5"))
     ax.text(0.275, 0.895, "plate group 1", ha="center", va="bottom", fontsize=8.5,
             color=S.INK, fontweight="bold")
     ax.text(0.750, 0.895, "plate group 2", ha="center", va="bottom", fontsize=8.5,
-            color=S.MUTED, fontweight="bold")
+            color=S.INK, fontweight="bold")
 
     columns = {"plate B": 0.17, "plate C": 0.385}
     rows = {"donor 1": 0.715, "donor 2": 0.455}
@@ -100,8 +101,8 @@ def draw_pairing(ax):
             ax.scatter(x, y, s=58, facecolor=S.SURFACE, edgecolor=S.INK,
                        linewidth=0.9, zorder=3)
     other = (0.75, 0.585)
-    ax.scatter(*other, s=58, facecolor=S.SURFACE, edgecolor=S.MUTED, linewidth=0.9, zorder=3)
-    ax.text(0.75, 0.515, "any run", ha="center", va="top", fontsize=8.5, color=S.MUTED)
+    ax.scatter(*other, s=58, facecolor=S.SURFACE, edgecolor=S.INK, linewidth=0.9, zorder=3)
+    ax.text(0.75, 0.515, "donor 3", ha="center", va="top", fontsize=8.5, color=S.INK)
 
     def link(a, b, colour, style, rad):
         ax.add_patch(FancyArrowPatch(a, b, arrowstyle="-", linewidth=1.3, color=colour,
@@ -110,14 +111,15 @@ def draw_pairing(ax):
 
     link(nodes[("donor 1", "plate B")], nodes[("donor 1", "plate C")], S.AQUA, "-", -0.30)
     link(nodes[("donor 1", "plate B")], nodes[("donor 2", "plate C")], S.GREY, "-", 0.22)
-    link(nodes[("donor 2", "plate B")], nodes[("donor 2", "plate C")], S.PALE, (0, (3, 2)), 0.30)
-    link(nodes[("donor 1", "plate C")], other, S.PALE, (0, (3, 2)), -0.12)
+    link(nodes[("donor 1", "plate C")], other, S.GREY, "-", -0.12)
+    link(nodes[("donor 1", "plate B")], nodes[("donor 2", "plate B")], S.PALE, (0, (3, 2)), 0.35)
 
     handles = [
         Line2D([], [], color=S.AQUA, linewidth=1.3, label="same donor, different plate: match"),
-        Line2D([], [], color=S.GREY, linewidth=1.3, label="different donor, different plate: non-match"),
+        Line2D([], [], color=S.GREY, linewidth=1.3,
+               label="different donor, different plate, any group: non-match"),
         Line2D([], [], color=S.PALE, linewidth=1.3, linestyle=(0, (3, 2)),
-               label="same plate, or different group: excluded"),
+               label="same plate: excluded"),
     ]
     ax.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, -0.10), ncol=1)
     S.head(ax, "B", "Which pairs the score is read on", letter_dx=-22.0)
@@ -138,7 +140,7 @@ def make_figure(root: Path, out_dir: Path):
 
     draw_heatmap(ax1, raw, illustration["batches"], "1. Quantify proteins", scale, True)
     draw_heatmap(ax2, corrected, illustration["batches"],
-                 "2. Remove the per-batch offset", scale, False)
+                 "2. Subtract the per-batch median", scale, False)
     draw_scatter(ax3, illustration)
     S.head(ax1, "A", None, letter_dx=-26.0)
 

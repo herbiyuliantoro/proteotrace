@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+import analysis_primary_estimand as PE
 from analysis_cross_batch import acquisition, pair_table, read_metadata
 from analysis_mz_dz_ladder import prepare, relation
 
@@ -32,58 +33,34 @@ def pxd001064_pairs(root: Path) -> pd.DataFrame:
     return pairs.loc[~pairs["same_batch"]].copy()
 
 
-def pxd001064_raw_vs_corrected(root: Path) -> dict[str, object]:
-    """Day counts plus the raw and corrected cross-batch AUC."""
-    matrix = pd.read_csv(root / "data/PXD001064_protein_matrix.tsv", sep="\t", index_col=0)
-    raw_meta = read_metadata(root / "data/PXD001064_sample_info.txt")
-    common = [run for run in matrix.index if run in raw_meta]
-    matrix = matrix.loc[common]
-    metadata = pd.DataFrame([raw_meta[run] for run in common], index=common)
+def _auc(labels: np.ndarray, values: np.ndarray) -> float:
+    order = np.argsort(values)
+    ranked = np.empty(len(order), dtype=float)
+    ranked[order] = np.arange(1, len(order) + 1)
+    pos, neg = labels, ~labels
+    return float((ranked[pos].sum() - pos.sum() * (pos.sum() + 1) / 2) / (pos.sum() * neg.sum()))
 
-    keep, seen = [], set()
-    for run in matrix.index:
-        key = (str(metadata.loc[run, "donor"]), int(metadata.loc[run, "visit"]))
-        if key not in seen:
-            seen.add(key)
-            keep.append(run)
-    matrix, metadata = matrix.loc[keep], metadata.loc[keep].copy()
-    metadata["batch"] = [acquisition(run)[0] for run in matrix.index]
 
-    positive = matrix.replace(0, np.nan)
-    selected = positive.notna().mean(axis=0) >= 0.99
-    log_matrix = np.log2(positive.loc[:, selected])
-    log_matrix = log_matrix.subtract(log_matrix.median(axis=1), axis=0)
-    corrected = log_matrix - log_matrix.groupby(metadata["batch"]).transform("median")
-    corrected = (corrected - corrected.mean(axis=0)) / corrected.std(axis=0).replace(0, np.nan)
+def pxd001064_modes(root: Path) -> dict[str, object]:
+    """Primary-estimand pairs for each preprocessing step.
 
-    def cross_batch(scores: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
-        labels, values = [], []
-        names = list(scores.index)
-        for i, a in enumerate(names):
-            for b in names[i + 1:]:
-                if metadata.loc[a, "batch"] == metadata.loc[b, "batch"]:
-                    continue
-                value = scores.loc[a, b]
-                if np.isfinite(value):
-                    labels.append(metadata.loc[a, "donor"] == metadata.loc[b, "donor"])
-                    values.append(float(value))
-        return np.asarray(labels, dtype=bool), np.asarray(values, dtype=float)
-
-    def auc(labels: np.ndarray, values: np.ndarray) -> float:
-        order = np.argsort(values)
-        ranked = np.empty(len(order), dtype=float)
-        ranked[order] = np.arange(1, len(order) + 1)
-        pos, neg = labels, ~labels
-        return float((ranked[pos].sum() - pos.sum() * (pos.sum() + 1) / 2) / (pos.sum() * neg.sum()))
-
-    raw_labels, raw_values = cross_batch(log_matrix.T.corr(min_periods=30))
-    cor_labels, cor_values = cross_batch(corrected.T.corr(min_periods=30))
-    return {
-        "day_counts": dict(sorted(Counter(metadata["batch"].tolist()).items())),
-        "raw": {"labels": raw_labels, "values": raw_values, "auc": auc(raw_labels, raw_values)},
-        "corrected": {"labels": cor_labels, "values": cor_values, "auc": auc(cor_labels, cor_values)},
-        "n_features": int(selected.sum()),
-    }
+    Primary estimand: same-donor against unrelated pairs, both on different
+    acquisition days (twin pairs are left to the relatedness ladder). Keys
+    `raw`, `scaled` (z-scaling only) and `corrected` (batch median + scaling),
+    each with labels, values and AUC, plus the frozen summary with its CIs.
+    """
+    matrix, metadata = PE.pxd001064(root)
+    log_values = PE.log_centred(matrix)
+    out = {"day_counts": dict(sorted(Counter(metadata["batch"].tolist()).items())),
+           "n_features": int(log_values.shape[1]),
+           "summary": load_json(root / "data/PXD001064_primary.json")}
+    for mode in ("raw", "scaled", "corrected"):
+        pairs = PE.pxd001064_pairs(log_values, metadata, mode)
+        pairs = pairs.loc[pairs["cross_batch"] & pairs["relation"].isin(["same_donor", "unrelated"])]
+        labels = pairs["same_donor"].to_numpy()
+        values = pairs["score"].to_numpy()
+        out[mode] = {"labels": labels, "values": values, "auc": _auc(labels, values)}
+    return out
 
 
 def pxd001064_illustration(root: Path, n_proteins: int = 14, per_batch: int = 5) -> dict:
@@ -187,35 +164,28 @@ def pxd004242_design(root: Path) -> pd.DataFrame:
 
 
 def pxd004242_pair_scores(root: Path) -> dict[str, dict[str, object]]:
-    """Primary PXD004242 pairs with raw and corrected scores.
+    """Primary PXD004242 pairs (cross-plate, any plate group) for the median draw.
 
-    Written by `export_pxd004242_pairs.py`, which checks that the run it
-    exports reproduces the frozen rotation AUCs before saving.
+    Written by `export_pxd004242_pairs.py`, which checks that the draw it
+    exports reproduces the independently verified AUCs before saving.
     """
-    path = root / "data/PXD004242/PXD004242_primary_pairs_rotation.tsv"
+    path = root / "data/PXD004242/PXD004242_primary_pairs_median.tsv"
     table = pd.read_csv(path, sep="\t")
     labels = table["same_donor"].to_numpy(dtype=bool)
 
     def block(column: str) -> dict[str, object]:
         values = table[column].to_numpy(dtype=float)
-        order = np.argsort(values)
-        ranked = np.empty(len(order), dtype=float)
-        ranked[order] = np.arange(1, len(order) + 1)
-        pos, neg = labels, ~labels
-        area = (ranked[pos].sum() - pos.sum() * (pos.sum() + 1) / 2) / (pos.sum() * neg.sum())
-        return {"labels": labels, "values": values, "auc": float(area)}
+        return {"labels": labels, "values": values, "auc": _auc(labels, values)}
 
-    return {"raw": block("score_raw"), "corrected": block("score_corrected"),
-            "n_features": 148}
+    return {"raw": block("score_raw"), "scaled": block("score_scaled"),
+            "corrected": block("score_corrected"), "n_features": 150}
 
 
 def pxd004242(root: Path) -> dict[str, object]:
+    """Frozen 200-draw summary, per-draw table and the tool visit curve."""
     base = root / "data/PXD004242"
-    random273 = pd.read_csv(base / "PXD004242_random273_panel_rotation_summary.tsv", sep="\t")
     return {
-        "adaptive": load_json(base / "PXD004242_random200_restricted.json"),
-        "top273": load_json(base / "PXD004242_random200_top273.json"),
-        "time": load_json(base / "PXD004242_time_distance_random200.json"),
-        "swap": load_json(base / "PXD004242_swap_reference_curve_summary.json"),
-        "random273": random273,
+        "primary": load_json(base / "PXD004242_primary_random200.json"),
+        "draws": pd.read_csv(base / "PXD004242_primary_random200.tsv", sep="\t"),
+        "visit_curve": load_json(base / "PXD004242_tool_visit_curve.json"),
     }

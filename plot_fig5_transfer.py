@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Figure 5: the external cohort reproduces the result, and what it rests on.
 
-A  every one of 200 arbitrary one-run assignments, raw against corrected
-B  the feature panel: coverage quality, not panel size, carries the signal
+A  every one of 200 random one-run assignments, through each preprocessing step
+B  the feature panel, evaluated on the same 200 assignments: high-coverage
+   proteins carry the signal; panels of arbitrary, mostly sparse proteins lose it
 """
 from __future__ import annotations
 
@@ -19,73 +20,61 @@ from matplotlib.lines import Line2D
 
 import figure_data as D
 
-REFERENCE = 0.9692
 
-
-def draw_assignment(ax, adaptive: dict) -> None:
-    raw = np.asarray([d["raw"]["primary_within_group_cross_plate"]["auc"]
-                      for d in adaptive["draws"]], dtype=float)
-    corrected = np.asarray([d["corrected"]["primary_within_group_cross_plate"]["auc"]
-                            for d in adaptive["draws"]], dtype=float)
-    for a, b in zip(raw, corrected):
-        ax.plot([0, 1], [a, b], color=S.PALE, linewidth=0.3, alpha=0.35, zorder=1)
-    parts = ax.violinplot([raw, corrected], positions=[0, 1], widths=0.5, showmeans=False,
+def draw_assignment(ax, draws, reference: float) -> None:
+    modes = [("raw", "raw", S.GREY), ("scaled", "scaling\nonly", S.BLUE),
+             ("corrected", "scaling +\nbatch median", S.AQUA)]
+    series = [draws[f"adaptive_{m}_primary_auc"].to_numpy(dtype=float) for m, _l, _c in modes]
+    for a, b, c in zip(*series):
+        ax.plot([0, 1, 2], [a, b, c], color=S.PALE, linewidth=0.3, alpha=0.35, zorder=1)
+    parts = ax.violinplot(series, positions=[0, 1, 2], widths=0.5, showmeans=False,
                           showmedians=False, showextrema=False, bw_method=0.25)
-    for body, colour in zip(parts["bodies"], [S.GREY, S.AQUA]):
+    for body, (_m, _l, colour) in zip(parts["bodies"], modes):
         body.set_facecolor(colour)
         body.set_edgecolor("none")
         body.set_alpha(0.35)
-    for x, values, colour in ((0, raw, S.GREY), (1, corrected, S.AQUA)):
+    for x, values, (_m, _l, colour) in zip(range(3), series, modes):
         q025, med, q975 = np.quantile(values, [0.025, 0.5, 0.975])
         ax.vlines(x, q025, q975, color=S.INK, linewidth=0.7, zorder=4)
         ax.scatter(x, med, s=24, color=colour, edgecolor=S.SURFACE, linewidth=0.8, zorder=5)
         ax.text(x + 0.14, med, f"{med:.4f}", ha="left", va="center", fontsize=9,
-                fontweight="bold", color=S.INK, zorder=6)
+                fontweight="bold", color=S.INK, zorder=6,
+                bbox={"facecolor": S.SURFACE, "edgecolor": "none", "pad": 1.0})
 
-    ax.axhline(REFERENCE, color=S.ORANGE, linewidth=0.9, linestyle=(0, (3, 2)),
+    ax.axhline(reference, color=S.ORANGE, linewidth=0.9, linestyle=(0, (3, 2)),
                zorder=2, label="PXD001064")
-
     ax.legend(loc="lower right", bbox_to_anchor=(1.0, -0.01))
-    ax.set_xticks([0, 1], ["raw", "batch-corrected"])
-    ax.set_xlim(-0.55, 1.55)
+    ax.set_xticks([0, 1, 2], [l for _m, l, _c in modes])
+    ax.set_xlim(-0.5, 2.75)
     ax.set_ylim(0.78, 1.0)
     ax.set_ylabel("cross-plate AUC")
     S.ygrid(ax)
     S.head(ax, "A", "Stable across 200 run assignments")
 
 
-def draw_feature_depth(ax, adaptive: dict, top273: dict, random273) -> None:
-    labels = ["adaptive\n(median 147)", "top-273\nby coverage", "random-273"]
-    sources = [
-        adaptive["draw_summary"],
-        top273["draw_summary"],
-        {"corrected_primary_auc": {
-            "median": float(random273["corrected_auc"].median()),
-            "q025": float(random273["corrected_auc"].quantile(0.025)),
-            "q975": float(random273["corrected_auc"].quantile(0.975))},
-         "corrected_sens_99": {
-            "median": float(random273["sens99"].median()),
-            "q025": float(random273["sens99"].quantile(0.025)),
-            "q975": float(random273["sens99"].quantile(0.975))}},
-    ]
+def draw_feature_depth(ax, summary: dict, adaptive_n: float) -> None:
+    labels = [f"adaptive\n(median {adaptive_n:.0f})", "top-273\nby coverage", "random-273"]
+    panels = ["adaptive", "top273", "random273"]
     x = np.arange(3)
-    series = [("corrected_primary_auc", S.AQUA, "AUC", -0.10),
-              ("corrected_sens_99", S.ORANGE, "sensitivity at 99% specificity", 0.10)]
+    series = [("auc", S.AQUA, "AUC", -0.12),
+              ("sens_99", S.ORANGE, "sensitivity at 99% specificity", 0.12)]
     for key, colour, _label, dx in series:
-        med = np.asarray([src[key]["median"] for src in sources], dtype=float)
-        low = med - np.asarray([src[key]["q025"] for src in sources], dtype=float)
-        high = np.asarray([src[key]["q975"] for src in sources], dtype=float) - med
+        stats = [summary[f"{p}_corrected_primary_{key}"] for p in panels]
+        med = np.asarray([s["median"] for s in stats])
+        low = med - np.asarray([s["q025"] for s in stats])
+        high = np.asarray([s["q975"] for s in stats]) - med
         ax.errorbar(x + dx, med, yerr=np.vstack([low, high]), fmt="none",
                     ecolor=colour, elinewidth=0.8, capsize=2, zorder=2)
         ax.scatter(x + dx, med, s=24, color=colour, zorder=3)
         for xi, yi in zip(x + dx, med):
-            ax.text(xi, yi + 0.028, f"{yi:.3f}", ha="center", va="bottom", fontsize=9,
-                    color=colour, fontweight="bold")
+            ax.text(xi + np.sign(dx) * 0.07, yi, f"{yi:.3f}",
+                    ha="left" if dx > 0 else "right", va="center", fontsize=9,
+                    color=S.INK, fontweight="bold")
 
     ax.set_xticks(x, labels)
-    ax.set_xlim(-0.55, 2.55)
-    ax.set_ylim(0.40, 1.06)
-    ax.set_yticks(np.arange(0.4, 1.01, 0.1))
+    ax.set_xlim(-0.6, 2.6)
+    ax.set_ylim(0.30, 1.04)
+    ax.set_yticks(np.arange(0.3, 1.01, 0.1))
     ax.set_ylabel("AUC or sensitivity")
     S.ygrid(ax)
     handles = [Line2D([], [], marker="o", linestyle="none", color=c, markersize=4, label=lab)
@@ -96,12 +85,14 @@ def draw_feature_depth(ax, adaptive: dict, top273: dict, random273) -> None:
 
 def make_figure(root: Path, out_dir: Path):
     external = D.pxd004242(root)
+    reference = D.load_json(root / "data/PXD001064_primary.json")[
+        "estimands"]["primary_unrelated_cross_batch"]["corrected"]["auc"]
     fig = plt.figure(figsize=(S.WIDTH_2COL, 76 * S.MM))
-    gs = fig.add_gridspec(1, 2, width_ratios=[1.0, 1.2], wspace=0.26,
-                          left=0.072, right=0.985, top=0.855, bottom=0.165)
-    draw_assignment(fig.add_subplot(gs[0, 0]), external["adaptive"])
-    draw_feature_depth(fig.add_subplot(gs[0, 1]), external["adaptive"],
-                       external["top273"], external["random273"])
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.1, 1.1], wspace=0.26,
+                          left=0.072, right=0.985, top=0.855, bottom=0.175)
+    draw_assignment(fig.add_subplot(gs[0, 0]), external["draws"], reference)
+    draw_feature_depth(fig.add_subplot(gs[0, 1]), external["primary"]["summary"],
+                       external["primary"]["adaptive_features"]["median"])
     return S.save(fig, out_dir, "fig5_transfer")
 
 
