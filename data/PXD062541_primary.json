@@ -1,0 +1,125 @@
+{
+  "cohort": "PXD062541",
+  "format": "diann",
+  "runs": 56,
+  "donors": 28,
+  "renamed_runs": {
+    "WB_1": "W1_B"
+  },
+  "batch_information": "none deposited; single-batch mode",
+  "coverage": {
+    "0.99": {
+      "features": 133,
+      "default": {
+        "auc": 0.8918886999244142,
+        "sens_95": 0.4642857142857143,
+        "sens_99": 0.25,
+        "n_positive": 28,
+        "n_negative": 1512,
+        "ci": {
+          "auc": [
+            0.7916895083225914,
+            0.9560466596228174
+          ],
+          "sens_95": [
+            0.2222222222222222,
+            0.823614253393665
+          ],
+          "sens_99": [
+            0.07142857142857142,
+            0.6296626984126984
+          ]
+        }
+      },
+      "raw": {
+        "auc": 0.8042091836734694,
+        "sens_95": 0.25,
+        "sens_99": 0.14285714285714285,
+        "n_positive": 28,
+        "n_negative": 1512
+      },
+      "clean_cohort_verdicts": {
+        "ok": 14,
+        "review": 38,
+        "swap_suspected": 4,
+        "no_reference": 0,
+        "unscorable": 0
+      },
+      "flagged_runs": [
+        "W12_B",
+        "W2_A",
+        "W6_A",
+        "WB_1"
+      ],
+      "planted_swaps": {
+        "sensitivity": {
+          "mean": 0.3777777777777777,
+          "mc_se": 0.019050469591483144
+        },
+        "flagged_uninvolved": {
+          "mean": 0.035416666666666666,
+          "mc_se": 0.004674511058907311
+        },
+        "flagged_collateral": {
+          "mean": 0.3944444444444445,
+          "mc_se": 0.016441648307375736
+        },
+        "flagged_any_unplanted": {
+          "mean": 0.13333333333333333,
+          "mc_se": 0.0050800251870143105
+        }
+      }
+    },
+    "0.95": {
+      "features": 180,
+      "default": {
+        "auc": 0.919359410430839,
+        "sens_95": 0.7142857142857143,
+        "sens_99": 0.35714285714285715,
+        "n_positive": 28,
+        "n_negative": 1512
+      },
+      "raw": {
+        "auc": 0.8680791761148904,
+        "sens_95": 0.5,
+        "sens_99": 0.17857142857142858,
+        "n_positive": 28,
+        "n_negative": 1512
+      }
+    },
+    "0.90": {
+      "features": 278,
+      "default": {
+        "auc": 0.9354686318972032,
+        "sens_95": 0.75,
+        "sens_99": 0.5,
+        "n_positive": 28,
+        "n_negative": 1512
+      },
+      "raw": {
+        "auc": 0.864630574452003,
+        "sens_95": 0.5714285714285714,
+        "sens_99": 0.25,
+        "n_positive": 28,
+        "n_negative": 1512
+      }
+    },
+    "0.80": {
+      "features": 428,
+      "default": {
+        "auc": 0.9359882842025699,
+        "sens_95": 0.75,
+        "sens_99": 0.35714285714285715,
+        "n_positive": 28,
+        "n_negative": 1512
+      },
+      "raw": {
+        "auc": 0.8047760770975056,
+        "sens_95": 0.5714285714285714,
+        "sens_99": 0.35714285714285715,
+        "n_positive": 28,
+        "n_negative": 1512
+      }
+    }
+  }
+}

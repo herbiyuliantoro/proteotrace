@@ -56,30 +56,44 @@ PXD004242 values are medians over 200 random one-run-per-sample assignments.
 
 ## 📊 Does it work?
 
-Two independent public cohorts, two different platforms, consistent within
-uncertainty. 👇 Both rows use the same estimand: same-donor pairs against
-unrelated different-donor pairs, always on different batches. Brackets are
-donor-cluster bootstrap 95% CIs.
+Three independent public cohorts, three labs, three platforms. 👇 Each row uses
+the same estimand: same-donor pairs against unrelated different-donor pairs, on
+different batches wherever batches are known. Brackets are donor-cluster
+bootstrap 95% CIs.
 
 | Cohort | Platform | Samples | AUC | Sensitivity at 99% specificity |
 |:--|:--|:--|:--:|:--:|
 | 🧪 PXD001064 — twin plasma | DIA / OpenSWATH | 116 donors × 2 visits | **0.971** [0.942, 0.989] | 0.69 [0.51, 0.84] |
 | 🧪 PXD004242 — weight-loss plasma | DDA / MaxQuant | 43 donors × 6–7 visits | **0.967** [0.939, 0.984] | 0.66 [0.54, 0.77] |
+| 🧪 PXD062541 — epicatechin plasma ¹ | DIA / DIA-NN | 28 donors × 2 visits | **0.892** [0.792, 0.956] | 0.25 [0.07, 0.63] |
 
-The operating point is the honest number to plan around, and it is uncertain:
-roughly two in three genuine same-donor pairs clear a 99%-specificity threshold,
-give or take 0.15.
+¹ The third cohort was not used to develop anything; it is the tool at its
+defaults, exactly as `proteotrace check` runs it (`analysis_pxd062541.py`). No
+batch information is deposited for it, so no batch correction is possible. It is
+also shallower: a median of 44% of values are missing per run, and 133 proteins pass
+the coverage rule. The method works there, but clearly less well. Allowing more
+missing proteins raises it to 0.92–0.94 (sensitivity 0.36–0.50), a sensitivity
+analysis rather than the primary result.
+
+The operating point is the honest number to plan around, and it is uncertain.
+In the two cohorts with batch information, roughly two in three genuine
+same-donor pairs clear a 99%-specificity threshold, give or take 0.15. Without
+batch information, and at lower depth, expect much less.
 
 A few things worth knowing:
 
 - 🏃 **Identity survives real biology.** The second cohort lost 12% of body
   weight over the study (Geyer et al.). Donors still matched, out to 60 weeks
   between visits: AUC 0.96 for pairs spanning the weight loss, 0.97 for pairs
-  after it.
+  after it. This agrees with Geyer et al. (2021, *Mol Cell Proteomics*), who
+  re-identified the individuals of this study from their plasma proteomes and
+  pointed out the use against sample mix-ups. What ProteoTrace adds is the
+  batch handling, a threshold calibrated per cohort with a measured false-alarm
+  rate, the test across cohorts, and a tool.
 - 🔬 **Feature quality beats feature count.** The 273 highest-coverage proteins
   give sensitivity 0.67; 273 picked at random (mostly sparse) give 0.42.
 - 🔁 **Repeat visits make it much stronger.** On planted swaps, the shipped tool
-  catches 59% when each donor has 2 visits and 97% with 7.
+  catches 60% when each donor has 2 visits and 97% with 7.
 - 🧾 **Other ways to cut the data.** Including twin pairs among the negatives
   (PXD001064) gives 0.969; restricting PXD004242 negatives to one plate group
   gives 0.973. Both are in the [analysis log](docs/ANALYSIS_LOG.md).
@@ -105,7 +119,8 @@ Stated up front, because you'll hit these:
 - 🧪 **Batches need enough runs, and medians must come from the cohort itself.**
   Batches under 5 runs distort their runs (the tool warns). Batch medians
   carried over from other samples do not centre new runs.
-- 🧫 **Plasma only, two labs.** Other matrices and other labs are untested.
+- 🧫 **Plasma only, three labs.** Other matrices are untested, and the one cohort
+  without batch information performs clearly worse (AUC 0.89).
 
 Fitting the preprocessing on half the donors and scoring the other half costs
 0.005–0.015 AUC, so the transductive fit is not what drives the numbers above.
@@ -205,7 +220,12 @@ On the clean cohorts, with nothing planted, `swap_suspected` is 7 of 231 runs
 The second row is the hard case on purpose: many donors have an identical twin
 in the cohort, and with two visits the "does it match itself" estimate rests on
 a single pair. **More visits per donor makes this much better.** Figure 6B shows
-the tool catching 59% at two visits and 97% at seven.
+the tool catching 60% at two visits and 97% at seven.
+
+On the third cohort (PXD062541, no batch information, two visits), 6 planted
+swaps per repeat: 38% caught, 3.5% of uninvolved runs flagged; on the clean
+cohort 4 of 56 runs are `swap_suspected` and 38 are `review`.
+`python analysis_pxd062541.py` reproduces this.
 
 `--margin` is the knob. Lower catches more swaps and flags more runs. 0.20 was
 chosen on these same two cohorts. Tuning it on half the donors and testing on
@@ -219,7 +239,7 @@ drives the numbers above.
 |:--|:--|
 | `proteotrace/` | 🛠️ The tool: `core`, `io`, `report`, `cli` |
 | `validate_tool.py` | 📐 Plants known swaps and measures what the tool catches |
-| `examples/` | 📋 Sample annotation files for both cohorts |
+| `examples/` | 📋 Sample annotation files for the three cohorts |
 | `plot_fig*.py` | 🎨 The six main figures, one script each |
 | `proteotrace_style.py` | 🖌️ Shared style: type, colour, sizing, export |
 | `figure_data.py` | 🔌 Loaders, so every figure reads the same frozen numbers |

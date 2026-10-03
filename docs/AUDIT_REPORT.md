@@ -521,3 +521,15 @@ shipped tool and a visit-count subsample.
 - The dedup rule (first run in matrix order) is unchanged and documented.
 - The secondary analyses that no main figure reads (leave-one-out folds,
   fixed-replicate diagnostics, sex check) were not re-run.
+
+### Follow-up, later on 2026-10-02
+
+These items came out of checking which external data exist. Details are in the
+analysis log.
+
+| Item | What changed |
+|---|---|
+| Third cohort | PXD062541 (another lab, Exploris 480 / DIA-NN), run through the tool at its defaults: AUC 0.892 [0.792, 0.956], sensitivity at 99% specificity 0.25. The method transfers, but clearly less well without batch information and at lower depth (`analysis_pxd062541.py`). |
+| Decimal-comma bug | The DIA-NN reader turned `7,04E+12` into NaN and took the maximum of text values; fixed, with byte-identical results on the other two cohorts (0.3.0). |
+| Coverage rule | A protein missing from a single run is always kept. Identical results from 100 runs upward; Figure 6B at two visits moves from 58.9% to 59.8%. |
+| Prior work | Geyer et al. 2021 (MCP) already re-identified the PXD004242 participants from plasma proteomes and named sample mix-up as a use. This is cited in the README; claims of novelty should rest on the batch handling, the calibrated threshold with measured false alarms, the cross-cohort test and the tool. |

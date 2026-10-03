@@ -10,13 +10,19 @@ refuses single files above 100 MB.
 | File | Size | Source |
 |---|---|---|
 | `PXD004242/MaxQuant_Output.zip` | 109 MB | `https://ftp.pride.ebi.ac.uk/pride/data/archive/2016/12/PXD004242/MaxQuant_Output.zip` |
-| `PXD062541_report.tsv` | 106 MB | PRIDE PXD062541 (used only for the exploratory sex check, which is not part of the main results) |
+| `PXD062541_report.tsv` | 106 MB | `https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/01/PXD062541/report.tsv` (the third validation cohort, `analysis_pxd062541.py`; also the exploratory sex check) |
 
 ```sh
 curl -L -o data/PXD004242/MaxQuant_Output.zip \
   https://ftp.pride.ebi.ac.uk/pride/data/archive/2016/12/PXD004242/MaxQuant_Output.zip
 python extract_pxd004242_matrix.py
+curl -L -o data/PXD062541_report.tsv \
+  https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/01/PXD062541/report.tsv
 ```
+
+The PXD062541 report is a DIA-NN export written with decimal commas
+(`7,04E+12`); the tool's reader handles that. The local copy used here has
+sha256 `88cd291cb2472635c97644191608fc73f1b6f3562fb5924d92e7e2b883832f25`.
 
 ## What is tracked, and why
 
@@ -36,6 +42,9 @@ python extract_pxd004242_matrix.py
 - `PXD004242/PXD004242_primary_pairs_median.tsv` — per-pair scores for the
   median random assignment, written by `export_pxd004242_pairs.py`. That script
   refuses to write if it no longer reproduces the independently verified AUCs.
+- `PXD062541_primary.json` and `../examples/PXD062541_samples.tsv` — the third
+  cohort through the tool at its defaults, with the coverage sensitivity
+  analysis. Written by `analysis_pxd062541.py`.
 - `tool_validation.json`, `PXD004242/PXD004242_tool_visit_curve.json` — what the
   shipped tool catches on planted swaps, overall and by visits per donor.
   Written by `validate_tool.py` and `analysis_tool_visit_curve.py`.

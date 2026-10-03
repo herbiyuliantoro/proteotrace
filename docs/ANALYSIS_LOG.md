@@ -96,6 +96,77 @@ Retired by this entry: "batch correction is the method" as worded below, the
 swap table, and Figure 6B's reference-curve numbers as a description of the
 tool.
 
+## Third cohort, and two reader/selection fixes (2026-10-02, later)
+
+**Third cohort: PXD062541.** This is the epicatechin study from the Otton lab
+(Cruzeiro do Sul University): Orbitrap Exploris 480, DIA-NN, 28 obese adults,
+plasma before and after supplementation. It was already in the repository for
+the sex check.
+
+The reporting rules were decided before any result was looked at:
+
+- the primary result is the tool at its defaults;
+- other coverage thresholds are a sensitivity analysis only;
+- single-batch mode, because no batch information is deposited;
+- `WB_1` is read as W1_B (see below);
+- 6 planted pairs per repeat.
+
+`analysis_pxd062541.py` writes `data/PXD062541_primary.json` and
+`examples/PXD062541_samples.tsv`.
+
+```text
+primary (tool defaults, 133 proteins, 28 same-donor / 1512 different-donor pairs)
+  raw AUC 0.8042  ->  default AUC 0.8919 [CI 0.792, 0.956]
+  sensitivity at 95% / 99% specificity: 0.464 / 0.250 [CI 0.07, 0.63]
+  clean cohort: ok 14, review 38, swap_suspected 4 (W12_B, W2_A, W6_A, WB_1)
+  planted swaps (30 x 6 pairs): caught 37.8%, uninvolved runs flagged 3.5%,
+                                other runs of swapped donors flagged 39.4%
+sensitivity analysis (same pipeline, other --min-coverage)
+  0.95: 180 proteins, AUC 0.9194, sens99 0.357
+  0.90: 278 proteins, AUC 0.9355, sens99 0.500
+  0.80: 428 proteins, AUC 0.9360, sens99 0.357
+```
+
+The method transfers, but clearly less well. Three conditions differ from the
+two validation cohorts at once, so their effects cannot be separated here:
+
+- there is no batch information, so no correction;
+- the data are shallower (median 44% of values missing per run);
+- there are only two visits per donor.
+
+**WB_1.** The DIA-NN report names one run `WB_1`. The SDRF has no `WB_1`, and
+has a `W1_B.raw` that is otherwise absent from the report. These are the only
+mismatches in either direction, so `WB_1` is read as W1_B. This is an
+inference from file names, not a confirmation from the submitters.
+
+WB_1 is among the four flagged runs. Its score to W1_A is 0.019, and its
+nearest runs are W6_B (0.277) and W2_A (0.272). At this cohort's depth those
+values are within the range of unrelated pairs, so the data cannot tell a weak
+signal from a genuine mislabel. Only the submitters could settle it.
+
+**Fix 1, decimal commas (proteotrace 0.3.0).** The report writes `7,04E+12`.
+The DIA-NN reader turned every value into NaN, then stopped with a misleading
+"only 0 features" error. Before the pivot, it also took the maximum of *text*
+values.
+
+The readers now parse decimal commas when a column never mixes "." and ",".
+They convert before pivoting, and they stop with a clear error if no positive
+number could be read.
+
+Checks:
+
+- the generic reader on PXD001064 and the MaxQuant reader on the PXD004242
+  zip give byte-identical matrices to before;
+- the DIA-NN matrix equals an independent manual conversion.
+
+**Fix 2, coverage rule for small cohorts (0.3.0).** "Observed in ≥99% of runs"
+demands a complete protein below 100 runs, so one poor run (M7_B, 85% missing)
+cut the PXD062541 panel to 81 proteins (133 under the new rule). A protein missing from a single
+run is now always kept. From 100 runs upward this is identical to the old rule:
+`validate_tool.py` reproduces `data/tool_validation.json` byte for byte. The
+Figure 6B visit curve changes only at two visits (86 runs), from 58.9% to 59.8%
+caught; three to seven visits are unchanged.
+
 ## Earlier framing (retired 2026-10-02, kept for the record)
 
 The current paper should make one focused claim: an unsupervised, acquisition-day

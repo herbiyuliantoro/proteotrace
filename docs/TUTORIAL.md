@@ -234,8 +234,13 @@ it as a reasonable start rather than as tuned for your data.
 costs far more sensitivity than raising `--margin` for the same drop in flags.
 Above about 10 it stops having any effect.
 
-**`--min-coverage`** (default 0.99) is worth lowering to 0.95 if you have deep
-data with a lot of missingness and end up with too few features.
+**`--min-coverage`** (default 0.99) decides which proteins are used: those seen
+in at least this share of runs. A protein missing from just one run is always
+kept, so a single failed run cannot empty the panel. If your data are shallow
+(many missing values per run, as in our third validation cohort), 0.90 can
+work clearly better. There it raised the AUC from 0.89 to 0.94. Decide on this
+*before* you look at the verdicts; picking the setting that gives the answer
+you hoped for defeats the check.
 
 **`--specificity`** (default 0.99) moves the match threshold. Leave it alone
 unless you know why you are changing it.
@@ -251,6 +256,15 @@ a path prefix, or different capitalisation.
 **`only N features are observed in 99% of runs`** — too much missingness. Try
 `--min-coverage 0.95`. If that still fails, check the matrix really is runs in
 rows and features in columns.
+
+**`no positive numbers could be read`** — the file was found but none of its
+values parsed as numbers. Usually the column layout or the format is wrong; try
+`--format`.
+
+**`note: values use a decimal comma`** — not an error. The export was written
+with a European locale (`7,04E+12`), and the tool read the commas as decimal
+points. Files that mix `.` and `,` in the same column are not converted, so
+they will fail loudly rather than be misread.
 
 **`missing the column(s) ['donor']`** — the annotation needs `run` and `donor`
 at minimum, lower-case.
