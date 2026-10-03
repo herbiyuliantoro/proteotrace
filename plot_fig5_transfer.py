@@ -87,7 +87,7 @@ def make_figure(root: Path, out_dir: Path):
         "estimands"]["primary_unrelated_cross_batch"]["corrected"]["auc"]
     fig = plt.figure(figsize=(S.WIDTH_2COL, 76 * S.MM))
     gs = fig.add_gridspec(1, 2, width_ratios=[1.1, 1.1], wspace=0.26,
-                          left=0.072, right=0.985, top=0.855, bottom=0.175)
+                          left=0.085, right=0.985, top=0.855, bottom=0.175)
     draw_assignment(fig.add_subplot(gs[0, 0]), external["draws"], reference)
     draw_feature_depth(fig.add_subplot(gs[0, 1]), external["primary"]["summary"],
                        external["primary"]["adaptive_features"]["median"])

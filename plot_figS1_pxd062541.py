@@ -93,9 +93,9 @@ def draw_coverage(ax, summary):
     labels = [f"≥{float(k):.0%}\n{r['features']}" for k, r in zip(keys, rows)]
     labels[0] = labels[0].replace("\n", "*\n")          # * = tool default (caption)
     ax.set_xticks(x, labels)
-    ax.set_xlim(-0.6, len(keys) - 0.4)
+    ax.set_xlim(-0.85, len(keys) - 0.4)
     ax.set_ylim(0.0, 1.05)
-    ax.set_xlabel("minimum share of runs a protein must be seen in")
+    ax.set_xlabel("share of runs a protein must be seen in")
     ax.set_ylabel("AUC  or  same-person pairs found")
     ax.legend(handles=handles, loc="center right", bbox_to_anchor=(1.0, 0.70))
     S.head(ax, "C", "Using more proteins helps\nin this shallow cohort")
@@ -105,7 +105,7 @@ def make_figure(root: Path, out_dir: Path):
     pairs, labels, summary = load(root)
     fig = plt.figure(figsize=(S.WIDTH_2COL, 74 * S.MM))
     gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 1.35], wspace=0.30,
-                          left=0.075, right=0.975, top=0.83, bottom=0.21)
+                          left=0.075, right=0.965, top=0.83, bottom=0.21)
     draw_hist(fig.add_subplot(gs[0, 0]), labels, pairs["score_raw"].to_numpy(float),
               "A", "No correction", True)
     draw_hist(fig.add_subplot(gs[0, 1]), labels, pairs["score_default"].to_numpy(float),

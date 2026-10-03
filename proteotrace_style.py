@@ -38,6 +38,7 @@ import matplotlib.collections
 import matplotlib.lines
 import matplotlib.text
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib import font_manager as fm
 from matplotlib.transforms import ScaledTranslation
 
@@ -48,6 +49,7 @@ WIDTH_2COL = 176 * MM         # JPR double column: 300-504 pt
 MAX_DEPTH_PT = 660            # JPR maximum depth, caption included
 MIN_FONT_PT = 4.5             # JPR minimum lettering
 MIN_LINE_PT = 0.5             # JPR minimum line weight
+MIN_MARGIN_MM = 1.5           # house rule: nothing closer to the edge than this
 
 # -------------------------------------------------------------------- colour
 BLUE = "#2a78d6"     # categorical slot 1
@@ -181,7 +183,8 @@ def check_journal(fig) -> None:
 
     Width must fit one column (<= 240 pt) or two (300-504 pt), depth must
     leave room for a caption under 660 pt, every visible text must be at least
-    4.5 pt and every visible stroked line at least 0.5 pt.
+    4.5 pt and every visible stroked line at least 0.5 pt, and nothing may sit
+    closer than 1.5 mm to the edge.
     """
     width_pt, height_pt = (v * 72 for v in fig.get_size_inches())
     if not (width_pt <= 240.5 or 300 <= width_pt <= 504):
@@ -201,6 +204,21 @@ def check_journal(fig) -> None:
             thin.append(coll)
     if thin:
         raise ValueError(f"{len(thin)} line(s) thinner than {MIN_LINE_PT} pt")
+
+    # Rendered margins: nothing may come closer to the edge than MIN_MARGIN_MM,
+    # or the figure reads as cut off and may be clipped in production.
+    dpi = 200
+    fig.set_dpi(dpi)
+    fig.canvas.draw()
+    rgba = np.asarray(fig.canvas.buffer_rgba())
+    ink = (rgba[..., :3].min(axis=2) < 200) & (rgba[..., 3] > 0)
+    cols, rows = np.where(ink.any(axis=0))[0], np.where(ink.any(axis=1))[0]
+    mm = 25.4 / dpi
+    margins = {"left": cols.min() * mm, "right": (ink.shape[1] - 1 - cols.max()) * mm,
+               "top": rows.min() * mm, "bottom": (ink.shape[0] - 1 - rows.max()) * mm}
+    tight = {k: round(v, 1) for k, v in margins.items() if v < MIN_MARGIN_MM}
+    if tight:
+        raise ValueError(f"content within {MIN_MARGIN_MM} mm of the edge (mm): {tight}")
 
 
 def save(fig, out_dir: Path, stem: str) -> tuple[Path, Path]:
