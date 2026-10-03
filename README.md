@@ -240,7 +240,7 @@ drives the numbers above.
 | `proteotrace/` | 🛠️ The tool: `core`, `io`, `report`, `cli` |
 | `validate_tool.py` | 📐 Plants known swaps and measures what the tool catches |
 | `examples/` | 📋 Sample annotation files for the three cohorts |
-| `plot_fig*.py` | 🎨 The six main figures, one script each |
+| `plot_fig*.py` | 🎨 The six main figures and Figure S1, one script each |
 | `proteotrace_style.py` | 🖌️ Shared style: type, colour, sizing, export |
 | `figure_data.py` | 🔌 Loaders, so every figure reads the same frozen numbers |
 | `analysis_*.py` | 🧮 The analyses that produced those numbers |
@@ -261,7 +261,7 @@ drives the numbers above.
 We'd rather show it than claim it:
 
 - 🤖 **CI rebuilds everything.** [`.github/workflows/figures.yml`](.github/workflows/figures.yml)
-  deletes `figures/`, installs only `requirements.txt`, and rebuilds all six on
+  deletes `figures/`, installs only `requirements.txt`, and rebuilds all seven on
   a clean checkout. If it can't, the build fails.
 - 🔒 **The exporter checks itself.** `export_pxd004242_pairs.py` recomputes the
   raw, scaling-only and corrected AUCs. It refuses to write unless they match

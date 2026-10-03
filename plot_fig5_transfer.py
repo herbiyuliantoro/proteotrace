@@ -26,7 +26,7 @@ def draw_assignment(ax, draws, reference: float) -> None:
              ("corrected", "+ remove\nbatch effect", S.AQUA)]
     series = [draws[f"adaptive_{m}_primary_auc"].to_numpy(dtype=float) for m, _l, _c in modes]
     for a, b, c in zip(*series):
-        ax.plot([0, 1, 2], [a, b, c], color=S.PALE, linewidth=0.3, alpha=0.35, zorder=1)
+        ax.plot([0, 1, 2], [a, b, c], color=S.PALE, linewidth=0.5, alpha=0.25, zorder=1)
     parts = ax.violinplot(series, positions=[0, 1, 2], widths=0.5, showmeans=False,
                           showmedians=False, showextrema=False, bw_method=0.25)
     for body, (_m, _l, colour) in zip(parts["bodies"], modes):
@@ -37,18 +37,17 @@ def draw_assignment(ax, draws, reference: float) -> None:
         q025, med, q975 = np.quantile(values, [0.025, 0.5, 0.975])
         ax.vlines(x, q025, q975, color=S.INK, linewidth=0.7, zorder=4)
         ax.scatter(x, med, s=24, color=colour, edgecolor=S.SURFACE, linewidth=0.8, zorder=5)
-        ax.text(x + 0.14, med, f"{med:.4f}", ha="left", va="center", fontsize=9,
+        ax.text(x + 0.14, med, f"{med:.3f}", ha="left", va="center", fontsize=9,
                 fontweight="bold", color=S.INK, zorder=6,
                 bbox={"facecolor": S.SURFACE, "edgecolor": "none", "pad": 1.0})
 
-    ax.axhline(reference, color=S.ORANGE, linewidth=0.9, linestyle=(0, (3, 2)),
-               zorder=2, label="twin cohort")
+    ax.axhline(reference, color=S.MUTED, linewidth=0.8, linestyle=(0, (3, 2)),
+               zorder=2, label=f"twin cohort ({reference:.3f})")
     ax.legend(loc="lower right", bbox_to_anchor=(1.0, -0.01))
     ax.set_xticks([0, 1, 2], [l for _m, l, _c in modes])
     ax.set_xlim(-0.5, 2.75)
     ax.set_ylim(0.78, 1.0)
     ax.set_ylabel("AUC (1 = perfect)")
-    S.ygrid(ax)
     S.head(ax, "A", "Same result for 200 random choices of run")
 
 
@@ -75,8 +74,7 @@ def draw_feature_depth(ax, summary: dict, adaptive_n: float) -> None:
     ax.set_xlim(-0.6, 2.6)
     ax.set_ylim(0.30, 1.04)
     ax.set_yticks(np.arange(0.3, 1.01, 0.1))
-    ax.set_ylabel("value")
-    S.ygrid(ax)
+    ax.set_ylabel("AUC  or  same-person pairs found")
     handles = [Line2D([], [], marker="o", linestyle="none", color=c, markersize=4, label=lab)
                for _k, c, lab, _d in series]
     ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.0, -0.01))

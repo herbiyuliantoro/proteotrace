@@ -42,14 +42,13 @@ def draw_thresholds(ax, block: dict, letter: str, title: str, bins: np.ndarray,
         ax.axvline(threshold, color=S.ORANGE, linewidth=1.0, linestyle=style, zorder=4)
         pad = (bins[-1] - bins[0]) * (-0.012 if side == "right" else 0.012)
         ax.text(threshold + pad, top, f"{int(specificity * 100)}% cut-off", ha=side, va="top",
-                fontsize=9, color=S.ORANGE, fontweight="bold")
+                fontsize=8, color=S.INK)
 
     ax.set_xlim(bins[0], bins[-1])
     ax.set_ylim(0, top * 1.02)
     ax.set_xlabel("similarity score")
     ax.tick_params(axis="y", labelleft=False, left=False)
-    ax.set_ylabel("share of pairs")
-    S.ygrid(ax)
+    ax.spines["left"].set_visible(False)    # density has no scale worth reading
     if show_legend:
         ax.legend(loc="upper left", bbox_to_anchor=(0.0, 0.87))
     S.head(ax, letter, title)
@@ -79,7 +78,7 @@ def draw_operating(ax, internal: dict, external: dict) -> None:
         for xi, yi in zip(x + dx, y):
             outward = -1 if xi < 0.5 else 1          # 95% labels left, 99% labels right
             above = dx < 0                           # PXD001064 above, PXD004242 below
-            ax.text(xi + outward * 0.10, yi + (0.012 if above else -0.012), f"{yi:.3f}",
+            ax.text(xi + outward * 0.13, yi + (0.012 if above else -0.012), f"{yi:.3f}",
                     ha="right" if outward < 0 else "left", va="bottom" if above else "top",
                     fontsize=9, color=S.INK, fontweight="bold")
         handles.append(Line2D([], [], marker="o", color=colour, markersize=4.0,
@@ -90,7 +89,6 @@ def draw_operating(ax, internal: dict, external: dict) -> None:
     ax.set_ylim(0.40, 1.0)
     ax.set_xlabel("stricter →")
     ax.set_ylabel("same-person pairs found")
-    S.ygrid(ax)
     ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.0, -0.01))
     S.head(ax, "C", "Stricter cut-off, fewer found")
 

@@ -8,6 +8,9 @@ data/PXD004242/PXD004242_layer1_fixed*_pairs.tsv
 data/PXD004242/PXD004242_lopo_fixed*_pairs.tsv
 data/PXD004242/PXD004242_lopo_round_*_pairs.tsv
 
+# Submission TIFFs: large, and rebuilt by every plot_fig*.py
+figures/*.tif
+
 # Local artefacts
 __pycache__/
 *.pyc

@@ -29,8 +29,8 @@ def make_figure(root: Path, out_dir: Path):
     values = [pairs.loc[pairs["relation"] == rel, "score"].to_numpy() for rel in ORDER]
     x = np.arange(len(values))
 
-    fig = plt.figure(figsize=(120 * S.MM, 82 * S.MM))
-    ax = fig.add_axes((0.155, 0.135, 0.825, 0.715))
+    fig = plt.figure(figsize=(S.WIDTH_1COL, 72 * S.MM))      # JPR single column
+    ax = fig.add_axes((0.175, 0.165, 0.80, 0.69))
 
     parts = ax.violinplot(values, positions=x, widths=0.76, showmeans=False,
                           showmedians=False, showextrema=False, bw_method=0.22)
@@ -40,26 +40,24 @@ def make_figure(root: Path, out_dir: Path):
         body.set_alpha(0.30)
 
     medians = np.array([float(np.median(v)) for v in values])
-    ax.plot(x, medians, color=S.INK, linewidth=0.9, zorder=4)
     for xi, arr, med, colour in zip(x, values, medians, COLORS):
         q05, q25, q75, q95 = np.quantile(arr, [0.05, 0.25, 0.75, 0.95])
         ax.vlines(xi, q05, q95, color=S.INK, linewidth=0.7, zorder=5)
         ax.vlines(xi, q25, q75, color=S.INK, linewidth=2.2, zorder=5)
         ax.scatter(xi, med, s=24, color=colour, edgecolor=S.SURFACE, linewidth=0.8, zorder=6)
-        ax.text(xi + 0.16, med, f"{med:.3f}", ha="left", va="center", fontsize=9,
+        ax.text(xi + 0.13, med, f"{med:.2f}", ha="left", va="center", fontsize=7.5,
                 color=S.INK, fontweight="bold", zorder=7)
 
-    ax.axhline(0.0, color=S.GRID, linewidth=0.6, zorder=0)
+    ax.axhline(0.0, color=S.GREY, linewidth=0.5, linestyle=(0, (1, 2)), zorder=0)   # r = 0 reference
     top = 0.70
     ax.plot([0, 0, 1, 1], [top - 0.03, top, top, top - 0.03], color=S.INK, linewidth=0.7)
     ax.text(0.5, top + 0.02, "identical twins look almost\nlike the same person",
-            ha="center", va="bottom", fontsize=8.5, color=S.INK, linespacing=1.35)
+            ha="center", va="bottom", fontsize=7.5, color=S.INK, linespacing=1.35)
 
     ax.set_xticks(x, LABELS)
-    ax.set_xlim(-0.6, 3.6)
+    ax.set_xlim(-0.6, 3.85)
     ax.set_ylim(-0.50, 0.90)
     ax.set_ylabel("similarity score")
-    S.ygrid(ax)
     S.head(ax, None, "Closer relatives look more alike")
     return S.save(fig, out_dir, "fig3_relatedness")
 

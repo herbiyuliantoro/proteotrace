@@ -1,7 +1,7 @@
 # 🖼️ Figures
 
-What each of the six main figures claims, how it is built, and the draft
-captions. The design rules are here so a replacement figure still matches the
+What each of the six main figures and the supplementary Figure S1 claims, how
+it is built, and the draft captions. The design rules are here so a replacement figure still matches the
 rest of the set.
 
 ---
@@ -65,7 +65,8 @@ from 0.59 to 0.66 (median of 200 assignments; Table 1).
 Corrected cross-batch scores in PXD001064 for four relations: same donor
 (n = 93), monozygotic twin (n = 80), dizygotic twin (n = 57) and unrelated
 (n = 23,253) pairs. Points are medians, thick bars the 25th–75th and thin bars
-the 5th–95th percentiles. The same-donor and MZ distributions overlap, so the
+the 5th–95th percentiles; printed values are the medians. The same-donor and
+MZ distributions overlap, so the
 screen does not separate identical twins. DZ twins also clear the 99%
 threshold in 19% of pairs, against 0.8% for unrelated pairs. These are stated
 limits of the method rather than a tuning problem.
@@ -99,7 +100,8 @@ They are not confidence intervals.
 and post-only contrasts shown separately. Medians over 200 assignments; the
 dashed line is the PXD001064 estimate of 0.9707. Identity is recovered across
 the 12% weight-loss intervention and out to 60 weeks. Each gap rests on about
-32 same-donor pairs, so the per-gap differences are within noise.
+32 same-donor pairs, so the per-gap differences are within noise; points are
+not joined, because the gaps are irregularly spaced.
 (B) The shipped tool (`proteotrace check`, margin 0.20) on planted reciprocal
 same-plate swaps. Each donor is subsampled to the given number of visits, with
 12 swaps per repeat and 20 repeats per point. Three rates are shown:
@@ -110,6 +112,23 @@ same-plate swaps. Each donor is subsampled to the given number of visits, with
 
 Bars are 2.5–97.5% ranges over repeats. These are simulated swaps, not
 validation on a cohort of unknown status.
+
+### Supplementary figure
+
+**Figure S1. The third cohort (PXD062541), run through the tool at its defaults.**
+PXD062541 comes from a third laboratory (Orbitrap Exploris 480, DIA-NN): 28
+adults, plasma before and after epicatechin supplementation. No batch
+information is deposited, so there is no batch-correction step. It is also
+shallower than the other two cohorts (median 44% of values missing per run).
+(A, B) Same-person (n = 28) and different-people (n = 1,512) pair scores
+without correction (A) and with each protein scaled (B, the tool's default),
+standardised as in Figure 2.
+(C) Sensitivity analysis of the protein-selection rule. AUC and same-person
+pairs found at the 99% cut-off when proteins must be seen in at least 99%
+(* tool default), 95%, 90% or 80% of runs; the number under each threshold is
+how many proteins were kept. Bars on the default are donor-cluster bootstrap
+95% CIs. The default is the pre-specified primary result; the looser rules are
+reported only as a sensitivity analysis (`analysis_pxd062541.py`).
 
 ### Two deliberate choices about what is plotted
 
@@ -135,7 +154,11 @@ in Table 1, where they can be read precisely.
 
 Specification, so a replacement figure stays consistent:
 
-- **Size.** 180 mm wide (double column); the PDFs carry a 510.24 pt media box.
+- **Size.** Journal of Proteome Research (ACS) artwork rules: double-column
+  figures 176 mm (499 pt; JPR allows 300–504 pt), Figure 3 single column 84 mm
+  (238 pt; JPR allows up to 240 pt), all well under the 660 pt depth limit.
+  `proteotrace_style.save()` refuses to write a figure that is too wide, has
+  text under 4.5 pt or a drawn line under 0.5 pt, so the rules cannot drift.
 - **Type.** Arial at 8 pt base, 9 pt bold panel titles, 11 pt bold panel
   letters. Nothing is set below 7.5 pt. Arial is registered from the Windows
   font directory when running under WSL and falls back to DejaVu Sans
@@ -148,13 +171,16 @@ Specification, so a replacement figure stays consistent:
   colour-vision gates (worst CVD dE 9.2, normal-vision dE 24.0). Greys are never
   a fourth category; they carry "raw", "baseline" or "unrelated". The plate
   heat map uses one hue light to dark, not a rainbow.
-- **Marks.** Thin rules, no chart borders beyond left and bottom, recessive grid
-  at `#e6e5e1`, direct value labels rather than a number on every point.
-- **No embedded figure titles or footnotes.** Captions belong in the manuscript;
-  every panel instead carries a one-line subtitle giving n and the design fact
-  needed to read it.
-- **Export.** 600 dpi PNG plus vector PDF with TrueType (type 42) fonts embedded,
-  which is what JPR and MCP require for editable text.
+- **Marks.** No grid. Black left and bottom axes with outward ticks; density
+  panels drop the left axis, since their height has no scale worth reading.
+  Text is in ink, not in series colours; reference lines are dark grey and
+  labelled. Direct value labels rather than a number on every point.
+- **Titles.** Each panel carries a short title stating its finding; sample
+  sizes, interval definitions and design facts live in the caption.
+- **Export.** Vector PDF with TrueType (type 42) fonts for editable text,
+  600 dpi TIFF (LZW) for submission (JPR asks for at least 300 dpi colour
+  art), and 600 dpi PNG for viewing. TIFFs are not tracked in git; every
+  `plot_fig*.py` rebuilds them.
 
 Intervals in Figures 5 and 6 are run-assignment, panel-selection or resampling
 ranges, not confidence intervals. Figure 4C is the exception: its bars are

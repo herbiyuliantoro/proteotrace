@@ -46,11 +46,12 @@ def draw(ax, block: dict, letter: str | None, title: str | None, cohort: str | N
             va="top", fontsize=9, fontweight="bold", color=S.INK)
 
     ax.set_xlim(BINS[0], BINS[-1])
+    ax.set_xticks([-2, 0, 2, 4])            # inner ticks only: no clash between panels
     ax.set_ylim(0, 0.84)
     ax.tick_params(axis="y", labelleft=False, left=False)
+    ax.spines["left"].set_visible(False)    # density has no scale worth reading
     if cohort:
         ax.set_ylabel(cohort, linespacing=1.6)
-    S.ygrid(ax)
     if letter:
         S.head(ax, letter, title)
 
@@ -59,9 +60,9 @@ def make_figure(root: Path, out_dir: Path):
     internal = D.pxd001064_modes(root)
     external = D.pxd004242_pair_scores(root)
 
-    fig = plt.figure(figsize=(S.WIDTH_2COL, 112 * S.MM))
-    gs = fig.add_gridspec(2, 3, wspace=0.08, hspace=0.42,
-                          left=0.105, right=0.99, top=0.885, bottom=0.095)
+    fig = plt.figure(figsize=(S.WIDTH_2COL, 100 * S.MM))
+    gs = fig.add_gridspec(2, 3, wspace=0.10, hspace=0.30,
+                          left=0.095, right=0.99, top=0.89, bottom=0.10)
     axes = [[fig.add_subplot(gs[r, c]) for c in range(3)] for r in range(2)]
     for row in axes:
         for ax in row[1:]:

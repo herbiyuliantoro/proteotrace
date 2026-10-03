@@ -32,7 +32,7 @@ def draw_time(ax, summary: dict, reference: float) -> None:
     y = np.asarray([s["median"] for s in stats])
     low = y - np.asarray([s["q025"] for s in stats])
     high = np.asarray([s["q975"] for s in stats]) - y
-    ax.errorbar(x, y, yerr=np.vstack([low, high]), fmt="o-", color=S.AQUA, ecolor=S.AQUA,
+    ax.errorbar(x, y, yerr=np.vstack([low, high]), fmt="o", color=S.AQUA, ecolor=S.AQUA,
                 linewidth=1.1, markersize=3.0, elinewidth=0.7, capsize=2, zorder=3)
 
     for key, position in (("pre_to_post", -14.0), ("post_only", -5.0)):
@@ -45,14 +45,15 @@ def draw_time(ax, summary: dict, reference: float) -> None:
                 fontsize=9, color=S.INK, fontweight="bold")
     ax.axvline(-1.0, color=S.GRID, linewidth=0.8, zorder=1)
 
-    ax.axhline(reference, color=S.GREY, linewidth=0.7, linestyle=(0, (3, 2)), zorder=2)
+    ax.axhline(reference, color=S.MUTED, linewidth=0.8, linestyle=(0, (3, 2)), zorder=2)
+    ax.text(63, 0.902, f"dashed line: twin cohort ({reference:.3f})", ha="right",
+            va="bottom", fontsize=7.5, color=S.MUTED)
     shown = [4, 13, 26, 39, 52, 60]
     ax.set_xticks([-14, -5] + shown, ["across\ndiet", "after\ndiet"] + [str(v) for v in shown])
     ax.set_xlim(-19, 64)
     ax.set_ylim(0.90, 1.0)
     ax.set_xlabel("weeks between the two visits")
     ax.set_ylabel("AUC (1 = perfect)")
-    S.ygrid(ax)
     S.head(ax, "A", "Still recognisable after weight loss\nand up to 60 weeks later")
 
 
@@ -83,7 +84,6 @@ def draw_swap(ax, curve: dict) -> None:
     ax.set_xticks(np.arange(2, 8), [str(v) for v in range(2, 8)])
     ax.set_xlabel("visits per person")
     ax.set_ylabel("share flagged as a possible swap")
-    S.ygrid(ax)
     S.head(ax, "B", "More visits per person,\nmore swaps caught")
 
 

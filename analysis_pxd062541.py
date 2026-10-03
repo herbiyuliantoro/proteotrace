@@ -105,6 +105,7 @@ def main() -> int:
     ap.add_argument("--n-boot", type=int, default=1000)
     ap.add_argument("--out", type=Path, default=Path("data/PXD062541_primary.json"))
     ap.add_argument("--samples-out", type=Path, default=Path("examples/PXD062541_samples.tsv"))
+    ap.add_argument("--pairs-out", type=Path, default=Path("data/PXD062541_pairs.tsv"))
     args = ap.parse_args()
 
     matrix, fmt = read_matrix(args.report)
@@ -124,6 +125,14 @@ def main() -> int:
                  "default": pair_metrics(scores, samples, args.n_boot if coverage == 0.99 else 0),
                  "raw": pair_metrics(raw_scores(matrix, coverage), samples, 0)}
         if coverage == 0.99:
+            # pair scores at the defaults, so the supplementary figure builds
+            # without the 106 MB report (which is not tracked)
+            pairs = pair_table(scores, annotation["donor"], annotation["batch"])
+            raw = raw_scores(matrix, coverage)
+            pairs["score_raw"] = [raw.loc[a, b] for a, b in zip(pairs["left"], pairs["right"])]
+            pairs.rename(columns={"score": "score_default"})[
+                ["left", "right", "same_donor", "score_raw", "score_default"]
+            ].to_csv(args.pairs_out, sep="\t", index=False, float_format="%.6f")
             clean = verdicts(scores, samples)
             counts = clean["verdict"].value_counts()
             entry["clean_cohort_verdicts"] = {v: int(counts.get(v, 0)) for v in VERDICTS}

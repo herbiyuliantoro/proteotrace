@@ -55,7 +55,7 @@ def draw_scatter(ax, illustration):
     mask = np.isfinite(left) & np.isfinite(right)
     ax.scatter(left[mask], right[mask], s=5, color=S.AQUA, alpha=0.55, linewidth=0)
     limit = 3.2
-    ax.plot([-limit, limit], [-limit, limit], color=S.PALE, linewidth=0.8,
+    ax.plot([-limit, limit], [-limit, limit], color=S.GREY, linewidth=0.7,
             linestyle=(0, (3, 3)), zorder=0)
     ax.set_xlim(-limit, limit)
     ax.set_ylim(-limit, limit)
@@ -67,7 +67,6 @@ def draw_scatter(ax, illustration):
     ax.text(0.04, 0.96, f"same person\nr = {illustration['pair_r']:.3f}",
             transform=ax.transAxes, ha="left", va="top", fontsize=8.5,
             color=S.INK, linespacing=1.4)
-    S.ygrid(ax, axis="both")
 
 
 def draw_pairing(ax):
@@ -75,11 +74,11 @@ def draw_pairing(ax):
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
 
-    # One plate group shown in full, a second shown only to mark the exclusion.
-    ax.add_patch(FancyBboxPatch((0.045, 0.34), 0.46, 0.50,
+    # One plate group shown in full, a second to show that pairs across groups count.
+    ax.add_patch(FancyBboxPatch((0.045, 0.27), 0.46, 0.57,
                                 boxstyle="round,pad=0.012,rounding_size=0.03",
                                 linewidth=0.8, edgecolor="#b9b8b3", facecolor="#f7f7f5"))
-    ax.add_patch(FancyBboxPatch((0.60, 0.34), 0.30, 0.50,
+    ax.add_patch(FancyBboxPatch((0.60, 0.27), 0.30, 0.57,
                                 boxstyle="round,pad=0.012,rounding_size=0.03",
                                 linewidth=0.8, edgecolor="#b9b8b3", facecolor="#f7f7f5"))
     ax.text(0.275, 0.895, "plate group 1", ha="center", va="bottom", fontsize=8.5,
@@ -90,7 +89,7 @@ def draw_pairing(ax):
     columns = {"plate B": 0.17, "plate C": 0.385}
     rows = {"person 1": 0.715, "person 2": 0.455}
     for name, x in columns.items():
-        ax.text(x, 0.395, name, ha="center", va="top", fontsize=8.5, color=S.INK)
+        ax.text(x, 0.375, name, ha="center", va="top", fontsize=8.5, color=S.MUTED)
     for name, y in rows.items():
         ax.text(0.055, y, name, ha="left", va="center", fontsize=8.5, color=S.INK)
 
@@ -112,13 +111,13 @@ def draw_pairing(ax):
     link(nodes[("person 1", "plate B")], nodes[("person 1", "plate C")], S.AQUA, "-", -0.30)
     link(nodes[("person 1", "plate B")], nodes[("person 2", "plate C")], S.GREY, "-", 0.22)
     link(nodes[("person 1", "plate C")], other, S.GREY, "-", -0.12)
-    link(nodes[("person 1", "plate B")], nodes[("person 2", "plate B")], S.PALE, (0, (3, 2)), 0.35)
+    link(nodes[("person 1", "plate B")], nodes[("person 2", "plate B")], S.MUTED, (0, (2, 2)), 0.35)
 
     handles = [
         Line2D([], [], color=S.AQUA, linewidth=1.3, label="same person, different plates: should match"),
         Line2D([], [], color=S.GREY, linewidth=1.3,
                label="different people, different plates: should not match"),
-        Line2D([], [], color=S.PALE, linewidth=1.3, linestyle=(0, (3, 2)),
+        Line2D([], [], color=S.MUTED, linewidth=1.3, linestyle=(0, (2, 2)),
                label="same plate: not used"),
     ]
     ax.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, -0.10), ncol=1)
@@ -144,14 +143,13 @@ def make_figure(root: Path, out_dir: Path):
     draw_scatter(ax3, illustration)
     S.head(ax1, "A", None, letter_dx=-26.0)
 
-    # Arrows between the three steps, placed in figure coordinates so they sit
-    # exactly in the gaps the gridspec leaves.
-    for left_ax, right_ax in ((ax1, ax2), (ax2, ax3)):
+    # Short arrows just right of panels 1 and 2, in figure coordinates, so they
+    # never run into the axis label of the next panel.
+    for left_ax in (ax1, ax2):
         x0 = left_ax.get_position().x1
-        x1 = right_ax.get_position().x0
         y = (left_ax.get_position().y0 + left_ax.get_position().y1) / 2
         fig.patches.append(FancyArrowPatch(
-            (x0 + 0.008, y), (x1 - 0.042, y), transform=fig.transFigure,
+            (x0 + 0.012, y), (x0 + 0.048, y), transform=fig.transFigure,
             arrowstyle="-|>", mutation_scale=12, linewidth=1.2, color=S.MUTED))
 
     box1, box2 = ax1.get_position(), ax2.get_position()
@@ -163,8 +161,7 @@ def make_figure(root: Path, out_dir: Path):
     bar.outline.set_visible(False)
     cax.tick_params(length=2, pad=1.5)
     cax.set_title("protein level (log2, relative to its typical level)",
-                  fontsize=8,
-                  color=S.MUTED, pad=3)
+                  fontsize=8, fontweight="normal", color=S.INK, pad=3)
 
     draw_pairing(fig.add_subplot(outer[1]))
     return S.save(fig, out_dir, "fig1_design")
