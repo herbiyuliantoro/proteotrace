@@ -16,3 +16,6 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .DS_Store
+
+# Large peptide-level input for the genotype-like peptide analysis (PRIDE PXD001064)
+data/PXD001064/OpenSWATHResult_feature_alignment_requant.tsv
