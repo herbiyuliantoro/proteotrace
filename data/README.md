@@ -29,9 +29,20 @@ python extract_pxd004242_matrix.py
 - `*.json` and small `*.tsv` summaries — the frozen results each analysis
   script wrote. These are what the figures read, so a figure can never drift
   from the recorded analysis without the summary changing too.
-- `PXD004242/PXD004242_primary_pairs_rotation.tsv` — per-pair scores for the
-  deterministic rotation assignment, written by `export_pxd004242_pairs.py`,
-  which refuses to write if it no longer reproduces the frozen AUCs.
+- `PXD001064_primary.json`, `PXD004242/PXD004242_primary_random200.{json,tsv}` —
+  the primary estimand for both cohorts, with the four-step ablation (raw,
+  scaling only, batch only, both), the secondary estimands, the 200 PXD004242
+  draws and donor-cluster bootstrap CIs. Written by `analysis_primary_estimand.py`.
+- `PXD004242/PXD004242_primary_pairs_median.tsv` — per-pair scores for the
+  median random assignment, written by `export_pxd004242_pairs.py`. That script
+  refuses to write if it no longer reproduces the independently verified AUCs.
+- `tool_validation.json`, `PXD004242/PXD004242_tool_visit_curve.json` — what the
+  shipped tool catches on planted swaps, overall and by visits per donor.
+  Written by `validate_tool.py` and `analysis_tool_visit_curve.py`.
+- The earlier within-plate-group and rotation summaries
+  (`PXD004242_random200_restricted.json`, `PXD004242_rotation_*.json`,
+  `PXD004242_swap_reference_curve_summary.json` and neighbours) are kept as
+  secondary analyses. No main figure reads them any more.
 
 ## What is not tracked
 

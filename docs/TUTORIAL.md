@@ -38,6 +38,7 @@ swap margin 0.20
 
   swap_suspected       7
   review              53
+  unscorable           0
   no_reference        45
   ok                 126
 
@@ -78,15 +79,29 @@ tool will say "this belongs to somebody else". See §6.
 | ✅ `ok` | 126 | Matches its own donor above threshold |
 | 🔍 `review` | 53 | Doesn't convincingly match its own donor, but nobody else claims it |
 | 🚩 `swap_suspected` | 7 | Fails its own donor, and another donor matches it better |
-| ➖ `no_reference` | 45 | This donor has no other run, so nothing can be said |
+| ⛔ `unscorable` | 0 | Shares too few features with the other runs to be scored at all |
+| ➖ `no_reference` | 45 | This donor has no other run on a different batch, so nothing can be said |
 
-`no_reference` is large here because many donors were sampled only once. The
-tool needs at least two runs from a donor to say anything, so single-run donors
-are simply out of scope. That is a property of your study design, not a fault.
+`no_reference` is large here for a design reason, not because donors were
+sampled once. Only 1 of these 45 runs is a genuine single-run donor. The other
+44 belong to donors whose two visits were both run on the same acquisition day.
+The tool never compares two runs from the same batch, because a shared batch
+offset looks like shared identity, so those donors have nothing to be compared
+against. If assessing every donor matters, spread each donor's runs over
+different batches.
 
-`review` is not a soft accusation. It usually means the run itself is weak —
-low coverage, a poor injection, degraded sample. Check the run quality before
-suspecting the label.
+`review` is not a soft accusation, and it is common: 53 of 231 here, 52 of 300
+in the other validation cohort, with nothing planted. It mostly reflects the
+ceiling of the score itself. At 99% specificity, only about two in three genuine
+same-donor pairs clear the threshold, and with two visits the judgement rests on
+one pair. Review runs here are barely different in quality from `ok` runs
+(median missingness 20.5% vs 18.7%, same total intensity). So treat `review`
+as "not confirmed", not as "bad run", and look harder only if something else
+points the same way.
+
+`unscorable` is the verdict for a run that failed as a measurement. If most of
+its values are missing, it cannot be scored against at least half of the other
+runs.
 
 ---
 
@@ -96,9 +111,9 @@ This is the part that matters, and it is why the tool prints the rival rather
 than just a verdict. Look at who the rival is:
 
 ```text
-yanliu_L130109_027_SW   Twin pair-41-B  →  Twin pair-41-A    ← the donor's own twin
-yanliu_L130104_018_SW   Twin pair-18-A  →  Twin pair-18-B    ← the donor's own twin
-yanliu_L130220_015_SW   Twin pair-28-A  →  Twin pair-28-B    ← the donor's own twin
+yanliu_L130109_027_SW   Twin pair-41-B  →  Twin pair-41-A    ← the donor's own twin (DZ)
+yanliu_L130104_018_SW   Twin pair-18-A  →  Twin pair-18-B    ← the donor's own twin (DZ)
+yanliu_L130220_015_SW   Twin pair-28-A  →  Twin pair-28-B    ← the donor's own twin (MZ)
 
 yanliu_L130220_003_SW   Twin pair-41-B  →  Twin pair-53-B    ← unrelated donor
 yanliu_L130211_009_SW   Twin pair-12-A  →  Twin pair-44-B    ← unrelated donor
@@ -106,14 +121,19 @@ yanliu_L130104_027_SW   Twin pair-29-A  →  Twin pair-44-B    ← unrelated don
 yanliu_L130313_029_SW   Twin pair-49-B  →  Twin pair-10-B    ← unrelated donor
 ```
 
-Three of the seven point at the donor's **own twin**. In a twin cohort that is
-expected: identical twins score almost as high as the same person, so the tool
-cannot tell them apart, and it says so. Those three are a coin flip, not
-evidence of a mix-up.
+Three of the seven point at the donor's **own twin**: one identical, two
+fraternal. That is expected in a twin cohort. Identical twins score almost as
+high as the same person, and fraternal twins clear the threshold about one
+time in five (against fewer than one in a hundred for unrelated pairs). These
+three are not evidence of a mix-up.
 
-The other four point at **unrelated** donors. Those are the ones worth
-investigating: a plasma sample matching a stranger better than itself is not
-something noise usually produces.
+The other four point at **unrelated** donors. Those are worth a look, but keep
+the base rate in mind. On a clean cohort, the tool flags about 2–4% of runs
+this way by chance. And when a sample comes from someone outside the cohort,
+the tool still names *some* enrolled donor as the best rival. A flag says "this
+run does not look like its claimed donor"; the named rival is a lead, not an
+identification. Two flags on the same donor (both runs of Twin pair-41-B here)
+are more telling than one.
 
 So the practical rule: 🔑 **read the rival, not just the flag.** A rival who is
 a relative, a twin, or the same person under a second study ID is a different
@@ -140,8 +160,9 @@ qc/summary.json      counts, thresholds, settings, caveats
 | `score_to_claimed_donor` | median score to those runs |
 | `best_other_donor` | the donor that matched best instead |
 | `score_to_best_other` | that donor's score |
+| `n_scored_pairs` | how many other runs it could be scored against at all |
 | `margin` | claimed minus best other; negative means the rival won |
-| `verdict` | ok / review / swap_suspected / no_reference |
+| `verdict` | ok / review / swap_suspected / no_reference / unscorable |
 
 ⚠️ Watch `n_reference_runs`. If it is 1, the whole judgement rests on a single
 pair and is noisy. Two visits per donor is the hardest case; more visits makes
@@ -170,8 +191,18 @@ common thing to get wrong. For MaxQuant, the run names are whatever follows
 **`batch`** is whatever groups runs technically: plate, acquisition day, LC
 column, instrument, digestion batch. Pick the one that changes most between
 runs. If you genuinely have one batch, leave the column out and the tool will
-say so — but scores will be optimistic, because part of what it usually
-removes is not there to remove.
+say so. Expect many more false swap flags, though: without the batch
+correction our two validation cohorts gave 4–10 times as many.
+
+Two more things about batches. Each needs enough runs: below 5, the batch
+median is mostly the runs themselves, and the tool warns. And the tool
+deliberately computes each batch's median from *your* runs, including the
+ones it is checking. Don't try to save time by reusing medians from another
+study; they do not centre new runs and every score inflates.
+
+Spread each donor's runs over different batches if you can. Pairs on the same
+batch are never used, so a donor whose runs share one batch gets
+`no_reference`.
 
 ---
 
@@ -185,17 +216,23 @@ proteotrace check --matrix ... --samples ... --out qc/ \
 ```
 
 **`--margin`** (default 0.20) is the main one. It trades catching swaps against
-disturbing clean runs. Measured on our two cohorts:
+disturbing runs that have nothing to do with the swap. Measured on our two
+cohorts with `validate_tool.py`:
 
-| margin | swaps caught | clean runs flagged |
+| margin | swaps caught | uninvolved runs flagged |
 |--:|--:|--:|
-| 0.05 | 86% / 97% | 22% / 16% |
-| 0.20 | 81% / 93% | 12% / 5% |
-| 0.25 | 81% / 92% | 11% / 3% |
+| 0.05 | 74% / 99% | 14% / 11% |
+| 0.20 | 70% / 98% | 3.8% / 1.8% |
+| 0.25 | 67% / 96% | 2.2% / 0.8% |
 
-(first number PXD001064, second PXD004242; the 0.20 row is what
-`validate_tool.py` reports for the shipped default). Lower it if a missed swap is worse
-than a wasted hour; raise it if you are drowning in flags.
+(first number PXD001064, two visits per donor; second PXD004242, six to seven.)
+Lower it if a missed swap is worse than a wasted hour; raise it if you are
+drowning in flags. The default was picked on these same two cohorts, so treat
+it as a reasonable start rather than as tuned for your data.
+
+**`--rival-adjust`** (default 1, off) raises the bar for the rival instead. It
+costs far more sensitivity than raising `--margin` for the same drop in flags.
+Above about 10 it stops having any effect.
 
 **`--min-coverage`** (default 0.99) is worth lowering to 0.95 if you have deep
 data with a lot of missingness and end up with too few features.
@@ -223,12 +260,22 @@ technical replicates, either give them distinct names or keep one per sample.
 
 **`note: every run is in one batch`** — not an error, but read §7.
 
+**`warning: N batch(es) have fewer than 5 runs`** — those runs are distorted by
+their own batch median and can be flagged spuriously. Merge the batch into a
+neighbouring one if that is technically defensible; otherwise discount
+verdicts on those runs.
+
 ---
 
 ## 10. What it cannot tell you 🚧
 
-- 👯 **Identical twins.** They are not separable. A twin swap can pass as `ok`.
-- 🧍 **Single-run donors.** No reference, no verdict.
+- 👯 **Relatives.** Identical twins are not separable, and a twin swap can pass
+  as `ok`. Fraternal twins (and so, most likely, siblings) also score high
+  enough to appear as rivals.
+- 🧍 **Donors with no cross-batch pair.** Single-run donors, and donors whose
+  runs all share one batch, get no verdict.
+- 🕵️ **Who a stray sample belongs to.** If a sample comes from someone outside
+  the cohort, the tool still names the closest enrolled donor.
 - ❓ **Why** a sample is wrong. It flags an inconsistency; the cause could be a
   swap, a mislabelled tube, a duplicated subject ID, or a sample from the same
   person entered twice under different IDs.

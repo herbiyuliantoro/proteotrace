@@ -33,36 +33,56 @@ quantitative output of the run. 🎯
 
 Give it two runs and it tells you how likely they came from the same person.
 
-The trick is not clever maths. It's that **batch effects drown the signal, and
-removing them is the whole method**. Subtract each protein's median within its
-own batch — no donor labels, nothing supervised — and a comparison that was
-barely better than a coin flip becomes a usable test.
+The trick is not clever maths. Two unsupervised steps, neither of which looks at
+donor labels, turn a weak comparison into a usable test: **scale every protein to
+unit variance**, so abundant proteins stop dominating the correlation, and
+**subtract each protein's median within its own batch**, so the batch offset
+stops looking like shared identity.
+
+Both are needed, and they do different jobs. Scaling carries most of the AUC;
+the batch median carries the strict, high-specificity end, which is where a QC
+screen operates:
 
 ```
-                raw   →   batch-corrected
-PXD001064     0.7827  →      0.9692        (AUC)
-PXD004242     0.8463  →      0.9733
+AUC / sensitivity at 99% specificity
+                 raw          scaling only   batch only     both
+PXD001064   0.784 / 0.12    0.933 / 0.41   0.883 / 0.23   0.971 / 0.69
+PXD004242   0.844 / 0.28    0.958 / 0.59   0.944 / 0.52   0.967 / 0.66
 ```
+
+PXD004242 values are medians over 200 random one-run-per-sample assignments.
 
 ---
 
 ## 📊 Does it work?
 
-Two independent public cohorts, two different platforms, same answer. 👇
+Two independent public cohorts, two different platforms, consistent within
+uncertainty. 👇 Both rows use the same estimand: same-donor pairs against
+unrelated different-donor pairs, always on different batches. Brackets are
+donor-cluster bootstrap 95% CIs.
 
 | Cohort | Platform | Samples | AUC | Sensitivity at 99% specificity |
 |:--|:--|:--|:--:|:--:|
-| 🧪 PXD001064 — twin plasma | DIA / OpenSWATH | 116 donors | **0.9692** | 0.677 |
-| 🧪 PXD004242 — weight-loss plasma | DDA / MaxQuant | 43 donors × 7 visits | **0.9733** | 0.697 |
+| 🧪 PXD001064 — twin plasma | DIA / OpenSWATH | 116 donors × 2 visits | **0.971** [0.942, 0.989] | 0.69 [0.51, 0.84] |
+| 🧪 PXD004242 — weight-loss plasma | DDA / MaxQuant | 43 donors × 6–7 visits | **0.967** [0.939, 0.984] | 0.66 [0.54, 0.77] |
+
+The operating point is the honest number to plan around, and it is uncertain:
+roughly two in three genuine same-donor pairs clear a 99%-specificity threshold,
+give or take 0.15.
 
 A few things worth knowing:
 
 - 🏃 **Identity survives real biology.** The second cohort lost 12% of body
-  weight over the study. Donors still matched, out to 60 weeks between visits.
-- 🔬 **Feature quality beats feature count.** 273 well-measured proteins give
-  sensitivity 0.715. The same number picked at random gives 0.526.
-- 🔁 **Repeat visits make it much stronger.** With 2 visits per donor it names
-  the right donor 88% of the time. With 7, it's 97%.
+  weight over the study (Geyer et al.). Donors still matched, out to 60 weeks
+  between visits: AUC 0.96 for pairs spanning the weight loss, 0.97 for pairs
+  after it.
+- 🔬 **Feature quality beats feature count.** The 273 highest-coverage proteins
+  give sensitivity 0.67; 273 picked at random (mostly sparse) give 0.42.
+- 🔁 **Repeat visits make it much stronger.** On planted swaps, the shipped tool
+  catches 59% when each donor has 2 visits and 97% with 7.
+- 🧾 **Other ways to cut the data.** Including twin pairs among the negatives
+  (PXD001064) gives 0.969; restricting PXD004242 negatives to one plate group
+  gives 0.973. Both are in the [analysis log](docs/ANALYSIS_LOG.md).
 
 ---
 
@@ -70,13 +90,25 @@ A few things worth knowing:
 
 Stated up front, because you'll hit these:
 
-- 👯 **Identical twins.** MZ twin pairs score almost as high as same-donor
-  pairs. A twin swap will slip through.
-- 🎲 **Swap results are simulated.** We permuted labels on known samples. This
-  is not validation on a cohort where the truth is unknown.
-- 🚪 **Donors are never held out.** These are consistency results, not proof
-  that the score generalises to donors the method has never seen.
+- 👯 **Relatives.** MZ twin pairs score almost as high as same-donor pairs, and
+  a twin swap will slip through. Dizygotic twins clear the 99% threshold 19% of
+  the time, against 0.8% for unrelated pairs, so siblings and other close
+  relatives in a cohort are a likely source of false rivals too.
+- 📅 **Donors whose runs all share one batch.** Pairs on the same batch are
+  never used, so such donors cannot be assessed. In PXD001064 that is 44 of
+  the 45 unassessable runs; only one is a genuine single-run donor.
+- 🎲 **Swap results are simulated.** We exchanged labels between same-batch
+  runs, which is what a tube swap after plating produces. A sample from
+  someone *outside* the cohort is a different error: it is usually attributed
+  to an innocent enrolled donor. Nothing here is validation on a cohort where
+  the truth is unknown.
+- 🧪 **Batches need enough runs, and medians must come from the cohort itself.**
+  Batches under 5 runs distort their runs (the tool warns). Batch medians
+  carried over from other samples do not centre new runs.
 - 🧫 **Plasma only, two labs.** Other matrices and other labs are untested.
+
+Fitting the preprocessing on half the donors and scoring the other half costs
+0.005–0.015 AUC, so the transductive fit is not what drives the numbers above.
 
 ---
 
@@ -139,9 +171,10 @@ per-run verdict:
 | Verdict | What it means | What to do |
 |:--|:--|:--|
 | ✅ `ok` | Matches its own donor above threshold | Nothing |
-| 🔍 `review` | Doesn't convincingly match its own donor, but nobody else claims it either | Check the run quality first |
-| 🚩 `swap_suspected` | Fails its own donor, and another donor matches it better | Investigate before using the donor |
-| ➖ `no_reference` | Donor has only this one run, so nothing can be said | Out of scope |
+| 🔍 `review` | Doesn't convincingly match its own donor, but nobody else claims it either | Expect 17–23% of runs here even in a clean cohort; look at it if other evidence points the same way |
+| 🚩 `swap_suspected` | Fails its own donor, and another donor clears the threshold and beats it by the margin | Investigate before using the donor. The named rival is the best of many, not proof of the source |
+| ➖ `no_reference` | Donor has no other run on a *different* batch | Out of scope; re-plate across batches if this matters |
+| ⛔ `unscorable` | The run shares too few features with the others to be scored | A failed measurement; check the run |
 
 Plus `pair_scores.tsv` and a `summary.json`.
 
@@ -152,21 +185,33 @@ matrix.
 ### 📐 How well does it actually work?
 
 We plant swaps we know the answer to, then check what the tool catches.
-`python validate_tool.py` reproduces this:
+Twelve reciprocal same-batch swaps per repeat, drawn over all batches, 30
+repeats, default margin 0.20. `python validate_tool.py` reproduces this:
 
-| Cohort | Catches planted swaps | Flags clean runs |
-|:--|:--:|:--:|
-| PXD004242 — 7 visits/donor, no twins | **93.3%** | 4.9% |
-| PXD001064 — 2 visits/donor, twin cohort | **80.6%** | 12.2% |
+| Cohort | Planted swaps caught | Uninvolved runs flagged | Other runs of the swapped donors flagged |
+|:--|:--:|:--:|:--:|
+| PXD004242 — 6–7 visits/donor, no twins | **97.6%** | 1.8% | 4.7% |
+| PXD001064 — 2 visits/donor, twin cohort | **69.8%** | 3.8% | 76% |
 
-The second row is the hard case on purpose: half the cohort has an identical
-twin in it, and each donor has only two visits, so the "does it match itself"
-estimate rests on a single pair. **More visits per donor makes this much
-better** — that's the same dependence Figure 6B shows.
+Monte-Carlo standard errors are 2 points or less. The last column is not a
+false alarm in the usual sense. When donors A and B are swapped, A's and B's
+*other* runs are now compared against a wrong reference. With only two visits,
+the tool can see that something is wrong among those four runs but cannot say
+which one.
 
-`--margin` is the knob. Lower catches more swaps and flags more clean runs;
-0.20 is the default because it sat at the best point on both cohorts. The
-numbers above are for the default.
+On the clean cohorts, with nothing planted, `swap_suspected` is 7 of 231 runs
+(PXD001064) and 5 of 300 (PXD004242). `review` is 53 and 52.
+
+The second row is the hard case on purpose: many donors have an identical twin
+in the cohort, and with two visits the "does it match itself" estimate rests on
+a single pair. **More visits per donor makes this much better.** Figure 6B shows
+the tool catching 59% at two visits and 97% at seven.
+
+`--margin` is the knob. Lower catches more swaps and flags more runs. 0.20 was
+chosen on these same two cohorts. Tuning it on half the donors and testing on
+the other half loses about 0.01–0.02 in Youden J, and a margin tuned on either
+cohort lands within 0.01 of the other's optimum, so the selection is not what
+drives the numbers above.
 
 ## 🗂️ What's in here
 
@@ -185,6 +230,8 @@ numbers above are for the default.
 | `docs/TUTORIAL.md` | 📖 Step-by-step walkthrough on real data |
 | `docs/FIGURES.md` | 📝 What each figure claims, plus draft captions |
 | `docs/ANALYSIS_LOG.md` | 📓 The full running record, including retired conclusions |
+| `docs/AUDIT_BRIEF.md`, `docs/AUDIT_REPORT.md` | 🔎 The pre-preprint adversarial audit and what it found |
+| `audit/` | 🧪 The audit's independent re-implementation (reads only raw inputs) |
 | `archive/` | 🗄️ Earlier figure set, kept for provenance |
 
 ---
@@ -196,9 +243,13 @@ We'd rather show it than claim it:
 - 🤖 **CI rebuilds everything.** [`.github/workflows/figures.yml`](.github/workflows/figures.yml)
   deletes `figures/`, installs only `requirements.txt`, and rebuilds all six on
   a clean checkout. If it can't, the build fails.
-- 🔒 **The exporter checks itself.** `export_pxd004242_pairs.py` recomputes both
-  AUCs and refuses to write unless they match the frozen result to within
-  5×10⁻⁴. A figure can't quietly drift away from the recorded analysis.
+- 🔒 **The exporter checks itself.** `export_pxd004242_pairs.py` recomputes the
+  raw, scaling-only and corrected AUCs. It refuses to write unless they match
+  values verified by an independent implementation (`audit/audit_lib.py`) to
+  within 5×10⁻⁴. A figure can't quietly drift away from the recorded analysis.
+- 🔎 **Audited before submission.** Every headline number was re-derived from
+  the raw inputs by code that shares nothing with the analysis scripts; see
+  [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md).
 - 🔤 **Fonts degrade gracefully.** Arial if it's there, DejaVu Sans if not. Only
   the typeface changes.
 

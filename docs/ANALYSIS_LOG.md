@@ -9,7 +9,94 @@ see [FIGURES.md](FIGURES.md).
 
 ---
 
-## Paper claim currently supported
+## Corrections after the pre-preprint audit (2026-10-02)
+
+An adversarial audit ([AUDIT_BRIEF.md](AUDIT_BRIEF.md),
+[AUDIT_REPORT.md](AUDIT_REPORT.md)) re-derived every headline number from the
+raw inputs with independent code (`audit/`). The central discrimination result
+reproduced exactly. Five things changed.
+
+**1. Attribution.** The "raw" baseline left out both the per-batch median and
+the per-protein z-scaling, so the raw-to-corrected gain had been credited to
+batch correction alone. `analysis_primary_estimand.py` now reports the 2×2
+ablation (AUC / sensitivity at 99% specificity):
+
+```text
+                 raw            scaling only     batch only       both
+PXD001064   0.7836 / 0.118   0.9329 / 0.409   0.8828 / 0.226   0.9707 / 0.688
+PXD004242   0.8438 / 0.281   0.9579 / 0.591   0.9444 / 0.522   0.9674 / 0.661   (median of 200)
+```
+
+The paper claim becomes: per-protein scaling and within-batch median centring,
+both unsupervised, together make routine plasma proteomes usable for
+same-donor detection. Scaling carries most of the AUC; batch centring carries
+the 99%-specificity end.
+
+**2. One estimand for both cohorts.** The primary estimand is now:
+
+- positives: same-donor pairs on different batches;
+- negatives: *unrelated* different-donor pairs on different batches.
+
+In PXD001064 the 137 MZ/DZ twin pairs are excluded from the negatives; they
+are analysed in the ladder. In PXD004242, pairs across plate groups are kept,
+because the tool scores rivals against every other batch. The within-group
+restriction turned out to be mildly *favourable*: per-plate centring makes
+different donors of one plate group anti-correlated, with median score −0.036
+against −0.003 across groups.
+
+```text
+primary   PXD001064 0.9707 [CI 0.942, 0.989]  sens99 0.688 [0.508, 0.842]   93 / 23,253 pairs
+          PXD004242 0.9674 (assignments 0.9573-0.9753)  sens99 0.661 (0.615-0.712)
+                    median draw seed 20261090: CI AUC [0.939, 0.984], sens99 [0.538, 0.770]
+secondary PXD001064 incl. twin negatives 0.9692 / 0.677
+          PXD004242 within plate group   0.9733 / 0.697 (as before)
+```
+
+CIs are donor-cluster bootstrap (1,000 resamples; twin pair or donor is the
+cluster).
+
+**3. Figures use the median assignment.** The timepoint-rotation assignment
+(0.9839) scored above all 200 random draws, so figures drawn from it showed a
+best case. Figures 2 and 4 now use the median draw. The export is checked
+against values verified independently.
+
+**4. The tool validation was rebuilt.** The old planter filled its 12 swaps
+from the alphabetically first batch in every repeat. It also counted the
+swapped donors' *other* runs, which are flagged by construction, as false
+alarms. `validate_tool.py` now draws swaps over all batches (30 repeats) and
+reports caught / uninvolved / collateral separately. At margin 0.20:
+
+```text
+PXD001064  caught 69.8%  uninvolved 3.8%  collateral 76%   (old table: 80.6% / 12.2%)
+PXD004242  caught 97.6%  uninvolved 1.8%  collateral 4.7%  (old table: 93.3% / 4.9%)
+```
+
+Figure 6B now shows the shipped tool by visits per donor
+(`analysis_tool_visit_curve.py`): 58.9% caught at 2 visits, 97.5% at 7. The
+earlier reference curve (88.2% → 97.4%) scored a closed-set identification
+within one plate group, which is not what the tool does.
+
+**5. Margin selection and held-out donors, quantified.**
+
+- Margin selection: tuning on half the donors and testing on the other half
+  costs 0.017 (PXD001064) and 0.010 (PXD004242) in Youden J.
+- Cross-cohort transfer: a margin tuned on either cohort is within 0.008 J of
+  the other cohort's optimum (`audit/a5_margin.py`).
+- Held-out donors: fitting coverage, batch medians and scaling on half the
+  donors costs 0.006 / 0.015 AUC on the held-out half (`audit/a4_leak.py`).
+- Threshold transfer: a 99% threshold from other donors' pairs gives realised
+  specificity 0.990 in both cohorts (`audit/a8_ci.py`).
+
+The tool also gained an `unscorable` verdict for failed runs, a warning for
+batches under 5 runs, a corrected single-batch warning, and accurate
+descriptions of `no_reference` and `review` (version 0.2.0).
+
+Retired by this entry: "batch correction is the method" as worded below, the
+0.9692-vs-0.9733 comparison as a like-for-like replication, the 93.3% / 80.6%
+swap table, and Figure 6B's reference-curve numbers as a description of the
+tool.
+
+## Earlier framing (retired 2026-10-02, kept for the record)
 
 The current paper should make one focused claim: an unsupervised, acquisition-day
 normalization makes routine plasma proteomes useful for detecting whether two
