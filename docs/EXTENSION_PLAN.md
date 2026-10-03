@@ -72,3 +72,53 @@ this plan will be reported as deviations.
 - Neither idea can separate monozygotic twins, who share their genome; idea 3
   should, if anything, make MZ pairs *more* similar to same-donor pairs.
 - Gains in two-visit cohorts are bounded by having one reference pair per run.
+
+---
+
+## Results (added after the analyses; the plan above is unchanged)
+
+### Deviations from the plan
+
+- **Protein reference for peptide ratios:** the median log2 intensity of the
+  protein's peptides in each run, rather than the protein-group intensity of
+  each search engine, so that MaxQuant, DIA-NN and OpenSWATH use one definition.
+- **OpenSWATH filtering (PXD001064):** decoys removed; features with
+  m_score ≤ 0.01 kept, together with requantified features (which carry no
+  m_score).
+- **Exploratory, not pre-registered:** a combined score using the
+  idea-2-weighted protein score, and the relatedness ladder for peptide scores.
+
+### Idea 2: individuality weighting (`analysis_individuality.py`)
+
+Success criterion met. Sensitivity at 99% specificity, weighted minus current
+score:
+
+| Cohort | Design | Difference | Paired 95% CI |
+|---|---|---|---|
+| PXD004242 | A, split 1 (median of 20 splits) | +0.140 (+0.133) | +0.068 to +0.212 |
+| PXD001064 | A, split 1 (median of 20 splits) | +0.097 (+0.097) | −0.006 to +0.264 |
+| PXD001064 | B, weights from PXD004242 | +0.043 | −0.024 to +0.135 |
+| **PXD062541 (held-out test)** | B, 59/133 proteins matched | **+0.071** | −0.179 to +0.224 |
+
+All 20 splits were positive in both development cohorts. The held-out test
+points in the same direction but is not significant; only 59 of 133 proteins
+had a transferred weight.
+
+### Idea 3: genotype-like peptides (`analysis_genotype_peptides.py`)
+
+Success criterion **not met**, so the method was not evaluated on PXD062541.
+Combined score minus current score, median of 20 splits: −0.071 (PXD004242)
+and −0.065 (PXD001064). The peptide score alone was much weaker (−0.537 and
+−0.414).
+
+The peptide signal is nevertheless genetic:
+
+- Of the 50 peptides with the highest ICC in PXD004242, 24 (48%) overlap a
+  UniProt natural-variant position, against 255 of 1,176 (22%) other eligible
+  peptides (one-sided Fisher p = 5.4 × 10⁻⁵).
+- In PXD001064 (design B weights), the median peptide score was +0.140 for MZ
+  twins, +0.121 for the same donor, +0.058 for DZ twins and −0.009 for
+  unrelated pairs. Peptide similarity of MZ twins equals that of the same
+  person, and DZ twins sit near half of it, as expected for a genotype-driven
+  signal. The protein score, in contrast, separates the same donor (+0.381)
+  from MZ twins (+0.293), so it also carries non-genetic individual variation.

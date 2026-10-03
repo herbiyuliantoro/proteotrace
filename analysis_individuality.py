@@ -126,7 +126,7 @@ def cohort_pxd001064(root):
     ii, jj = np.triu_indices(len(meta), 1)
     same = donor[ii] == donor[jj]
     keep = (batch[ii] != batch[jj]) & (same | (unit[ii] != unit[jj]))     # unrelated negatives only
-    return {"name": "PXD001064", "z": z, "donor": donor, "unit": unit, "ii": ii[keep], "jj": jj[keep],
+    return {"name": "PXD001064", "z": z, "donor": donor, "unit": unit, "batch": batch, "meta": meta, "ii": ii[keep], "jj": jj[keep],
             "same": same[keep], "acc": [first_accession(c) for c in z.columns]}
 
 
@@ -141,7 +141,7 @@ def cohort_pxd004242(root):
     group = np.array([p[0] for p in plate])
     ii, jj = np.triu_indices(len(meta), 1)
     keep = plate[ii] != plate[jj]
-    return {"name": "PXD004242", "z": z, "donor": donor, "unit": donor, "group": group, "ii": ii[keep],
+    return {"name": "PXD004242", "z": z, "donor": donor, "unit": donor, "group": group, "batch": plate, "ii": ii[keep],
             "jj": jj[keep], "same": (donor[ii] == donor[jj])[keep],
             "acc": [first_accession(c.split(";")[0]) for c in z.columns]}
 
@@ -153,7 +153,7 @@ def cohort_pxd062541(root):
     z = normalise(matrix, samples["batch"]).values
     donor = samples["donor"].to_numpy()
     ii, jj = np.triu_indices(len(samples), 1)
-    return {"name": "PXD062541", "z": z, "donor": donor, "unit": donor, "ii": ii, "jj": jj,
+    return {"name": "PXD062541", "z": z, "donor": donor, "unit": donor, "batch": samples["batch"].to_numpy(), "ii": ii, "jj": jj,
             "same": donor[ii] == donor[jj], "acc": [first_accession(c.split(";")[0]) for c in z.columns]}
 
 
