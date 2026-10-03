@@ -1,0 +1,35 @@
+clean PXD001064 verdicts: {'ok': 126, 'review': 53, 'no_reference': 45, 'swap_suspected': 7}
+no_reference runs=45: donor has 1 run: 1, donor has >=2 runs all in ONE batch: 44
+row-order invariant: True
+failed run yanliu_L130104_010_SW: verdict=no_reference n_ref=0 features now=259 (was 273)
+run alone in its batch: verdict=review score_to_own=-0.027 (was 0.467); max |r| to anything=0.237
+two runs alone in a batch: r between them=-0.941; verdicts=['swap_suspected', 'ok']
+missing fraction (all 712 groups) median: ok=0.187 review=0.205
+log10 total intensity median: ok=8.839 review=8.831
+
+PXD001064 (a) ALL labels permuted: {'swap_suspected': 128, 'review': 74, 'no_reference': 27, 'ok': 2}
+PXD001064 (b) off-by-one shift in batch 130109 (36 runs relabelled): {'swap_suspected': 17, 'review': 12, 'no_reference': 4, 'ok': 3} | rest: {'ok': 89, 'review': 44, 'no_reference': 41, 'swap_suspected': 21}
+PXD001064 (c) intruder from outside the cohort, 40 trials: {'review': 27, 'swap_suspected': 13}
+PXD001064 (d) noisy clean cohort: {'review': 119, 'ok': 58, 'no_reference': 45, 'swap_suspected': 9}
+PXD001064 (e) no batch annotation: {'ok': 110, 'swap_suspected': 67, 'review': 53, 'no_reference': 1}
+
+PXD004242 (a) ALL labels permuted: {'swap_suspected': 253, 'review': 47}
+PXD004242 (b) off-by-one shift in batch 3C (12 runs relabelled): {'swap_suspected': 12} | rest: {'ok': 223, 'review': 59, 'swap_suspected': 6}
+PXD004242 (c) intruder from outside the cohort, 40 trials: {'swap_suspected': 33, 'review': 6, 'ok': 1}
+PXD004242 (d) noisy clean cohort: {'review': 194, 'ok': 87, 'swap_suspected': 19}
+PXD004242 (e) no batch annotation: {'ok': 167, 'review': 111, 'swap_suspected': 22}
+
+CLI: 
+231 runs · 116 donors · 273 features
+match threshold 0.3161 at 99% specificity
+swap margin 0.20
+
+  swap_suspected       7
+  review              53
+  no_reference        45
+  ok                 126
+
+Runs whose best match is a different donor:
+
+                  run  claimed_donor  score_to_claimed_donor best_other_donor  score_to_best_other
+yanliu_L130220_003_SW Twin pair-41-B                   0.

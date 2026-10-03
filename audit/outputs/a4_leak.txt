@@ -1,0 +1,226 @@
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:64: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = units.copy(); rng.shuffle(u); test_units = set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+/mnt/c/ProteoTrace/audit/a4_leak.py:62: UserWarning: you are shuffling a 'StringArray' object which is not a subclass of 'Sequence'; `shuffle` is not guaranteed to behave correctly. E.g., non-numpy array/tensor objects with view semantics may contain duplicates after shuffling.
+  u = b["unit"].unique(); rng.shuffle(u); test_units |= set(u[: len(u) // 2])
+=== step attribution (AUC on the primary estimand)
+  PXD001064: AUC/sens99 {'raw': '0.7827/0.118', 'zscale only': '0.9313/0.409', 'batch only': '0.8815/0.215', 'batch + z': '0.9692/0.677'}
+  PXD004242 rotation: AUC/sens99 {'raw': '0.8425/0.258', 'zscale only': '0.9704/0.636', 'batch only': '0.9656/0.636', 'batch + z': '0.9839/0.776'}
+  PXD001064 drop pure contaminants (6 removed, 267 left): AUC=0.9676 sens99=0.6774
+  PXD001064 drop any CONT-tagged group (51 removed, 222 left): AUC=0.9685 sens99=0.6774
+
+=== attack 2: fit on training donors, score held-out donors
+  PXD001064 (50 donor splits): 
+          auc_transductive  auc_heldout  sens99_insample_thr  sens99_train_thr  spec_train_thr  n_pos_test    drop
+    mean            0.9668       0.9585               0.5447            0.6394          0.9801       46.22  0.0083
+    50%             0.9675       0.9624               0.5435            0.6250          0.9826       46.00  0.0060
+    min             0.9490       0.9224               0.4038            0.4800          0.9511       41.00 -0.0082
+    max             0.9842       0.9805               0.7045            0.8444          0.9953       53.00  0.0362
+  PXD004242 rotation (50 donor splits): 
+          auc_transductive  auc_heldout  sens99_insample_thr  sens99_train_thr  spec_train_thr  n_pos_test    drop
+    mean            0.9840       0.9677               0.6261            0.8994          0.9084      370.86  0.0163
+    50%             0.9839       0.9687               0.6393            0.9024          0.9110      371.50  0.0149
+    min             0.9748       0.9457               0.4424            0.7738          0.8200      364.00  0.0089
+    max             0.9943       0.9849               0.8000            0.9615          0.9729      376.00  0.0377
+
+=== attack 5: residual plate / date structure in PXD004242 (rotation)
+  pooled primary AUC=0.9839  plate-pair-stratified AUC=0.9836
+  within-group cross-plate negatives: same acquisition date n=122 median=-0.0683 | different date median=-0.0354
+  share-date rate: positives=0.032 negatives=0.015
+  different-donor cross-plate: within-group median=-0.0359 cross-group median=-0.0032; AUC(within vs cross group)=0.4237
+  different-donor SAME plate median=-0.0447 (n=2881)

@@ -1,0 +1,25 @@
+extracted (1290, 720) tracked (1290, 720) identical: True
+label donor == SDRF individual: 0.8459119496855346 | label tidx == time order: 1.0
+longitudinal donors 43 samples 300 runs 1200
+donors per plate group: {'1': 12, '2': 13, '3': 12, '4': 6}
+donor in >1 group: 0
+repo run set == SDRF-derived run set: True
+tech index repo == SDRF: 1.0
+
+ROTATION raw=0.8425 raw+z=0.9704 corrected=0.9839 sens95=0.9223 sens99=0.7760 feats=148 pos=759 neg=8067 | all cross-plate AUC=0.9794 sens99=0.7418 | neg median within=-0.0359 cross-group=-0.0032
+draw 0
+draw 50
+draw 100
+draw 150
+raw          median [2.5,97.5] = 0.8463 [0.8165,0.8764]
+raw_z        median [2.5,97.5] = 0.9618 [0.9512,0.9708]
+corr         median [2.5,97.5] = 0.9733 [0.9633,0.9804]
+sens95       median [2.5,97.5] = 0.8768 [0.8408,0.9065]
+sens99       median [2.5,97.5] = 0.6967 [0.6483,0.7456]
+nfeat        median [2.5,97.5] = 147.0000 [144.0000,151.0000]
+allx_auc     median [2.5,97.5] = 0.9674 [0.9573,0.9753]
+allx_sens99  median [2.5,97.5] = 0.6608 [0.6151,0.7119]
+t273_corr    median [2.5,97.5] = 0.9764 [0.9668,0.9833]
+t273_sens99  median [2.5,97.5] = 0.7154 [0.6666,0.7689]
+t273_raw     median [2.5,97.5] = 0.8302 [0.8126,0.8454]
+n_pos        median [2.5,97.5] = 674.0000 [648.9500,697.0250]

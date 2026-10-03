@@ -1,0 +1,42 @@
+
+######## PXD001064: runs=231 donors=116 batches=9
+  repo planter seed 100: swapped runs by batch {'130104': 24}
+  repo planter seed 101: swapped runs by batch {'130104': 22, '130109': 2}
+  repo planter seed 102: swapped runs by batch {'130104': 24}
+  repo planter seed 103: swapped runs by batch {'130104': 24}
+  repo planter seed 104: swapped runs by batch {'130104': 24}
+  CLEAN cohort margin 0.05: {'ok': 126, 'no_reference': 45, 'review': 34, 'swap_suspected': 26}
+  CLEAN cohort margin 0.2: {'ok': 126, 'review': 53, 'no_reference': 45, 'swap_suspected': 7}
+  repo planter m=0.20 decomposed: {'sens': 0.8056, 'fa_repo_def': 0.1217, 'fa_collateral': 0.8367, 'fa_uninvolved': 0.0335, 'n_planted': 18.4, 'n_collateral': 18.4}
+  uniform planter, 40 repeats x 12 pairs:
+          sens  fa_repo_def  fa_collateral  fa_uninvolved
+margin                                                   
+0.00    0.7564       0.2326         0.8198         0.1537
+0.05    0.7539       0.2134         0.8198         0.1320
+0.10    0.7497       0.1989         0.8157         0.1161
+0.15    0.7417       0.1593         0.8025         0.0728
+0.20    0.7261       0.1247         0.7867         0.0357
+0.25    0.6935       0.1073         0.7544         0.0202
+0.30    0.6422       0.0929         0.7034         0.0106
+0.40    0.4736       0.0685         0.5349         0.0053
+
+######## PXD004242: runs=300 donors=43 batches=16
+  repo planter seed 100: swapped runs by batch {'1B': 22, '1C': 2}
+  repo planter seed 101: swapped runs by batch {'1B': 20, '1C': 4}
+  repo planter seed 102: swapped runs by batch {'1B': 20, '1C': 4}
+  repo planter seed 103: swapped runs by batch {'1B': 20, '1C': 4}
+  repo planter seed 104: swapped runs by batch {'1B': 20, '1C': 4}
+  CLEAN cohort margin 0.05: {'ok': 243, 'swap_suspected': 32, 'review': 25}
+  CLEAN cohort margin 0.2: {'ok': 243, 'review': 52, 'swap_suspected': 5}
+  repo planter m=0.20 decomposed: {'sens': 0.9333, 'fa_repo_def': 0.0493, 'fa_collateral': 0.1892, 'fa_uninvolved': 0.0137, 'n_planted': 24.0, 'n_collateral': 56.2}
+  uniform planter, 40 repeats x 12 pairs:
+          sens  fa_repo_def  fa_collateral  fa_uninvolved
+margin                                                   
+0.00    0.9823       0.1873         0.2375         0.1331
+0.05    0.9823       0.1659         0.2174         0.1103
+0.10    0.9823       0.1094         0.1507         0.0649
+0.15    0.9792       0.0628         0.0901         0.0332
+0.20    0.9667       0.0336         0.0490         0.0170
+0.25    0.9385       0.0118         0.0166         0.0066
+0.30    0.8917       0.0057         0.0080         0.0032
+0.40    0.7146       0.0010         0.0019         0.0000

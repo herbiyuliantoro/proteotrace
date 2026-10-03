@@ -1,0 +1,11 @@
+what                                 candidates
+clean disagreement                   all 43        0.0733
+                                     in-group      0.0373
+swap disagreement, partner excluded  all 43        0.9965
+                                     in-group      0.9955
+swap disagreement, partner kept      all 43        0.9965
+                                     in-group      0.9955
+swap recovery, partner excluded      all 43        0.9280
+                                     in-group      0.9605
+swap recovery, partner kept          all 43        0.9280
+                                     in-group      0.9610

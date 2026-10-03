@@ -1,0 +1,4 @@
+PXD001064: AUC=0.9692 cluster-bootstrap 95% [0.9374,0.9855] | sens99=0.677 [0.422,0.803]
+   threshold from other donors -> realised specificity median 0.9896 [0.9772,0.9962], sensitivity median 0.612
+PXD004242 (one random draw): AUC=0.9731 cluster-bootstrap 95% [0.9488,0.9871] | sens99=0.668 [0.515,0.801]
+   threshold from other donors -> realised specificity median 0.9896 [0.9735,0.9971], sensitivity median 0.684
