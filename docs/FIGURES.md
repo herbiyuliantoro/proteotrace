@@ -20,8 +20,16 @@ for f in plot_fig*.py; do python "$f"; done
 
 ### Draft captions
 
+Terms used on the figures: *person* means donor. The *Twin cohort* is
+PXD001064 and the *Weight-loss cohort* is PXD004242. An *X% cut-off* is the
+score that X% of different-people pairs fall below (specificity X%), and
+*same-person pairs found* is sensitivity. *AUC* is the probability that a
+random same-person pair scores higher than a random different-people pair
+(1 = perfect, 0.5 = chance).
+
 **Figure 1. How the similarity score is computed, and which pairs it is read on.**
-(A) The three steps, shown on a real slice of PXD001064:
+(A) The three steps (measure proteins, remove the batch effect, compare two
+runs), shown on a real slice of PXD001064:
 (1) fourteen proteins measured across ten runs from two acquisition days;
 (2) the same values after the per-batch median of each protein is subtracted;
 (3) the two runs of one donor, each protein scaled to unit variance across the
@@ -76,7 +84,7 @@ computed on the median assignment.
 (A) 200 random assignments of one run per biological sample in PXD004242,
 through each preprocessing step. Grey lines join the same assignment. The
 dashed line is the PXD001064 estimate of 0.9707.
-(B) Three feature panels, all evaluated on the same 200 assignments:
+(B) Three protein panels, all evaluated on the same 200 assignments:
 - adaptive panels (proteins observed in ≥99% of runs; median 147);
 - the 273 highest-coverage proteins;
 - 273 randomly chosen proteins (twenty panels, cycled across assignments;
@@ -95,10 +103,10 @@ the 12% weight-loss intervention and out to 60 weeks. Each gap rests on about
 (B) The shipped tool (`proteotrace check`, margin 0.20) on planted reciprocal
 same-plate swaps. Each donor is subsampled to the given number of visits, with
 12 swaps per repeat and 20 repeats per point. Three rates are shown:
-- planted runs called `swap_suspected` ("caught");
-- runs of donors not involved in any swap ("uninvolved");
-- the swapped donors' other runs ("collateral"), which are compared against a
-  wrong reference by construction.
+- planted runs called `swap_suspected` ("swapped runs caught");
+- runs of donors not involved in any swap ("unaffected runs");
+- the swapped donors' other runs ("other runs of the swapped people"), which
+  are compared against a wrong reference by construction.
 
 Bars are 2.5–97.5% ranges over repeats. These are simulated swaps, not
 validation on a cohort of unknown status.

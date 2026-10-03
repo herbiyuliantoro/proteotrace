@@ -19,6 +19,7 @@ S.apply()
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.lines import Line2D
 
 import figure_data as D
 
@@ -34,7 +35,7 @@ def draw_time(ax, summary: dict, reference: float) -> None:
     ax.errorbar(x, y, yerr=np.vstack([low, high]), fmt="o-", color=S.AQUA, ecolor=S.AQUA,
                 linewidth=1.1, markersize=3.0, elinewidth=0.7, capsize=2, zorder=3)
 
-    for key, position in (("pre_to_post", -11.0), ("post_only", -4.5)):
+    for key, position in (("pre_to_post", -14.0), ("post_only", -5.0)):
         s = summary[f"gap_{key}_auc"]
         med = s["median"]
         ax.errorbar(position, med, yerr=[[med - s["q025"]], [s["q975"] - med]],
@@ -46,22 +47,24 @@ def draw_time(ax, summary: dict, reference: float) -> None:
 
     ax.axhline(reference, color=S.GREY, linewidth=0.7, linestyle=(0, (3, 2)), zorder=2)
     shown = [4, 13, 26, 39, 52, 60]
-    ax.set_xticks([-11, -4.5] + shown, ["pre→\npost", "post\nonly"] + [str(v) for v in shown])
-    ax.set_xlim(-15, 64)
+    ax.set_xticks([-14, -5] + shown, ["across\ndiet", "after\ndiet"] + [str(v) for v in shown])
+    ax.set_xlim(-19, 64)
     ax.set_ylim(0.90, 1.0)
-    ax.set_xlabel("between-visit gap (weeks)")
-    ax.set_ylabel("cross-plate AUC")
+    ax.set_xlabel("weeks between the two visits")
+    ax.set_ylabel("AUC (1 = perfect)")
     S.ygrid(ax)
-    S.head(ax, "A", "Donor identity persists through the\nintervention and 60 weeks")
+    S.head(ax, "A", "Still recognisable after weight loss\nand up to 60 weeks later")
 
 
 def draw_swap(ax, curve: dict) -> None:
     rows = curve["rows"]
     visits = np.asarray([row["n_visits"] for row in rows], dtype=float)
-    # end labels sit at fixed heights so the two near-zero series do not collide
-    series = [("sensitivity", S.AQUA, "caught", None),
-              ("flagged_collateral", S.ORANGE, "collateral", 0.16),
-              ("flagged_uninvolved", S.BLUE, "uninvolved", 0.03)]
+    # values at the line ends; identity from the legend, so the two
+    # near-zero series do not need long labels that collide
+    series = [("sensitivity", S.AQUA, "swapped runs caught", None),
+              ("flagged_collateral", S.ORANGE, "other runs of the swapped people", 0.10),
+              ("flagged_uninvolved", S.BLUE, "unaffected runs", -0.005)]
+    handles = []
     for key, colour, label, label_y in series:
         med = np.asarray([row[key]["mean"] for row in rows])
         low = med - np.asarray([row[key]["q025"] for row in rows])
@@ -69,17 +72,19 @@ def draw_swap(ax, curve: dict) -> None:
         ax.errorbar(visits, med, yerr=np.vstack([low, high]), fmt="-o", color=colour,
                     ecolor=colour, markersize=3.0, linewidth=1.1, elinewidth=0.7,
                     capsize=2, zorder=3)
-        ax.text(visits[-1] + 0.3, med[-1] if label_y is None else label_y,
-                f"{label}\n{med[-1]:.3f}", ha="left", va="center", fontsize=8.5,
-                color=S.INK, linespacing=1.3)
+        ax.text(visits[-1] + 0.25, med[-1] if label_y is None else label_y,
+                f"{med[-1]:.3f}", ha="left", va="center", fontsize=8.5, color=S.INK)
+        handles.append(Line2D([], [], marker="o", color=colour, markersize=3.0,
+                              linewidth=1.1, label=label))
+    ax.legend(handles=handles, loc="center right", bbox_to_anchor=(1.0, 0.55))
 
-    ax.set_xlim(1.6, 11.4)
-    ax.set_ylim(-0.02, 1.04)
+    ax.set_xlim(1.6, 8.0)
+    ax.set_ylim(-0.05, 1.04)
     ax.set_xticks(np.arange(2, 8), [str(v) for v in range(2, 8)])
-    ax.set_xlabel("visits per donor")
-    ax.set_ylabel("fraction flagged swap_suspected")
+    ax.set_xlabel("visits per person")
+    ax.set_ylabel("share flagged as a possible swap")
     S.ygrid(ax)
-    S.head(ax, "B", "The shipped tool on planted swaps,\nby visits per donor")
+    S.head(ax, "B", "More visits per person,\nmore swaps caught")
 
 
 def make_figure(root: Path, out_dir: Path):

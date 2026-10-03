@@ -36,17 +36,14 @@ def draw(ax, block: dict, letter: str | None, title: str | None, cohort: str | N
     null = raw_values[~labels]
     values = (raw_values - null.mean()) / null.std()
 
-    for mask, colour, name in ((~labels, S.GREY, "different donor"),
-                               (labels, S.AQUA, "same donor")):
+    for mask, colour, name in ((~labels, S.GREY, "different people"),
+                               (labels, S.AQUA, "same person")):
         y, _ = np.histogram(values[mask], bins=BINS, density=True)
         ax.fill_between(CENTRES, y, color=colour, alpha=0.35, linewidth=0, step="mid")
         ax.step(CENTRES, y, color=colour, linewidth=1.1, where="mid", label=name)
 
-    gap = float(np.median(values[labels]) - np.median(values[~labels]))
-    ax.text(0.97, 0.94, f"AUC {block['auc']:.4f}", transform=ax.transAxes, ha="right",
+    ax.text(0.97, 0.94, f"AUC {block['auc']:.3f}", transform=ax.transAxes, ha="right",
             va="top", fontsize=9, fontweight="bold", color=S.INK)
-    ax.text(0.97, 0.80, f"gap {gap:.2f} SD", transform=ax.transAxes, ha="right",
-            va="top", fontsize=9, color=S.MUTED)
 
     ax.set_xlim(BINS[0], BINS[-1])
     ax.set_ylim(0, 0.84)
@@ -70,14 +67,13 @@ def make_figure(root: Path, out_dir: Path):
         for ax in row[1:]:
             ax.sharey(row[0])
 
-    columns = [("raw", "A", "Raw"), ("scaled", "B", "+ per-protein scaling"),
-               ("corrected", "C", "+ per-batch median")]
-    cohorts = ["PXD001064 (DIA)\nunrelated, cross-batch",
-               "PXD004242 (DDA)\nmedian of 200 draws"]
+    columns = [("raw", "A", "No correction"), ("scaled", "B", "+ scale each protein"),
+               ("corrected", "C", "+ remove batch effect")]
+    cohorts = ["Twin cohort\n(PXD001064)", "Weight-loss cohort\n(PXD004242)"]
     for c, (mode, letter, title) in enumerate(columns):
         draw(axes[0][c], internal[mode], letter, title, cohorts[0] if c == 0 else None)
         draw(axes[1][c], external[mode], None, None, cohorts[1] if c == 0 else None)
-        axes[1][c].set_xlabel("score, in different-donor SD")
+        axes[1][c].set_xlabel("similarity (standardised)")
         axes[0][c].tick_params(axis="x", labelbottom=False)
     axes[0][0].legend(loc="upper left", bbox_to_anchor=(0.0, 0.99))
     return S.save(fig, out_dir, "fig2_batch_correction")

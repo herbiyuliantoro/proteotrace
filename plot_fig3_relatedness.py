@@ -20,7 +20,7 @@ import numpy as np
 import figure_data as D
 
 ORDER = ["same_donor", "MZ_twins", "DZ_twins", "unrelated"]
-LABELS = ["same\ndonor", "MZ\ntwins", "DZ\ntwins", "unrelated"]
+LABELS = ["same\nperson", "identical\ntwins", "non-identical\ntwins", "unrelated"]
 COLORS = [S.AQUA, S.BLUE, S.ORANGE, S.GREY]
 
 
@@ -51,16 +51,16 @@ def make_figure(root: Path, out_dir: Path):
 
     ax.axhline(0.0, color=S.GRID, linewidth=0.6, zorder=0)
     top = 0.70
-    ax.plot([0, 0, 1, 1], [top - 0.03, top, top, top - 0.03], color=S.ORANGE, linewidth=0.7)
-    ax.text(0.5, top + 0.02, "substantial overlap: MZ twins are\nnot reliably separable",
-            ha="center", va="bottom", fontsize=8.5, color=S.ORANGE, linespacing=1.35)
+    ax.plot([0, 0, 1, 1], [top - 0.03, top, top, top - 0.03], color=S.INK, linewidth=0.7)
+    ax.text(0.5, top + 0.02, "identical twins look almost\nlike the same person",
+            ha="center", va="bottom", fontsize=8.5, color=S.INK, linespacing=1.35)
 
     ax.set_xticks(x, LABELS)
     ax.set_xlim(-0.6, 3.6)
     ax.set_ylim(-0.50, 0.90)
-    ax.set_ylabel("cross-batch similarity score")
+    ax.set_ylabel("similarity score")
     S.ygrid(ax)
-    S.head(ax, None, "Similarity declines with genetic relatedness")
+    S.head(ax, None, "Closer relatives look more alike")
     return S.save(fig, out_dir, "fig3_relatedness")
 
 
