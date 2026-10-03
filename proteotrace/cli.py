@@ -9,7 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from . import __version__
-from .core import normalise, pair_table, similarity, threshold_from_pairs
+from .core import MIN_BATCH_RUNS, normalise, pair_table, similarity, threshold_from_pairs
 from .io import read_matrix, read_samples
 from .report import run_report, summarise
 
@@ -32,10 +32,18 @@ def _check(args: argparse.Namespace) -> int:
     single_batch = samples["batch"].nunique() == 1
     if single_batch:
         print("note: every run is in one batch, so no batch offset is removed. "
-              "Scores will be optimistic relative to a multi-batch study.",
+              "Expect many more false swap flags than with batches annotated "
+              "(4-10x more on our two validation cohorts).",
               file=sys.stderr)
 
     normalised = normalise(matrix, samples["batch"], args.min_coverage)
+    if normalised.small_batches and not single_batch:
+        print(f"warning: {len(normalised.small_batches)} batch(es) have fewer than "
+              f"{MIN_BATCH_RUNS} runs {dict(list(normalised.small_batches.items())[:5])}. "
+              "Their median is mostly the runs themselves, so those runs are "
+              "distorted and can be flagged spuriously. Merge them into a "
+              "neighbouring batch if that is technically defensible.",
+              file=sys.stderr)
     scores = similarity(normalised, args.min_overlap)
     pairs = pair_table(scores, samples["donor"], samples["batch"])
     rivals_per_run = args.rival_adjust
@@ -49,6 +57,7 @@ def _check(args: argparse.Namespace) -> int:
                         rival_threshold)
     summary.update({"input_format": fmt, "runs_dropped_no_annotation": int(dropped),
                     "features_dropped_low_coverage": normalised.dropped_features,
+                    "batches_below_min_size": normalised.small_batches,
                     "proteotrace_version": __version__})
 
     args.out.mkdir(parents=True, exist_ok=True)
@@ -65,7 +74,7 @@ def _check(args: argparse.Namespace) -> int:
         print(f"rival threshold {rival_threshold:.4f}, spread over "
               f"{rivals_per_run} comparisons per run")
     print(f"swap margin {args.margin:.2f}\n")
-    for verdict in ("swap_suspected", "review", "no_reference", "ok"):
+    for verdict in ("swap_suspected", "review", "unscorable", "no_reference", "ok"):
         print(f"  {verdict:<16} {counts[verdict]:>5}")
     flagged = report.loc[report["verdict"] == "swap_suspected"]
     if len(flagged):
@@ -73,8 +82,10 @@ def _check(args: argparse.Namespace) -> int:
         print(flagged[["run", "claimed_donor", "score_to_claimed_donor",
                        "best_other_donor", "score_to_best_other"]]
               .to_string(index=False, float_format=lambda v: f"{v:.3f}"))
-        print("\nInvestigate these before trusting the affected donors. Note that "
-              "identical twins are not separable by this method.")
+        print("\nInvestigate these before trusting the affected donors. The named "
+              "donor is the best-scoring rival, not proof of where the sample came "
+              "from, and relatives (identical twins above all) are not separable "
+              "by this method.")
     print(f"\nwritten to {args.out}/")
     return 0
 
@@ -106,14 +117,19 @@ def build_parser() -> argparse.ArgumentParser:
     check.add_argument("--margin", type=float, default=0.20,
                        help="how far another donor must beat the claimed donor "
                             "before a swap is called. This is the main knob. "
-                            "Measured on our two cohorts: 0.05 catches more "
-                            "swaps but flags 16-22%% of clean runs, 0.20 catches "
-                            "81-93%% of swaps and flags 4-13%% (default: 0.20)")
+                            "Measured on our two cohorts (validate_tool.py): 0.05 "
+                            "catches 74-99%% of planted swaps but flags 11-14%% of "
+                            "uninvolved runs; 0.20 catches 70-98%% and flags 2-4%%. "
+                            "The default was chosen on these same cohorts; nested "
+                            "tuning puts the optimism at about 0.01-0.02 in "
+                            "Youden J (default: 0.20)")
     check.add_argument("--rival-adjust", type=int, default=1,
                        help="spread the error budget over this many rival "
                             "comparisons per run. Raising it cuts false alarms "
                             "but costs far more sensitivity than tightening "
-                            "--margin does, so it is off by default (default: 1)")
+                            "--margin does, so it is off by default. Above about "
+                            "10 the threshold hits its data-supported cap and "
+                            "larger values change nothing (default: 1)")
     check.add_argument("--min-overlap", type=int, default=30,
                        help="minimum shared features for a pair to be scored "
                             "(default: 30)")

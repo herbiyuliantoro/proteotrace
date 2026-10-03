@@ -6,10 +6,15 @@ can be run on a cohort whose labels are the thing under suspicion.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
+
+# Below this many runs a batch median is mostly the runs themselves: a run alone
+# in its batch is centred to zero, and two runs alone become near-perfect
+# opposites (r close to -1), which can produce a spurious swap call.
+MIN_BATCH_RUNS = 5
 
 
 @dataclass(frozen=True)
@@ -19,6 +24,12 @@ class Normalised:
     n_features: int
     n_runs: int
     dropped_features: int
+    batch_sizes: dict = field(default_factory=dict)
+
+    @property
+    def small_batches(self) -> dict:
+        """Batches too small for a stable median, with their run counts."""
+        return {b: n for b, n in self.batch_sizes.items() if n < MIN_BATCH_RUNS}
 
 
 def normalise(matrix: pd.DataFrame, batches: pd.Series,
@@ -57,7 +68,8 @@ def normalise(matrix: pd.DataFrame, batches: pd.Series,
     scaled = (corrected - corrected.mean(axis=0)) / corrected.std(axis=0).replace(0, np.nan)
     return Normalised(values=scaled, n_features=int(keep.sum()),
                       n_runs=int(matrix.shape[0]),
-                      dropped_features=int((~keep).sum()))
+                      dropped_features=int((~keep).sum()),
+                      batch_sizes={str(b): int(n) for b, n in batches.value_counts().items()})
 
 
 def similarity(normalised: Normalised, min_overlap: int = 30) -> pd.DataFrame:
@@ -104,7 +116,12 @@ def threshold_from_pairs(pairs: pd.DataFrame, specificity: float = 0.99,
     naive threshold buries the user in false alarms. `rival` therefore spends
     the same error budget across all the comparisons actually made. It is
     capped at the highest quantile the observed pairs can support, so it never
-    extrapolates past the data.
+    extrapolates past the data; once the cap binds (about rivals_per_run > 10
+    on our cohorts), raising rivals_per_run further changes nothing.
+
+    The batch medians this score depends on must be estimated on the cohort
+    being checked, including the runs under test. Medians carried over from
+    other samples do not centre the new runs and inflate every score.
     """
     negatives = pairs.loc[~pairs["same_donor"]]
     if cross_batch_only and (~negatives["same_batch"]).any():

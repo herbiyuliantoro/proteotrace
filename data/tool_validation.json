@@ -1,24 +1,253 @@
 {
-  "margin": 0.2,
   "specificity": 0.99,
+  "planted_pairs_per_repeat": 12,
+  "repeats": 30,
+  "seed": 100,
+  "design": "reciprocal same-batch swaps drawn uniformly over all batches; no donor in two swaps",
   "cohorts": {
     "PXD001064": {
-      "sensitivity": 0.8055555555555556,
-      "false_alarm_rate": 0.12174411933448077,
-      "repeats": 5,
-      "planted_pairs_per_repeat": 12,
+      "clean_cohort_default_margin": {
+        "ok": 126,
+        "review": 53,
+        "swap_suspected": 7,
+        "no_reference": 45,
+        "unscorable": 0
+      },
+      "margins": {
+        "0.05": {
+          "sensitivity": {
+            "mean": 0.7362152491882267,
+            "mc_se": 0.016758165578683357
+          },
+          "flagged_uninvolved": {
+            "mean": 0.1374939182879311,
+            "mc_se": 0.0027526900656610867
+          },
+          "flagged_collateral": {
+            "mean": 0.8005060590909964,
+            "mc_se": 0.014632251584094133
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.21535332679562674,
+            "mc_se": 0.003397496256552981
+          }
+        },
+        "0.10": {
+          "sensitivity": {
+            "mean": 0.7331849461579236,
+            "mc_se": 0.017084721701628815
+          },
+          "flagged_uninvolved": {
+            "mean": 0.12115374338396716,
+            "mc_se": 0.002547473418812951
+          },
+          "flagged_collateral": {
+            "mean": 0.7969579731899695,
+            "mc_se": 0.014961141311896664
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.2005366413254407,
+            "mc_se": 0.0033663478682045456
+          }
+        },
+        "0.15": {
+          "sensitivity": {
+            "mean": 0.719253792079206,
+            "mc_se": 0.01894679012164965
+          },
+          "flagged_uninvolved": {
+            "mean": 0.07712843916043902,
+            "mc_se": 0.0017260616898887892
+          },
+          "flagged_collateral": {
+            "mean": 0.7850919444818355,
+            "mc_se": 0.015126301250052468
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.16028729901007577,
+            "mc_se": 0.003113381960944548
+          }
+        },
+        "0.20": {
+          "sensitivity": {
+            "mean": 0.6980758472170507,
+            "mc_se": 0.01988223826481798
+          },
+          "flagged_uninvolved": {
+            "mean": 0.03809832568155832,
+            "mc_se": 0.0012608894440367248
+          },
+          "flagged_collateral": {
+            "mean": 0.7624582463871064,
+            "mc_se": 0.016850896967228694
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.12324750518568997,
+            "mc_se": 0.0030642603091057654
+          }
+        },
+        "0.25": {
+          "sensitivity": {
+            "mean": 0.6670382070032091,
+            "mc_se": 0.021216290298414806
+          },
+          "flagged_uninvolved": {
+            "mean": 0.02198356095172357,
+            "mc_se": 0.0011937936722406079
+          },
+          "flagged_collateral": {
+            "mean": 0.7418899063450822,
+            "mc_se": 0.017413350832431937
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.10662721261174647,
+            "mc_se": 0.0030567910182776885
+          }
+        },
+        "0.30": {
+          "sensitivity": {
+            "mean": 0.6225245881469803,
+            "mc_se": 0.021408437969645297
+          },
+          "flagged_uninvolved": {
+            "mean": 0.011792847539590433,
+            "mc_se": 0.0008610356744296059
+          },
+          "flagged_collateral": {
+            "mean": 0.6960810811970121,
+            "mc_se": 0.019852821846539682
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.09220856901318898,
+            "mc_se": 0.0029746528346705024
+          }
+        }
+      },
       "runs": 231,
       "donors": 116,
       "note": "twin cohort, 2 visits per donor: the hardest case"
     },
     "PXD004242": {
-      "sensitivity": 0.9333333333333332,
-      "false_alarm_rate": 0.04927536231884059,
-      "repeats": 5,
-      "planted_pairs_per_repeat": 12,
+      "clean_cohort_default_margin": {
+        "ok": 243,
+        "review": 52,
+        "swap_suspected": 5,
+        "no_reference": 0,
+        "unscorable": 0
+      },
+      "margins": {
+        "0.05": {
+          "sensitivity": {
+            "mean": 0.9875,
+            "mc_se": 0.0040697541825032305
+          },
+          "flagged_uninvolved": {
+            "mean": 0.10976874003189793,
+            "mc_se": 0.005543390513496335
+          },
+          "flagged_collateral": {
+            "mean": 0.22309311059311063,
+            "mc_se": 0.008957042156285594
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.16871980676328502,
+            "mc_se": 0.0032205164764580406
+          }
+        },
+        "0.10": {
+          "sensitivity": {
+            "mean": 0.9875,
+            "mc_se": 0.0040697541825032305
+          },
+          "flagged_uninvolved": {
+            "mean": 0.06320536188957242,
+            "mc_se": 0.0035662406513661342
+          },
+          "flagged_collateral": {
+            "mean": 0.15696386946386948,
+            "mc_se": 0.007291955742313329
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.11195652173913044,
+            "mc_se": 0.0028191160283497093
+          }
+        },
+        "0.15": {
+          "sensitivity": {
+            "mean": 0.9847222222222223,
+            "mc_se": 0.004230041660297229
+          },
+          "flagged_uninvolved": {
+            "mean": 0.03600288600288601,
+            "mc_se": 0.0022828186963472557
+          },
+          "flagged_collateral": {
+            "mean": 0.0900754338254338,
+            "mc_se": 0.005336341788354032
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.06413043478260869,
+            "mc_se": 0.002266012317076535
+          }
+        },
+        "0.20": {
+          "sensitivity": {
+            "mean": 0.976388888888889,
+            "mc_se": 0.005164647568231957
+          },
+          "flagged_uninvolved": {
+            "mean": 0.01813245234297866,
+            "mc_se": 0.001478758372291968
+          },
+          "flagged_collateral": {
+            "mean": 0.04713480963480964,
+            "mc_se": 0.003598961086556094
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.03321256038647343,
+            "mc_se": 0.0015545953354262915
+          }
+        },
+        "0.25": {
+          "sensitivity": {
+            "mean": 0.9625,
+            "mc_se": 0.00756780756669585
+          },
+          "flagged_uninvolved": {
+            "mean": 0.008312447786131995,
+            "mc_se": 0.0009833070402347135
+          },
+          "flagged_collateral": {
+            "mean": 0.016253885003885003,
+            "mc_se": 0.0016143411826462922
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.012439613526570048,
+            "mc_se": 0.0007305136851018572
+          }
+        },
+        "0.30": {
+          "sensitivity": {
+            "mean": 0.9152777777777779,
+            "mc_se": 0.008818115038430373
+          },
+          "flagged_uninvolved": {
+            "mean": 0.00403280929596719,
+            "mc_se": 0.0007005153624109645
+          },
+          "flagged_collateral": {
+            "mean": 0.005808080808080808,
+            "mc_se": 0.0011120488457893795
+          },
+          "flagged_any_unplanted": {
+            "mean": 0.004951690821256039,
+            "mc_se": 0.00047521904231765793
+          }
+        }
+      },
       "runs": 300,
       "donors": 43,
-      "note": "7 visits per donor, no twins: the typical case"
+      "note": "6-7 visits per donor, no twins: the typical case"
     }
   }
 }
