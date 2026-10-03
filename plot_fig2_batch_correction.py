@@ -36,8 +36,8 @@ def draw(ax, block: dict, letter: str | None, title: str | None, cohort: str | N
     null = raw_values[~labels]
     values = (raw_values - null.mean()) / null.std()
 
-    for mask, colour, name in ((~labels, S.GREY, "different people"),
-                               (labels, S.AQUA, "same person")):
+    for mask, colour, name in ((~labels, S.GREY, "Different donors"),
+                               (labels, S.AQUA, "Same donor")):
         y, _ = np.histogram(values[mask], bins=BINS, density=True)
         ax.fill_between(CENTRES, y, color=colour, alpha=0.35, linewidth=0, step="mid")
         ax.step(CENTRES, y, color=colour, linewidth=1.1, where="mid", label=name)
@@ -68,13 +68,13 @@ def make_figure(root: Path, out_dir: Path):
         for ax in row[1:]:
             ax.sharey(row[0])
 
-    columns = [("raw", "A", "No correction"), ("scaled", "B", "+ scale each protein"),
-               ("corrected", "C", "+ remove batch effect")]
-    cohorts = ["Twin cohort\n(PXD001064)", "Weight-loss cohort\n(PXD004242)"]
+    columns = [("raw", "A", "Uncorrected"), ("scaled", "B", "+ Protein standardization"),
+               ("corrected", "C", "+ Batch-median correction")]
+    cohorts = ["PXD001064\n(twin cohort)", "PXD004242\n(weight-loss cohort)"]
     for c, (mode, letter, title) in enumerate(columns):
         draw(axes[0][c], internal[mode], letter, title, cohorts[0] if c == 0 else None)
         draw(axes[1][c], external[mode], None, None, cohorts[1] if c == 0 else None)
-        axes[1][c].set_xlabel("similarity (standardised)")
+        axes[1][c].set_xlabel("Standardized similarity (SD)")
         axes[0][c].tick_params(axis="x", labelbottom=False)
     axes[0][0].legend(loc="upper left", bbox_to_anchor=(0.0, 0.99))
     return S.save(fig, out_dir, "fig2_batch_correction")

@@ -54,8 +54,8 @@ def load(root: Path):
 def draw_hist(ax, labels, raw_values, letter, title, show_legend):
     null = raw_values[~labels]
     values = (raw_values - null.mean()) / null.std()
-    for mask, colour, name in ((~labels, S.GREY, "different people"),
-                               (labels, S.AQUA, "same person")):
+    for mask, colour, name in ((~labels, S.GREY, "Different donors"),
+                               (labels, S.AQUA, "Same donor")):
         y, _ = np.histogram(values[mask], bins=BINS, density=True)
         ax.fill_between(CENTRES, y, color=colour, alpha=0.35, linewidth=0, step="mid")
         ax.step(CENTRES, y, color=colour, linewidth=1.1, where="mid", label=name)
@@ -66,7 +66,7 @@ def draw_hist(ax, labels, raw_values, letter, title, show_legend):
     ax.set_ylim(0, 1.35)          # headroom: legend and AUC sit above the bars
     ax.tick_params(axis="y", labelleft=False, left=False)
     ax.spines["left"].set_visible(False)
-    ax.set_xlabel("similarity (standardised)")
+    ax.set_xlabel("Standardized similarity (SD)")
     if show_legend:
         ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.0))
     S.head(ax, letter, title)
@@ -77,7 +77,7 @@ def draw_coverage(ax, summary):
     x = np.arange(len(keys))
     rows = [summary["coverage"][k] for k in keys]
     series = [("auc", S.AQUA, "AUC", -0.10), ("sens_99", S.ORANGE,
-              "pairs found (99% cut-off)", 0.10)]
+              "Sensitivity at 99% specificity", 0.10)]
     handles = []
     for key, colour, label, dx in series:
         y = np.asarray([r["default"][key] for r in rows])
@@ -95,10 +95,10 @@ def draw_coverage(ax, summary):
     ax.set_xticks(x, labels)
     ax.set_xlim(-0.85, len(keys) - 0.4)
     ax.set_ylim(0.0, 1.05)
-    ax.set_xlabel("share of runs a protein must be seen in")
-    ax.set_ylabel("AUC  or  same-person pairs found")
+    ax.set_xlabel("Minimum run coverage per protein")
+    ax.set_ylabel("AUC or sensitivity")
     ax.legend(handles=handles, loc="center right", bbox_to_anchor=(1.0, 0.70))
-    S.head(ax, "C", "Using more proteins helps\nin this shallow cohort")
+    S.head(ax, "C", "Lower coverage thresholds\nimprove performance")
 
 
 def make_figure(root: Path, out_dir: Path):
@@ -107,9 +107,9 @@ def make_figure(root: Path, out_dir: Path):
     gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 1.35], wspace=0.30,
                           left=0.075, right=0.965, top=0.83, bottom=0.21)
     draw_hist(fig.add_subplot(gs[0, 0]), labels, pairs["score_raw"].to_numpy(float),
-              "A", "No correction", True)
+              "A", "Uncorrected", True)
     draw_hist(fig.add_subplot(gs[0, 1]), labels, pairs["score_default"].to_numpy(float),
-              "B", "+ scale each protein\n(no batch information)", False)
+              "B", "+ Protein standardization\n(no batch annotation)", False)
     draw_coverage(fig.add_subplot(gs[0, 2]), summary)
     return S.save(fig, out_dir, "figS1_pxd062541")
 

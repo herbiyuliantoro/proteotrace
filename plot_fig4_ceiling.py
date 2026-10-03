@@ -29,8 +29,8 @@ def draw_thresholds(ax, block: dict, letter: str, title: str, bins: np.ndarray,
     points = D.operating_points(labels, values)
     centres = (bins[:-1] + bins[1:]) / 2
     peak = 0.0
-    for mask, colour, name in ((~labels, S.GREY, "different people"),
-                               (labels, S.AQUA, "same person")):
+    for mask, colour, name in ((~labels, S.GREY, "Different donors"),
+                               (labels, S.AQUA, "Same donor")):
         y, _ = np.histogram(values[mask], bins=bins, density=True)
         peak = max(peak, float(y.max()))
         ax.fill_between(centres, y, color=colour, alpha=0.32, linewidth=0, step="mid")
@@ -41,12 +41,12 @@ def draw_thresholds(ax, block: dict, letter: str, title: str, bins: np.ndarray,
         threshold = points[specificity]["threshold"]
         ax.axvline(threshold, color=S.ORANGE, linewidth=1.0, linestyle=style, zorder=4)
         pad = (bins[-1] - bins[0]) * (-0.012 if side == "right" else 0.012)
-        ax.text(threshold + pad, top, f"{int(specificity * 100)}% cut-off", ha=side, va="top",
+        ax.text(threshold + pad, top, f"{int(specificity * 100)}% specificity", ha=side, va="top",
                 fontsize=8, color=S.INK)
 
     ax.set_xlim(bins[0], bins[-1])
     ax.set_ylim(0, top * 1.02)
-    ax.set_xlabel("similarity score")
+    ax.set_xlabel("Similarity (Pearson r)")
     ax.tick_params(axis="y", labelleft=False, left=False)
     ax.spines["left"].set_visible(False)    # density has no scale worth reading
     if show_legend:
@@ -62,10 +62,10 @@ def draw_operating(ax, internal: dict, external: dict) -> None:
     summary = external["primary"]["summary"]
     ci2 = external["primary"]["ci_median_draw_corrected"]
     series = [
-        ("Twin cohort", S.BLUE, -0.05,
+        ("PXD001064", S.BLUE, -0.05,
          np.asarray([est1["sens_95"], est1["sens_99"]]),
          np.asarray([ci1["sens_95"], ci1["sens_99"]])),
-        ("Weight-loss cohort", S.AQUA, 0.05,
+        ("PXD004242", S.AQUA, 0.05,
          np.asarray([summary["adaptive_corrected_primary_sens_95"]["median"],
                      summary["adaptive_corrected_primary_sens_99"]["median"]]),
          np.asarray([ci2["sens_95"], ci2["sens_99"]])),
@@ -84,13 +84,13 @@ def draw_operating(ax, internal: dict, external: dict) -> None:
         handles.append(Line2D([], [], marker="o", color=colour, markersize=4.0,
                               linewidth=1.2, label=label))
 
-    ax.set_xticks(x, ["95%\ncut-off", "99%\ncut-off"])
+    ax.set_xticks(x, ["95%", "99%"])
     ax.set_xlim(-0.75, 1.65)
     ax.set_ylim(0.40, 1.0)
-    ax.set_xlabel("stricter →")
-    ax.set_ylabel("same-person pairs found")
+    ax.set_xlabel("Specificity")
+    ax.set_ylabel("Sensitivity")
     ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.0, -0.01))
-    S.head(ax, "C", "Stricter cut-off, fewer found")
+    S.head(ax, "C", "Stricter thresholds\nreduce sensitivity")
 
 
 def make_figure(root: Path, out_dir: Path):
@@ -102,10 +102,10 @@ def make_figure(root: Path, out_dir: Path):
     gs = fig.add_gridspec(1, 3, width_ratios=[1.15, 1.15, 1.0], wspace=0.30,
                           left=0.075, right=0.985, top=0.855, bottom=0.165)
     draw_thresholds(fig.add_subplot(gs[0, 0]), internal["corrected"], "A",
-                    "Twin cohort", np.linspace(-0.55, 0.75, 53), True,
+                    "PXD001064 (twin cohort)", np.linspace(-0.55, 0.75, 53), True,
                     "unrelated cross-batch pairs")
     draw_thresholds(fig.add_subplot(gs[0, 1]), external_pairs["corrected"], "B",
-                    "Weight-loss cohort", np.linspace(-0.55, 0.75, 53), False,
+                    "PXD004242 (weight-loss)", np.linspace(-0.55, 0.75, 53), False,
                     "median draw, cross-plate pairs")
     draw_operating(fig.add_subplot(gs[0, 2]), internal, external)
     return S.save(fig, out_dir, "fig4_ceiling")

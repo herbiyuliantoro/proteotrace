@@ -20,16 +20,19 @@ for f in plot_fig*.py; do python "$f"; done
 
 ### Draft captions
 
-Terms used on the figures: *person* means donor. The *Twin cohort* is
-PXD001064 and the *Weight-loss cohort* is PXD004242. An *X% cut-off* is the
-score that X% of different-people pairs fall below (specificity X%), and
-*same-person pairs found* is sensitivity. *AUC* is the probability that a
-random same-person pair scores higher than a random different-people pair
-(1 = perfect, 0.5 = chance).
+Conventions used on the figures. Cohorts are named by PRIDE accession:
+PXD001064 (twin cohort), PXD004242 (weight-loss cohort) and PXD062541
+(epicatechin cohort, Figure S1). Positive pairs are two runs from the same
+donor; negative pairs are runs from different donors. *Specificity* is the
+share of negative pairs below a threshold, *sensitivity* the share of
+positive pairs above it, and *AUC* the probability that a random positive
+pair scores higher than a random negative pair. MZ, monozygotic (identical)
+twins; DZ, dizygotic (fraternal) twins. Panel titles state the finding of
+each panel.
 
 **Figure 1. How the similarity score is computed, and which pairs it is read on.**
-(A) The three steps (measure proteins, remove the batch effect, compare two
-runs), shown on a real slice of PXD001064:
+(A) The three steps (protein quantification, batch-median correction,
+pairwise correlation), shown on a real slice of PXD001064:
 (1) fourteen proteins measured across ten runs from two acquisition days;
 (2) the same values after the per-batch median of each protein is subtracted;
 (3) the two runs of one donor, each protein scaled to unit variance across the
@@ -105,10 +108,11 @@ not joined, because the gaps are irregularly spaced.
 (B) The shipped tool (`proteotrace check`, margin 0.20) on planted reciprocal
 same-plate swaps. Each donor is subsampled to the given number of visits, with
 12 swaps per repeat and 20 repeats per point. Three rates are shown:
-- planted runs called `swap_suspected` ("swapped runs caught");
-- runs of donors not involved in any swap ("unaffected runs");
-- the swapped donors' other runs ("other runs of the swapped people"), which
-  are compared against a wrong reference by construction.
+- planted runs called `swap_suspected` ("swapped runs", i.e. sensitivity);
+- runs of donors not involved in any swap ("unaffected runs", i.e. the
+  false-positive rate);
+- the swapped donors' other runs ("other runs of swapped donors"), which are
+  compared against a wrong reference by construction.
 
 Bars are 2.5–97.5% ranges over repeats. These are simulated swaps, not
 validation on a cohort of unknown status.
@@ -175,8 +179,11 @@ Specification, so a replacement figure stays consistent:
   panels drop the left axis, since their height has no scale worth reading.
   Text is in ink, not in series colours; reference lines are dark grey and
   labelled. Direct value labels rather than a number on every point.
-- **Titles.** Each panel carries a short title stating its finding; sample
-  sizes, interval definitions and design facts live in the caption.
+- **Titles and terms.** Each panel carries a short title stating its finding
+  in plain scientific English; axes and legends use standard terms
+  (sensitivity, specificity, AUC, Pearson r, MZ/DZ). Cohorts are named by
+  PRIDE accession. Sample sizes, interval definitions and design facts live
+  in the caption.
 - **Export.** Vector PDF with TrueType (type 42) fonts for editable text,
   600 dpi TIFF (LZW) for submission (JPR asks for at least 300 dpi colour
   art), and 600 dpi PNG for viewing. TIFFs are not tracked in git; every

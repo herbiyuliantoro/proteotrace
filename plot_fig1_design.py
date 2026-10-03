@@ -35,7 +35,7 @@ def draw_heatmap(ax, frame, batches, title: str, scale: float, show_ylabel: bool
     for spine in ax.spines.values():
         spine.set_visible(False)
     if show_ylabel:
-        ax.set_ylabel("proteins")
+        ax.set_ylabel("Proteins")
 
     # Mark the two acquisition batches under the columns.
     order = list(dict.fromkeys(batches))
@@ -44,7 +44,7 @@ def draw_heatmap(ax, frame, batches, title: str, scale: float, show_ylabel: bool
         left, right = min(columns) - 0.45, max(columns) + 0.45
         ax.plot([left, right], [values.shape[0] - 0.3] * 2, color=S.INK,
                 linewidth=1.0, clip_on=False, transform=ax.transData)
-        ax.text((left + right) / 2, values.shape[0] + 0.5, f"batch {index + 1}",
+        ax.text((left + right) / 2, values.shape[0] + 0.5, f"Batch {index + 1}",
                 ha="center", va="top", fontsize=8, color=S.INK)
     ax.set_title(title, fontsize=8.5, fontweight="bold", loc="left", pad=3)
     return values
@@ -61,10 +61,10 @@ def draw_scatter(ax, illustration):
     ax.set_ylim(-limit, limit)
     ax.set_xticks([-2, 0, 2])
     ax.set_yticks([-2, 0, 2])
-    ax.set_xlabel("run from batch 1")
-    ax.set_ylabel("run from batch 2")
-    ax.set_title("3. Compare two runs", fontsize=8.5, fontweight="bold", loc="left", pad=3)
-    ax.text(0.04, 0.96, f"same person\nr = {illustration['pair_r']:.3f}",
+    ax.set_xlabel("Run 1, batch 1 (z-score)")
+    ax.set_ylabel("Run 2, batch 2 (z-score)")
+    ax.set_title("3. Pairwise correlation", fontsize=8.5, fontweight="bold", loc="left", pad=3)
+    ax.text(0.04, 0.96, f"Same donor\nr = {illustration['pair_r']:.3f}",
             transform=ax.transAxes, ha="left", va="top", fontsize=8.5,
             color=S.INK, linespacing=1.4)
 
@@ -81,13 +81,13 @@ def draw_pairing(ax):
     ax.add_patch(FancyBboxPatch((0.60, 0.27), 0.30, 0.57,
                                 boxstyle="round,pad=0.012,rounding_size=0.03",
                                 linewidth=0.8, edgecolor="#b9b8b3", facecolor="#f7f7f5"))
-    ax.text(0.275, 0.895, "plate group 1", ha="center", va="bottom", fontsize=8.5,
+    ax.text(0.275, 0.895, "Plate group 1", ha="center", va="bottom", fontsize=8.5,
             color=S.INK, fontweight="bold")
-    ax.text(0.750, 0.895, "plate group 2", ha="center", va="bottom", fontsize=8.5,
+    ax.text(0.750, 0.895, "Plate group 2", ha="center", va="bottom", fontsize=8.5,
             color=S.INK, fontweight="bold")
 
-    columns = {"plate B": 0.17, "plate C": 0.385}
-    rows = {"person 1": 0.715, "person 2": 0.455}
+    columns = {"Plate B": 0.17, "Plate C": 0.385}
+    rows = {"Donor 1": 0.715, "Donor 2": 0.455}
     for name, x in columns.items():
         ax.text(x, 0.375, name, ha="center", va="top", fontsize=8.5, color=S.MUTED)
     for name, y in rows.items():
@@ -101,27 +101,27 @@ def draw_pairing(ax):
                        linewidth=0.9, zorder=3)
     other = (0.75, 0.585)
     ax.scatter(*other, s=58, facecolor=S.SURFACE, edgecolor=S.INK, linewidth=0.9, zorder=3)
-    ax.text(0.75, 0.515, "person 3", ha="center", va="top", fontsize=8.5, color=S.INK)
+    ax.text(0.75, 0.515, "Donor 3", ha="center", va="top", fontsize=8.5, color=S.INK)
 
     def link(a, b, colour, style, rad):
         ax.add_patch(FancyArrowPatch(a, b, arrowstyle="-", linewidth=1.3, color=colour,
                                      linestyle=style, shrinkA=5, shrinkB=5, zorder=2,
                                      connectionstyle=f"arc3,rad={rad}"))
 
-    link(nodes[("person 1", "plate B")], nodes[("person 1", "plate C")], S.AQUA, "-", -0.30)
-    link(nodes[("person 1", "plate B")], nodes[("person 2", "plate C")], S.GREY, "-", 0.22)
-    link(nodes[("person 1", "plate C")], other, S.GREY, "-", -0.12)
-    link(nodes[("person 1", "plate B")], nodes[("person 2", "plate B")], S.MUTED, (0, (2, 2)), 0.35)
+    link(nodes[("Donor 1", "Plate B")], nodes[("Donor 1", "Plate C")], S.AQUA, "-", -0.30)
+    link(nodes[("Donor 1", "Plate B")], nodes[("Donor 2", "Plate C")], S.GREY, "-", 0.22)
+    link(nodes[("Donor 1", "Plate C")], other, S.GREY, "-", -0.12)
+    link(nodes[("Donor 1", "Plate B")], nodes[("Donor 2", "Plate B")], S.MUTED, (0, (2, 2)), 0.35)
 
     handles = [
-        Line2D([], [], color=S.AQUA, linewidth=1.3, label="same person, different plates: should match"),
+        Line2D([], [], color=S.AQUA, linewidth=1.3, label="Same donor, different plates (positive pair)"),
         Line2D([], [], color=S.GREY, linewidth=1.3,
-               label="different people, different plates: should not match"),
+               label="Different donors, different plates (negative pair)"),
         Line2D([], [], color=S.MUTED, linewidth=1.3, linestyle=(0, (2, 2)),
-               label="same plate: not used"),
+               label="Same plate (excluded)"),
     ]
     ax.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, -0.10), ncol=1)
-    S.head(ax, "B", "Which pairs of runs are compared", letter_dx=-22.0)
+    S.head(ax, "B", "Only pairs from different plates are compared", letter_dx=-22.0)
 
 
 def make_figure(root: Path, out_dir: Path):
@@ -137,9 +137,9 @@ def make_figure(root: Path, out_dir: Path):
     ax2 = fig.add_subplot(top[0, 1])
     ax3 = fig.add_subplot(top[0, 2])
 
-    draw_heatmap(ax1, raw, illustration["batches"], "1. Measure proteins", scale, True)
+    draw_heatmap(ax1, raw, illustration["batches"], "1. Protein quantification", scale, True)
     draw_heatmap(ax2, corrected, illustration["batches"],
-                 "2. Remove the batch effect", scale, False)
+                 "2. Batch-median correction", scale, False)
     draw_scatter(ax3, illustration)
     S.head(ax1, "A", None, letter_dx=-26.0)
 
@@ -160,7 +160,7 @@ def make_figure(root: Path, out_dir: Path):
     bar.set_ticklabels([f"-{scale:.1f}", "0", f"+{scale:.1f}"])
     bar.outline.set_visible(False)
     cax.tick_params(length=2, pad=1.5)
-    cax.set_title("protein level (log2, relative to its typical level)",
+    cax.set_title("log2 intensity, median-centered (clipped)",
                   fontsize=8, fontweight="normal", color=S.INK, pad=3)
 
     draw_pairing(fig.add_subplot(outer[1]))

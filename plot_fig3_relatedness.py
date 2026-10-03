@@ -20,7 +20,7 @@ import numpy as np
 import figure_data as D
 
 ORDER = ["same_donor", "MZ_twins", "DZ_twins", "unrelated"]
-LABELS = ["same\nperson", "identical\ntwins", "non-identical\ntwins", "unrelated"]
+LABELS = ["Same\ndonor", "MZ twins\n(identical)", "DZ twins\n(fraternal)", "Unrelated"]
 COLORS = [S.AQUA, S.BLUE, S.ORANGE, S.GREY]
 
 
@@ -29,8 +29,8 @@ def make_figure(root: Path, out_dir: Path):
     values = [pairs.loc[pairs["relation"] == rel, "score"].to_numpy() for rel in ORDER]
     x = np.arange(len(values))
 
-    fig = plt.figure(figsize=(S.WIDTH_1COL, 72 * S.MM))      # JPR single column
-    ax = fig.add_axes((0.175, 0.165, 0.80, 0.69))
+    fig = plt.figure(figsize=(S.WIDTH_1COL, 78 * S.MM))      # JPR single column
+    ax = fig.add_axes((0.175, 0.17, 0.80, 0.62))
 
     parts = ax.violinplot(values, positions=x, widths=0.76, showmeans=False,
                           showmedians=False, showextrema=False, bw_method=0.22)
@@ -51,14 +51,14 @@ def make_figure(root: Path, out_dir: Path):
     ax.axhline(0.0, color=S.GREY, linewidth=0.5, linestyle=(0, (1, 2)), zorder=0)   # r = 0 reference
     top = 0.70
     ax.plot([0, 0, 1, 1], [top - 0.03, top, top, top - 0.03], color=S.INK, linewidth=0.7)
-    ax.text(0.5, top + 0.02, "identical twins look almost\nlike the same person",
+    ax.text(0.5, top + 0.02, "MZ twins overlap with\nsame-donor pairs",
             ha="center", va="bottom", fontsize=7.5, color=S.INK, linespacing=1.35)
 
     ax.set_xticks(x, LABELS)
     ax.set_xlim(-0.6, 3.85)
     ax.set_ylim(-0.50, 0.90)
-    ax.set_ylabel("similarity score")
-    S.head(ax, None, "Closer relatives look more alike")
+    ax.set_ylabel("Similarity (Pearson r)")
+    S.head(ax, None, "Similarity decreases with\ngenetic relatedness")
     return S.save(fig, out_dir, "fig3_relatedness")
 
 

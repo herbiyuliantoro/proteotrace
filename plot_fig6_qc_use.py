@@ -46,15 +46,15 @@ def draw_time(ax, summary: dict, reference: float) -> None:
     ax.axvline(-1.0, color=S.GRID, linewidth=0.8, zorder=1)
 
     ax.axhline(reference, color=S.MUTED, linewidth=0.8, linestyle=(0, (3, 2)), zorder=2)
-    ax.text(63, 0.902, f"dashed line: twin cohort ({reference:.3f})", ha="right",
+    ax.text(63, 0.902, f"Dashed line: PXD001064 ({reference:.3f})", ha="right",
             va="bottom", fontsize=7.5, color=S.MUTED)
     shown = [4, 13, 26, 39, 52, 60]
-    ax.set_xticks([-14, -5] + shown, ["across\ndiet", "after\ndiet"] + [str(v) for v in shown])
+    ax.set_xticks([-14, -5] + shown, ["Across\ndiet", "After\ndiet"] + [str(v) for v in shown])
     ax.set_xlim(-19, 64)
     ax.set_ylim(0.90, 1.0)
-    ax.set_xlabel("weeks between the two visits")
-    ax.set_ylabel("AUC (1 = perfect)")
-    S.head(ax, "A", "Still recognisable after weight loss\nand up to 60 weeks later")
+    ax.set_xlabel("Interval between visits (weeks)")
+    ax.set_ylabel("AUC")
+    S.head(ax, "A", "Donor identity persists through the\nintervention and up to 60 weeks")
 
 
 def draw_swap(ax, curve: dict) -> None:
@@ -62,9 +62,9 @@ def draw_swap(ax, curve: dict) -> None:
     visits = np.asarray([row["n_visits"] for row in rows], dtype=float)
     # values at the line ends; identity from the legend, so the two
     # near-zero series do not need long labels that collide
-    series = [("sensitivity", S.AQUA, "swapped runs caught", None),
-              ("flagged_collateral", S.ORANGE, "other runs of the swapped people", 0.10),
-              ("flagged_uninvolved", S.BLUE, "unaffected runs", -0.005)]
+    series = [("sensitivity", S.AQUA, "Swapped runs (sensitivity)", None),
+              ("flagged_collateral", S.ORANGE, "Other runs of swapped donors", 0.10),
+              ("flagged_uninvolved", S.BLUE, "Unaffected runs (false positives)", -0.005)]
     handles = []
     for key, colour, label, label_y in series:
         med = np.asarray([row[key]["mean"] for row in rows])
@@ -82,9 +82,9 @@ def draw_swap(ax, curve: dict) -> None:
     ax.set_xlim(1.6, 8.0)
     ax.set_ylim(-0.05, 1.04)
     ax.set_xticks(np.arange(2, 8), [str(v) for v in range(2, 8)])
-    ax.set_xlabel("visits per person")
-    ax.set_ylabel("share flagged as a possible swap")
-    S.head(ax, "B", "More visits per person,\nmore swaps caught")
+    ax.set_xlabel("Visits per donor")
+    ax.set_ylabel("Fraction flagged as swap")
+    S.head(ax, "B", "Swap detection improves with\nmore visits per donor")
 
 
 def make_figure(root: Path, out_dir: Path):
