@@ -32,11 +32,11 @@ jobs:
         run: |
           rm -rf figures
           for f in plot_fig*.py; do echo "== $f"; python "$f"; done
-      - name: Check all seven were written (six main, one supplementary)
+      - name: Check all nine were written (six main, three supplementary)
         run: |
           count=$(ls figures/*.pdf | wc -l)
           echo "pdf files: $count"
-          test "$count" -eq 7
+          test "$count" -eq 9
       - uses: actions/upload-artifact@v4
         with:
           name: figures

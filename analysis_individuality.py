@@ -246,7 +246,9 @@ def main() -> int:
         result["development"][c["name"]] = {"design_A_split1": first,
                                             "design_A_median_diff_sens99": float(np.median(d[:, 0])),
                                             "design_A_median_diff_auc": float(np.median(d[:, 1])),
-                                            "design_A_range_diff_sens99": [float(d[:, 0].min()), float(d[:, 0].max())]}
+                                            "design_A_range_diff_sens99": [float(d[:, 0].min()), float(d[:, 0].max())],
+                                            "design_A_diffs_sens99": [float(v) for v in d[:, 0]],
+                                            "design_A_diffs_auc": [float(v) for v in d[:, 1]]}
     w, matched = transfer_weights(dev[1], dev[0])
     print(f"\ndesign B: weights from PXD004242 -> PXD001064 ({matched}/{len(w)} proteins matched)")
     result["development"]["PXD001064"]["design_B"] = report("design B", *evaluate(dev[0], w))

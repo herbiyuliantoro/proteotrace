@@ -1,6 +1,6 @@
 # 🖼️ Figures
 
-What each of the six main figures and the supplementary Figure S1 claims, how
+What each of the six main figures and the supplementary Figures S1–S3 claims, how
 it is built, and the draft captions. The design rules are here so a replacement figure still matches the
 rest of the set.
 
@@ -117,7 +117,7 @@ same-plate swaps. Each donor is subsampled to the given number of visits, with
 Bars are 2.5–97.5% ranges over repeats. These are simulated swaps, not
 validation on a cohort of unknown status.
 
-### Supplementary figure
+### Supplementary figures
 
 **Figure S1. The third cohort (PXD062541), run through the tool at its defaults.**
 PXD062541 comes from a third laboratory (Orbitrap Exploris 480, DIA-NN): 28
@@ -133,6 +133,25 @@ pairs found at the 99% cut-off when proteins must be seen in at least 99%
 how many proteins were kept. Bars on the default are donor-cluster bootstrap
 95% CIs. The default is the pre-specified primary result; the looser rules are
 reported only as a sensitivity analysis (`analysis_pxd062541.py`).
+
+**Figure S2. Individuality-weighted similarity scoring** (`plot_figS2_individuality.py`,
+data from `analysis_individuality.py`). Proteins weighted by their intraclass
+correlation (ICC) instead of equally. (A) Change in sensitivity at 99%
+specificity with paired donor-cluster bootstrap 95% CIs: cross-fitted weights in
+both development cohorts, weights transferred from PXD004242 to PXD001064, and
+the single held-out evaluation on PXD062541. (B) The same difference, and the
+AUC difference, for each of 20 random donor divisions. (C) Protein ICC in
+PXD004242 against PXD001064 (108 shared proteins), which bounds how well
+weights transfer. The released tool keeps the unweighted score.
+
+**Figure S3. Genotype-associated peptide signatures** (`plot_figS3_peptides.py`,
+data from `analysis_genotype_peptides.py`). (A) The 50 highest-ICC peptides
+overlap UniProt natural-variant positions more often than other peptides.
+(B, C) In PXD001064, MZ twins are as similar as the same donor on the peptide
+score, but not on the protein score. (D) The peptide score, and its
+pre-specified combination with the protein score, lower sensitivity at 99%
+specificity in every donor division. Both analyses follow
+`docs/EXTENSION_PLAN.md`, committed before any result was computed.
 
 ### Two deliberate choices about what is plotted
 

@@ -213,6 +213,7 @@ def main() -> int:
                   f"(range {min(v):+.3f}..{max(v):+.3f})")
             entry[f"design_A_median_diff_sens99_{k}"] = float(np.median(v))
             entry[f"design_A_range_diff_sens99_{k}"] = [float(min(v)), float(max(v))]
+            entry[f"design_A_diffs_sens99_{k}"] = [float(x) for x in v]
         if name == "PXD001064":
             cols = ratio.columns
             w, matched = transfer(cols42, icc(pep42, c42["donor"]), cols)

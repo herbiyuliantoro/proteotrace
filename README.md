@@ -240,7 +240,7 @@ drives the numbers above.
 | `proteotrace/` | 🛠️ The tool: `core`, `io`, `report`, `cli` |
 | `validate_tool.py` | 📐 Plants known swaps and measures what the tool catches |
 | `examples/` | 📋 Sample annotation files for the three cohorts |
-| `plot_fig*.py` | 🎨 The six main figures and Figure S1, one script each |
+| `plot_fig*.py` | 🎨 The six main figures and Figures S1–S3, one script each |
 | `proteotrace_style.py` | 🖌️ Shared style: type, colour, sizing, export |
 | `figure_data.py` | 🔌 Loaders, so every figure reads the same frozen numbers |
 | `analysis_*.py` | 🧮 The analyses that produced those numbers |
