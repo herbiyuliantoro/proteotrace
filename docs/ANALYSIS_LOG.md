@@ -167,6 +167,21 @@ run is now always kept. From 100 runs upward this is identical to the old rule:
 Figure 6B visit curve changes only at two visits (86 runs), from 58.9% to 59.8%
 caught; three to seven visits are unchanged.
 
+**Fix 3, panel smaller than `--min-overlap` (0.3.1).** The coverage step only
+refused panels below 20 proteins, while a pair needs `--min-overlap` (30) shared
+proteins to be scored. A panel of 20–29 proteins therefore passed the first
+check, left every pair unscored, and stopped with a misleading "no
+different-donor pairs" error. `check` now stops right after the coverage step
+with a message naming both settings. The 20-protein floor stays for users who
+lower `--min-overlap`, so the effective minimum is max(20, `--min-overlap`).
+
+Checks:
+
+- a synthetic 25-protein cohort stops with the new message at the default and
+  runs with `--min-overlap 20`;
+- PXD001064 gives the same verdicts as before (126 consistent, 53 review,
+  7 possible swaps, 45 without reference).
+
 ## Earlier framing (retired 2026-10-02, kept for the record)
 
 The current paper should make one focused claim: an unsupervised, acquisition-day

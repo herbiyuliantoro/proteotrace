@@ -37,6 +37,15 @@ def _check(args: argparse.Namespace) -> int:
               file=sys.stderr)
 
     normalised = normalise(matrix, samples["batch"], args.min_coverage)
+    if normalised.n_features < args.min_overlap:
+        # normalise() only refuses fewer than 20 features; below --min-overlap
+        # every pair would be unscored and the failure would surface later as
+        # a misleading "no different-donor pairs".
+        raise ValueError(
+            f"only {normalised.n_features} features passed the coverage filter, "
+            f"fewer than --min-overlap ({args.min_overlap}) needed to score a pair. "
+            "Lower --min-coverage, or lower --min-overlap if fewer shared "
+            "features are acceptable for this cohort.")
     if normalised.small_batches and not single_batch:
         print(f"warning: {len(normalised.small_batches)} batch(es) have fewer than "
               f"{MIN_BATCH_RUNS} runs {dict(list(normalised.small_batches.items())[:5])}. "
@@ -133,8 +142,9 @@ def build_parser() -> argparse.ArgumentParser:
                             "10 the threshold hits its data-supported cap and "
                             "larger values change nothing (default: 1)")
     check.add_argument("--min-overlap", type=int, default=30,
-                       help="minimum shared features for a pair to be scored "
-                            "(default: 30)")
+                       help="minimum shared features for a pair to be scored; "
+                            "the panel left after --min-coverage must be at "
+                            "least this large (default: 30)")
     check.set_defaults(func=_check)
     return parser
 
