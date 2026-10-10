@@ -1,9 +1,8 @@
 # ProteoTrace
 
 ProteoTrace compares protein-abundance profiles across longitudinal plasma
-proteomics runs. It is a cohort-level screen for runs whose protein profiles do
-not agree with their assigned donors. A flag calls for review; it does not
-identify the source of a sample.
+proteomics runs. It flags runs whose profiles differ from those of their
+assigned donors. A flag needs review and does not identify a sample's source.
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -11,34 +10,34 @@ identify the source of a sample.
 
 ## What it does
 
-The software takes a runs-by-proteins abundance matrix and a sample table with
-run, donor, and (when available) batch labels. It log2-transforms positive
-abundances, centres each run on its median, subtracts each protein's median
-within each batch, scales each protein to unit variance, and calculates
-pairwise Pearson correlations. The score calculation does not use donor labels.
-The labels are used afterward to set a cohort-specific threshold and compare
+The software takes an abundance matrix with runs in rows and proteins in
+columns, plus a sample table with run, donor, and (when available) batch labels.
+It log2-transforms positive abundances, centres each run on its median,
+subtracts each protein's median within each batch, scales each protein to unit
+variance, and calculates pairwise Pearson correlations. Donor labels do not
+enter the score. They are used to set a cohort-specific threshold and compare
 runs with their assigned donors.
 
-Scaling and batch centring both contribute to performance. The table shows AUC
-and sensitivity at 99% pairwise specificity for the two cohorts with batch
-information. Values for PXD004242 are medians across 200 donor-to-plate
-assignments.
+Protein scaling accounts for most of the AUC gain. Batch centring improves
+sensitivity at high specificity. The table shows AUC and sensitivity at 99%
+pairwise specificity for the two cohorts with batch information. PXD004242
+values are medians over 200 random run assignments.
 
 | Cohort | Raw | Scaling only | Batch centring only | Both steps |
 |:--|--:|--:|--:|--:|
 | PXD001064 | 0.784 / 0.12 | 0.933 / 0.41 | 0.883 / 0.23 | **0.971 / 0.69** |
 | PXD004242 | 0.844 / 0.28 | 0.958 / 0.59 | 0.944 / 0.52 | **0.967 / 0.66** |
 
-Each cell gives AUC / sensitivity at 99% specificity. The full results and
-confidence intervals are in the manuscript and [`docs/ANALYSIS_LOG.md`](docs/ANALYSIS_LOG.md).
+Each cell gives AUC / sensitivity at 99% specificity. Full results and
+confidence intervals are in the [analysis log](docs/ANALYSIS_LOG.md).
 
 ## Results across cohorts
 
-The primary comparison is between same-donor pairs and unrelated different-
-donor pairs. For cohorts with batch labels, both pair types span different
-batches. PXD062541 has no deposited batch labels, so all eligible pairs were
-used and no batch centring was possible. Confidence intervals are donor-cluster
-bootstrap 95% intervals.
+The primary comparison is between same-donor pairs and pairs from unrelated
+donors. For cohorts with batch labels, both pair types span different batches.
+PXD062541 has no deposited batch labels, so all eligible pairs were used and no
+batch centring was possible. Intervals are 95% donor-cluster bootstrap
+confidence intervals.
 
 | Cohort | Data | Runs | AUC | Sensitivity at 99% specificity |
 |:--|:--|--:|--:|--:|
@@ -49,31 +48,32 @@ bootstrap 95% intervals.
 The third cohort was evaluated with the default settings and was not used to
 develop the method. It had no batch information, a median of 44% missing values
 per run, and 133 proteins passing the default coverage filter. Its results were
-lower than those for the first two cohorts. A separate coverage sensitivity
-analysis is reported in the manuscript.
+lower than those for the first two cohorts. The [analysis log](docs/ANALYSIS_LOG.md)
+reports the coverage sensitivity analysis.
 
-The weight-loss cohort lost an average of 12% body weight over the study.
-Same-donor similarity remained detectable across visits up to 60 weeks apart.
-For details, see Geyer et al. (2021, *Molecular & Cellular Proteomics*) and the
-analysis in this repository.
+Geyer et al. (2021, *Molecular & Cellular Proteomics*) report an average 12%
+weight loss in PXD004242. Same-donor AUC was 0.964 for the longest, 60-week gap
+and 0.989 for the 4-week gap (analysis in this repository).
 
-In simulated reciprocal swaps, the tool flagged 69.8% of swapped runs in
+We simulated reciprocal swaps by exchanging the labels of two same-batch runs.
+The tool flagged 69.8% of swapped runs in
 PXD001064 and 97.6% in PXD004242. It also flagged 3.8% and 1.8% of runs from
-unaffected donors, respectively. In the two-visit twin cohort, it flagged 76%
-of the other runs belonging to swapped donors; those runs share a donor whose
-reference has been disrupted by the swap. See the [analysis log](docs/ANALYSIS_LOG.md)
-for the simulation design and full counts.
+unaffected donors, respectively. In the two-visit twin cohort, it also flagged
+76% of the affected donors' other runs. After a swap, those runs no longer have
+a reliable same-donor reference. The [analysis log](docs/ANALYSIS_LOG.md) gives
+the simulation design and counts.
 
 ## Limits
 
 - The method cannot distinguish monozygotic twins. Dizygotic twins also match
   above the 99% threshold more often than unrelated donors (19% versus 0.8% in
   PXD001064).
-- Runs from the same donor that all fall in one batch cannot be compared by the
-  default cross-batch procedure. Batch medians are estimated from the cohort
-  being analysed; a batch should have at least five runs for a stable median.
-- Swap detection was evaluated with simulated, reciprocal label exchanges
-  within batches. The study did not include confirmed real sample swaps or
+- When batch labels are available, the default comparison uses runs from
+  different batches. A donor whose runs all fall in one batch has no such pair.
+  Batch medians come from the cohort being analysed; batches with fewer than
+  five runs may have unstable medians.
+- Swap detection was evaluated by exchanging donor labels between runs from
+  the same batch. The study did not include confirmed real sample swaps or
   samples from people outside the enrolled cohorts.
 - The three evaluated cohorts are plasma studies. Performance on other sample
   types has not been established. Performance was lower in the cohort without
@@ -132,14 +132,14 @@ exports from PRIDE; download instructions and file provenance are in
 | `docs/TUTORIAL.md` | User guide |
 | `docs/FIGURES.md` | Figure descriptions and captions |
 | `docs/ANALYSIS_LOG.md` | Analysis history and corrections |
+| `docs/AUDIT_SCOPE.md` | Scope of the independent audit |
 | `docs/AUDIT_REPORT.md` | Independent audit findings |
 
 ## Data and citation
 
 The cohort data are public under PRIDE accessions PXD001064, PXD004242, and
-PXD062541. No new data were collected for this project. Source-deposition terms
-apply to the derived data; the software is licensed under MIT. See
+PXD062541. No new data were collected for this project. Derived tables retain
+the terms of their source depositions; the software is licensed under MIT. See
 [`data/README.md`](data/README.md) for the sources and tracked files.
 
-There is no preprint citation to provide yet. Until one is available, use the
-repository citation metadata in [`CITATION.cff`](CITATION.cff).
+To cite the software, use the repository metadata in [`CITATION.cff`](CITATION.cff).

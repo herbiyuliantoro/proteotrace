@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite ProteoTrace using the repository information below."
+message: "If you use ProteoTrace, please cite the software and version used."
 title: "ProteoTrace: proteomics-only sample-consistency QC for longitudinal cohorts"
 authors:
   - family-names: "Yuliantoro"
@@ -16,6 +16,6 @@ keywords:
   - longitudinal cohorts
   - batch correction
 abstract: >-
-  ProteoTrace screens longitudinal mass-spectrometry cohorts for protein
-  abundance profiles that are inconsistent with their assigned donors. It
-  does not require genotype data.
+  ProteoTrace compares protein-abundance profiles across longitudinal
+  mass-spectrometry runs and flags runs that differ from their assigned donors.
+  It does not require genotype data.

@@ -1,14 +1,11 @@
-# Releasing ProteoTrace
-
-The repository is public. For a versioned release:
+# Releasing a new version
 
 1. Set the same version in `pyproject.toml` and `proteotrace/__init__.py`.
-2. Rebuild the figures and run the validation described in the repository
-   documentation.
-3. Review the changes, then create a GitHub release with a matching version
-   tag.
-4. If a DOI is needed, enable the repository in Zenodo and archive that
-   release.
+2. Run the included example and regenerate the figures as described in the
+   README. Check the validation instructions in `docs/TUTORIAL.md`.
+3. Commit the changes, create a Git tag for that version, and publish a GitHub
+   release from the tag.
+4. Enable the repository in Zenodo if you want a DOI for the release.
 
-Add a paper citation to `CITATION.cff` after the paper or preprint has been
-published and its DOI is available. Do not add a placeholder DOI.
+Add a paper citation to `CITATION.cff` when a paper or preprint DOI is
+available.
