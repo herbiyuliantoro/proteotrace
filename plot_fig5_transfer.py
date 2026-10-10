@@ -48,7 +48,7 @@ def draw_assignment(ax, draws, reference: float) -> None:
     ax.set_xlim(-0.5, 2.75)
     ax.set_ylim(0.78, 1.0)
     ax.set_ylabel("AUC")
-    S.head(ax, "A", "Results are stable across\n200 random run assignments")
+    S.head(ax, "A", "AUC across 200 random\nrun assignments")
 
 
 def draw_feature_depth(ax, summary: dict, adaptive_n: float) -> None:
@@ -78,7 +78,7 @@ def draw_feature_depth(ax, summary: dict, adaptive_n: float) -> None:
     handles = [Line2D([], [], marker="o", linestyle="none", color=c, markersize=4, label=lab)
                for _k, c, lab, _d in series]
     ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.0, -0.01))
-    S.head(ax, "B", "High-coverage proteins\noutperform random panels")
+    S.head(ax, "B", "AUC and sensitivity\nby protein panel")
 
 
 def make_figure(root: Path, out_dir: Path):

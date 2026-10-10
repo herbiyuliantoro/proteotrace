@@ -48,7 +48,7 @@ def draw_variants(ax, vc):
     ax.set_xticks([0, 1], ["50 highest-ICC\npeptides", "Other eligible\npeptides"])
     ax.set_xlim(-0.6, 1.6); ax.set_ylim(0, 0.75)
     ax.set_ylabel("Peptides overlapping a\nknown variant position")
-    S.head(ax, "A", "Individual-specific peptides\nare enriched at variant sites")
+    S.head(ax, "A", "Peptide overlap with\nknown variant sites")
 
 
 def draw_ladder(ax, pep):
@@ -121,7 +121,7 @@ def draw_splits(ax, pep):
     ax.set_xlim(-0.6, 2.6)
     ax.set_ylabel("Change in sensitivity\nat 99% specificity")
     ax.legend(loc="lower right", bbox_to_anchor=(1.0, 0.02))
-    S.head(ax, "D", "Peptides do not improve\ndiscrimination")
+    S.head(ax, "D", "Comparison of peptide\nand combined scores")
 
 
 def make_figure(root: Path, out_dir: Path):

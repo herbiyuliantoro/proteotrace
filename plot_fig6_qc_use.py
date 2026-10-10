@@ -54,7 +54,7 @@ def draw_time(ax, summary: dict, reference: float) -> None:
     ax.set_ylim(0.90, 1.0)
     ax.set_xlabel("Interval between visits (weeks)")
     ax.set_ylabel("AUC")
-    S.head(ax, "A", "Donor identity persists through the\nintervention and up to 60 weeks")
+    S.head(ax, "A", "AUC by interval\nbetween visits")
 
 
 def draw_swap(ax, curve: dict) -> None:
@@ -84,7 +84,7 @@ def draw_swap(ax, curve: dict) -> None:
     ax.set_xticks(np.arange(2, 8), [str(v) for v in range(2, 8)])
     ax.set_xlabel("Visits per donor")
     ax.set_ylabel("Fraction flagged as swap")
-    S.head(ax, "B", "Swap detection improves with\nmore visits per donor")
+    S.head(ax, "B", "Flag rates by\nnumber of visits")
 
 
 def make_figure(root: Path, out_dir: Path):

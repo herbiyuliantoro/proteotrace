@@ -50,7 +50,7 @@ def draw_weighting(ax, ind):
     ax.set_xlabel("Change in sensitivity at 99% specificity")
     ax.tick_params(axis="y", length=0)
     ax.spines["left"].set_visible(False)
-    S.head(ax, "A", "Individuality weighting increases\nsensitivity at high specificity", letter_dx=-106.5)
+    S.head(ax, "A", "Change in sensitivity\nwith protein weighting", letter_dx=-106.5)
 
 
 
@@ -70,7 +70,7 @@ def draw_splits(ax, ind):
                              "PXD004242\nAUC", "PXD001064\nAUC"])
     ax.set_xlim(-0.5, 3.8)
     ax.set_ylabel("Weighted minus current score")
-    S.head(ax, "B", "Gains are consistent across\n20 random donor splits")
+    S.head(ax, "B", "Changes in AUC and sensitivity\nacross donor splits")
 
 
 def draw_transfer(ax, root):
@@ -87,7 +87,7 @@ def draw_transfer(ax, root):
     ax.set_xlim(0, 1); ax.set_ylim(0, 1)
     ax.set_xlabel("Protein ICC, PXD004242")
     ax.set_ylabel("Protein ICC, PXD001064")
-    S.head(ax, "C", "Protein individuality is\npartly shared across cohorts")
+    S.head(ax, "C", "Protein ICC across\ndevelopment cohorts")
     return len(shared), rho
 
 

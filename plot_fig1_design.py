@@ -121,7 +121,7 @@ def draw_pairing(ax):
                label="Same plate (excluded)"),
     ]
     ax.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, -0.10), ncol=1)
-    S.head(ax, "B", "Only pairs from different plates are compared", letter_dx=-22.0)
+    S.head(ax, "B", "Pair definitions across plates", letter_dx=-22.0)
 
 
 def make_figure(root: Path, out_dir: Path):

@@ -90,7 +90,7 @@ def draw_operating(ax, internal: dict, external: dict) -> None:
     ax.set_xlabel("Specificity")
     ax.set_ylabel("Sensitivity")
     ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.0, -0.01))
-    S.head(ax, "C", "Stricter thresholds\nreduce sensitivity")
+    S.head(ax, "C", "Sensitivity at 95%\nand 99% specificity")
 
 
 def make_figure(root: Path, out_dir: Path):

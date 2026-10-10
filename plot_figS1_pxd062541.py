@@ -98,7 +98,7 @@ def draw_coverage(ax, summary):
     ax.set_xlabel("Minimum run coverage per protein")
     ax.set_ylabel("AUC or sensitivity")
     ax.legend(handles=handles, loc="center right", bbox_to_anchor=(1.0, 0.70))
-    S.head(ax, "C", "Lower coverage thresholds\nimprove performance")
+    S.head(ax, "C", "AUC and sensitivity by\nprotein coverage threshold")
 
 
 def make_figure(root: Path, out_dir: Path):
