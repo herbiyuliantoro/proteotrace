@@ -1,7 +1,7 @@
 # ProteoTrace: adversarial audit report
 
-Audit of branch `audit` at `323818e` (= `main` at `5f5d5b4` plus the brief).
-Audit date: 2026-10-02. Brief: [AUDIT_BRIEF.md](AUDIT_BRIEF.md).
+Audit of branch `audit` at `323818e` (= `main` at `5f5d5b4` plus the original
+audit brief). Audit date: 2026-10-02. See the [audit scope](AUDIT_BRIEF.md).
 
 All numbers below come from scripts in [`audit/`](../audit). The scoring code
 there (`audit/audit_lib.py`) is a fresh implementation written from the
@@ -19,7 +19,7 @@ fixed behaviour. One example: the failed run in F10 now gets `unscorable`.
 
 ---
 
-## Bottom line
+## Audit summary
 
 **The central result survives.** I re-derived it independently from the raw
 inputs:
