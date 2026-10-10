@@ -111,14 +111,16 @@ Combined score minus current score, median of 20 splits: −0.071 (PXD004242)
 and −0.065 (PXD001064). The peptide score alone was much weaker (−0.537 and
 −0.414).
 
-The peptide signal is nevertheless genetic:
+The following observations are consistent with a genetic contribution to
+peptide similarity:
 
 - Of the 50 peptides with the highest ICC in PXD004242, 24 (48%) overlap a
   UniProt natural-variant position, against 255 of 1,176 (22%) other eligible
   peptides (one-sided Fisher p = 5.4 × 10⁻⁵).
 - In PXD001064 (design B weights), the median peptide score was +0.140 for MZ
   twins, +0.121 for the same donor, +0.058 for DZ twins and −0.009 for
-  unrelated pairs. Peptide similarity of MZ twins equals that of the same
-  person, and DZ twins sit near half of it, as expected for a genotype-driven
-  signal. The protein score, in contrast, separates the same donor (+0.381)
-  from MZ twins (+0.293), so it also carries non-genetic individual variation.
+  unrelated pairs. MZ twins and repeat samples have similar median peptide
+  scores, while the DZ-twin median is lower. The protein-score medians are
+  +0.381 for the same donor and +0.293 for MZ twins. These patterns and the
+  variant-position overlap do not by themselves establish a genetic cause;
+  donor genotypes were not measured in this reanalysis.

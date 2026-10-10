@@ -1,9 +1,8 @@
 # Data in this repository
 
-Everything tracked here is either a small public metadata file or a derived
-table small enough to version. Two large inputs are deliberately **not**
-tracked, because they are public and re-downloadable, and because GitHub
-refuses single files above 100 MB.
+Tracked files include public sample metadata, derived abundance matrices and
+analysis summaries. The two large source exports below are downloaded
+separately.
 
 ## Inputs you need to fetch
 
@@ -33,8 +32,8 @@ sha256 `88cd291cb2472635c97644191608fc73f1b6f3562fb5924d92e7e2b883832f25`.
   `*_file_manifest.tsv` — sample and run annotation, including the SDRF used to
   reconcile the PXD004242 design.
 - `*.json` and small `*.tsv` summaries — the frozen results each analysis
-  script wrote. These are what the figures read, so a figure can never drift
-  from the recorded analysis without the summary changing too.
+  script wrote. The figure scripts read these summaries and, where needed,
+  the tracked matrices and pair-score tables.
 - `PXD001064_primary.json`, `PXD004242/PXD004242_primary_random200.{json,tsv}` —
   the primary estimand for both cohorts, with the four-step ablation (raw,
   scaling only, batch only, both), the secondary estimands, the 200 PXD004242
@@ -61,7 +60,8 @@ that produced it; none is an input to a main figure.
 
 ## Provenance
 
-Both cohorts are public: PXD001064 (Liu et al., twin plasma, DIA/OpenSWATH) and
-PXD004242 (Geyer et al., weight-loss plasma, DDA/MaxQuant). No new data were
+All three cohorts are public: PXD001064 (Liu et al., twin plasma, DIA/OpenSWATH),
+PXD004242 (Geyer et al., weight-loss plasma, DDA/MaxQuant), and PXD062541
+(epicatechin supplementation, DIA-NN). No new data were
 generated. Derived tables inherit the licensing of their source depositions;
 the code in this repository is MIT licensed.

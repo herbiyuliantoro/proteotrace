@@ -1,8 +1,4 @@
-"""Readers for the quantitative output people actually have.
-
-A generic runs x features table is the contract. The other readers exist so
-nobody has to reshape a MaxQuant or DIA-NN file by hand before trying the tool.
-"""
+"""Read runs-by-features matrices and MaxQuant or DIA-NN abundance exports."""
 from __future__ import annotations
 
 import sys
@@ -19,8 +15,8 @@ def _parse_numbers(values: pd.Series) -> tuple[pd.Series, bool]:
 
     Exports made under a European locale write decimal commas, which plain
     `to_numeric` turns into NaN without complaint. The comma reading is used
-    only when the column never mixes "." and "," and the comma reading parses
-    essentially every value the plain reading could not. Returns the parsed
+    only when no value contains both "." and "," and replacing commas parses
+    at least 99% of the previously unparsed values. Returns the parsed
     column and whether the decimal-comma reading was used.
     """
     if pd.api.types.is_numeric_dtype(values):
@@ -56,8 +52,8 @@ def read_samples(path: Path) -> pd.DataFrame:
     """Sample annotation: one row per run, with `run`, `donor`, and `batch`.
 
     `batch` may be omitted, in which case every run is treated as one batch
-    and no correction is applied. That is rarely what you want, and the CLI
-    says so, but it keeps the tool usable on a single-batch pilot.
+    and no between-batch correction is possible. The CLI reports this and
+    uses all eligible pairs for comparison.
     """
     table = pd.read_csv(path, sep=None, engine="python", dtype=str)
     table.columns = [c.strip().lower() for c in table.columns]

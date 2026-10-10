@@ -71,7 +71,7 @@ def draw_ladder(ax, pep):
     handles = [Line2D([], [], marker="o", linestyle="none", color=c, markersize=5.5, label=l)
                for _k, l, c, _d in series]
     ax.legend(handles=handles, loc="upper right", bbox_to_anchor=(1.0, 1.0))
-    S.head(ax, "B", "The peptide signal is genetic:\nMZ twins match the same donor")
+    S.head(ax, "B", "Peptide similarity between\ntwins and repeat samples")
 
 
 

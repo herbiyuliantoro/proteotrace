@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Figure 3: the score measures individual identity, graded by relatedness.
+"""Figure 3: protein similarity by donor relationship.
 
-One panel, because the claim is one comparison: same donor > MZ twin > DZ twin
-> unrelated. The overlap between same-donor and MZ pairs is the method's blind
-spot and is marked on the panel rather than left to the caption.
+Compare same-donor, MZ-twin, DZ-twin and unrelated pairs. The annotation marks
+the overlap between same-donor and MZ-twin pairs.
 """
 from __future__ import annotations
 
@@ -58,7 +57,7 @@ def make_figure(root: Path, out_dir: Path):
     ax.set_xlim(-0.6, 3.85)
     ax.set_ylim(-0.50, 0.90)
     ax.set_ylabel("Similarity (Pearson r)")
-    S.head(ax, None, "Similarity decreases with\ngenetic relatedness")
+    S.head(ax, None, "Protein similarity by\ndonor relationship")
     return S.save(fig, out_dir, "fig3_relatedness")
 
 

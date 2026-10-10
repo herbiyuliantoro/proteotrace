@@ -68,8 +68,11 @@ the simulation design and counts.
 - The method cannot distinguish monozygotic twins. Dizygotic twins also match
   above the 99% threshold more often than unrelated donors (19% versus 0.8% in
   PXD001064).
-- When batch labels are available, the default comparison uses runs from
-  different batches. A donor whose runs all fall in one batch has no such pair.
+- With multiple batches, comparisons normally use runs from different batches.
+  A donor whose runs all fall in one batch usually lacks an eligible reference.
+  With one batch or no batch labels, the CLI uses all eligible pairs. The report
+  also falls back to all scorable pairs if a run has no scorable cross-batch
+  partner. These exceptions are described in the [tutorial](docs/TUTORIAL.md).
   Batch medians come from the cohort being analysed; batches with fewer than
   five runs may have unstable medians.
 - Swap detection was evaluated by exchanging donor labels between runs from

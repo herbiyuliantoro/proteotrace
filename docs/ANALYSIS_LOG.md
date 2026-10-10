@@ -1,4 +1,4 @@
-# 📓 Analysis log
+# Analysis log
 
 The running record: what was run, what it produced, and which conclusions were
 retired on the way. Kept as written so the reasoning behind the frozen numbers
@@ -11,7 +11,7 @@ see [FIGURES.md](FIGURES.md).
 
 ## Corrections after the pre-preprint audit (2026-10-02)
 
-An adversarial audit ([AUDIT_BRIEF.md](AUDIT_BRIEF.md),
+An independent audit ([AUDIT_SCOPE.md](AUDIT_SCOPE.md),
 [AUDIT_REPORT.md](AUDIT_REPORT.md)) re-derived every headline number from the
 raw inputs with independent code (`audit/`). The central discrimination result
 reproduced exactly. Five things changed.

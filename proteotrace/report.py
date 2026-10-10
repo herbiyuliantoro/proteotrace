@@ -1,4 +1,4 @@
-"""Turn pair scores into a per-run verdict a person can act on."""
+"""Summarise pairwise similarities and assign per-run QC verdicts."""
 from __future__ import annotations
 
 import numpy as np
@@ -7,8 +7,7 @@ import pandas as pd
 VERDICTS = ("ok", "review", "swap_suspected", "no_reference", "unscorable")
 
 # A run that cannot be scored against at least this share of the other runs
-# (too few shared features, see --min-overlap) has failed as a measurement.
-# It is reported as such rather than as a donor-design problem.
+# (too few shared features, see --min-overlap) is marked unscorable.
 MIN_SCORED_FRACTION = 0.5
 
 
@@ -16,39 +15,28 @@ def run_report(scores: pd.DataFrame, donors: pd.Series, batches: pd.Series,
                threshold: float, margin: float = 0.05,
                cross_batch_only: bool = True,
                rival_threshold: float | None = None) -> pd.DataFrame:
-    """One row per run: how well it matches its own donor, and its best rival.
+    """Compare each run with its assigned donor and best other-donor match.
 
-    For each run we take the median score to the other runs of its *claimed*
-    donor, and the best score to any run of any other donor. Comparing those
-    two is what separates "this sample is weak" from "this sample belongs to
-    somebody else".
-
-    Calling a swap takes three things at once, not one. A rival scoring
-    slightly higher is normal: with only two visits per donor the own-donor
-    estimate rests on a single pair, and identical twins sit almost on top of
-    their sibling. So a swap is only claimed when the run fails to match its
-    own donor, *and* some other donor matches it convincingly, *and* the gap
-    between them is bigger than `margin`. Anything weaker is reported as
-    something to look at, not as a swap.
+    The assigned-donor score is the median over usable repeat runs. The
+    other-donor score is the maximum over usable runs from other donors.
+    With cross_batch_only=True, use cross-batch comparisons unless none are
+    scorable for this run; then fall back to all scorable pairs.
 
     Verdicts:
-      ok              matches its claimed donor above threshold
-      review          does not match its claimed donor above threshold, but no
-                      other donor matches it convincingly either. On clean
-                      cohorts this is 17-23% of runs; it mostly reflects the
-                      per-pair sensitivity ceiling, not poor run quality
-      swap_suspected  fails its claimed donor, and another donor clears the
-                      threshold and beats it by more than `margin`. The named
-                      donor is the best of many rivals, not an identification:
-                      a sample from someone outside the cohort is usually
-                      attributed to an innocent enrolled donor
-      no_reference    the claimed donor has no other run in a *different*
-                      batch, so nothing can be said. Within-batch pairs are
-                      never used, so donors whose runs all share one batch
-                      land here as well as single-run donors
-      unscorable      the run shares too few features with the other runs to
-                      be scored at all: a failed measurement, not a label
-                      question
+      ok              assigned-donor score is at least threshold
+      review          assigned-donor score is below threshold, but the
+                      suspected-swap criteria are not met
+      swap_suspected  assigned-donor score is below threshold; the best
+                      other-donor score is at least rival_threshold and
+                      exceeds the assigned-donor score by more than margin
+      no_reference    no usable repeat run from the assigned donor
+      unscorable      fewer than MIN_SCORED_FRACTION of possible pair scores
+                      are finite, before applying the batch restriction
+
+    A suspected swap does not identify the sample's source. Related donors
+    can produce high scores, and a sample from outside the cohort still has
+    a best-scoring enrolled donor. A review verdict alone does not establish
+    poor measurement quality.
     """
     if rival_threshold is None:
         rival_threshold = threshold

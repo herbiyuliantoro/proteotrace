@@ -1,17 +1,15 @@
-# 🖼️ Figures
+# Figures
 
-What each of the six main figures and the supplementary Figures S1–S3 claims, how
-it is built, and the draft captions. The design rules are here so a replacement figure still matches the
-rest of the set.
+Draft captions, analysis definitions and plotting specifications for the six
+main figures and Figures S1–S3.
 
 ---
 
 ## Main figures
 
-Six figures, one claim each. Nothing in a main figure is set below 7.5 pt: the
-figures carry marks, axis labels, panel titles and a few direct values, and
-every design fact, interval definition and sample size lives in the caption
-below. The earlier four-figure set is kept under `archive/`.
+Text in the main figures is at least 7.5 pt. Captions provide sample sizes,
+interval definitions and details of the study design. The earlier four-figure
+set is kept under `archive/`.
 
 ```sh
 cd proteotrace
@@ -20,7 +18,7 @@ for f in plot_fig*.py; do python "$f"; done
 
 ### Draft captions
 
-Conventions used on the figures. Cohorts are named by PRIDE accession:
+Cohorts are named by PRIDE accession:
 PXD001064 (twin cohort), PXD004242 (weight-loss cohort) and PXD062541
 (epicatechin cohort, Figure S1). Positive pairs are two runs from the same
 donor; negative pairs are runs from different donors. *Specificity* is the
@@ -30,15 +28,15 @@ pair scores higher than a random negative pair. MZ, monozygotic (identical)
 twins; DZ, dizygotic (fraternal) twins. Panel titles state the finding of
 each panel.
 
-**Figure 1. How the similarity score is computed, and which pairs it is read on.**
+**Figure 1. Similarity calculation and pair definitions.**
 (A) The three steps (protein quantification, batch-median correction,
 pairwise correlation), shown on a real slice of PXD001064:
 (1) fourteen proteins measured across ten runs from two acquisition days;
 (2) the same values after the per-batch median of each protein is subtracted;
 (3) the two runs of one donor, each protein scaled to unit variance across the
 cohort, correlated over all 273 proteins.
-Rows are ordered by their between-batch difference, so the block structure the
-correction removes is legible. The colour scale is clipped at the 80th
+Rows are ordered by their between-batch difference to show the batch effects
+removed by the correction. The colour scale is clipped at the 80th
 percentile of absolute values. The example pair is the same-donor cross-batch
 pair whose score is closest to the median of that class, r = 0.381. Donor
 labels are used only to evaluate the score, never to compute it.
@@ -60,22 +58,22 @@ Each panel is standardised against its own different-donor distribution,
 because raw correlations all lie near 0.95 while corrected scores span −0.5 to
 0.7. This per-panel affine map leaves the AUCs unchanged.
 AUC rises 0.7836 → 0.9329 → 0.9707 (PXD001064) and 0.8389 → 0.9588 → 0.9674
-(PXD004242). Scaling carries most of the AUC, but batch correction carries
-the strict end: sensitivity at 99% specificity rises from 0.41 to 0.69, and
+(PXD004242). Scaling accounts for most of the AUC increase. Adding batch
+correction raises sensitivity at 99% specificity from 0.41 to 0.69, and
 from 0.59 to 0.66 (median of 200 assignments; Table 1).
 
-**Figure 3. Similarity declines with genetic relatedness.**
+**Figure 3. Protein similarity by donor relationship.**
 Corrected cross-batch scores in PXD001064 for four relations: same donor
 (n = 93), monozygotic twin (n = 80), dizygotic twin (n = 57) and unrelated
 (n = 23,253) pairs. Points are medians, thick bars the 25th–75th and thin bars
 the 5th–95th percentiles; printed values are the medians. The same-donor and
 MZ distributions overlap, so the
 screen does not separate identical twins. DZ twins also clear the 99%
-threshold in 19% of pairs, against 0.8% for unrelated pairs. These are stated
-limits of the method rather than a tuning problem.
+threshold in 19% of pairs, against 0.8% for unrelated pairs. Closely related
+donors therefore limit the interpretation of suspected swaps.
 
 **Figure 4. A strict threshold costs sensitivity.**
-(A, B) Corrected score distributions on the primary estimand, in PXD001064 (A)
+(A, B) Corrected score distributions for the primary comparison, in PXD001064 (A)
 and the median PXD004242 assignment (B). Thresholds sit at the 95th and 99th
 percentile of different-donor pairs; the same-donor mass left of each line is
 what a screen at that specificity misses.
@@ -84,7 +82,7 @@ assignments. Bars are donor-cluster bootstrap 95% CIs (1,000 resamples; twin
 pair is the cluster in PXD001064, donor in PXD004242). The PXD004242 CI is
 computed on the median assignment.
 
-**Figure 5. The external result does not rest on arbitrary choices.**
+**Figure 5. Results across run assignments and protein panels.**
 (A) 200 random assignments of one run per biological sample in PXD004242,
 through each preprocessing step. Grey lines join the same assignment. The
 dashed line is the PXD001064 estimate of 0.9707.
@@ -94,16 +92,17 @@ dashed line is the PXD001064 estimate of 0.9707.
 - 273 randomly chosen proteins (twenty panels, cycled across assignments;
   median coverage 25%).
 
-High-coverage proteins carry the signal; arbitrary, mostly sparse panels
-lose it. Bars are 2.5–97.5% assignment (and, for random-273, panel) ranges.
+High-coverage panels provide better discrimination than the randomly selected,
+mostly sparse panels. Bars are 2.5–97.5% assignment (and, for random-273, panel) ranges.
 They are not confidence intervals.
 
-**Figure 6. What the screen delivers in use.**
+**Figure 6. Similarity across visit intervals and simulated-swap detection.**
 (A) Donor discrimination against the gap between visits, with the pre-to-post
 and post-only contrasts shown separately. Medians over 200 assignments; the
-dashed line is the PXD001064 estimate of 0.9707. Identity is recovered across
-the 12% weight-loss intervention and out to 60 weeks. Each gap rests on about
-32 same-donor pairs, so the per-gap differences are within noise; points are
+dashed line is the PXD001064 estimate of 0.9707. Same-donor discrimination
+remains high across the intervention and out to 60 weeks. The average 12%
+weight loss was reported in the original study. Each gap rests on about
+32 same-donor pairs, and the per-gap ranges overlap; points are
 not joined, because the gaps are irregularly spaced.
 (B) The shipped tool (`proteotrace check`, margin 0.20) on planted reciprocal
 same-plate swaps. Each donor is subsampled to the given number of visits, with
@@ -112,7 +111,7 @@ same-plate swaps. Each donor is subsampled to the given number of visits, with
 - runs of donors not involved in any swap ("unaffected runs", i.e. the
   false-positive rate);
 - the swapped donors' other runs ("other runs of swapped donors"), which are
-  compared against a wrong reference by construction.
+  compared against an incorrectly labelled reference after the simulated swap.
 
 Bars are 2.5–97.5% ranges over repeats. These are simulated swaps, not
 validation on a cohort of unknown status.
@@ -153,7 +152,7 @@ pre-specified combination with the protein score, lower sensitivity at 99%
 specificity in every donor division. Both analyses follow
 `docs/EXTENSION_PLAN.md`, committed before any result was computed.
 
-### Two deliberate choices about what is plotted
+### Plotting choices
 
 - **Figure 2 standardises each panel against its own null.** On one raw axis the
   before-correction panel renders empty, because raw correlations occupy a
@@ -164,9 +163,9 @@ specificity in every donor division. Both analyses follow
   earlier timepoint-rotation assignment scored above all 200 random draws
   (AUC 0.9839 against a maximum of 0.983), so drawing from it showed a best
   case. It is kept in the analysis log as a sensitivity analysis only.
-- **Figure 4 replaces the ROC curve.** A curve hugging the corner says only
-  "good". Drawing the thresholds on the two score distributions shows *why*
-  sensitivity stops near two in three, which is the number a user has to plan around.
+- **Figure 4 shows score distributions and thresholds.** These show the
+  same-donor pairs missed at each specificity and the overlap between the
+  same-donor and different-donor distributions.
 
 Moved to supplementary: the ROC curve, the acquisition-day and plate-count
 summaries, leave-one-plate-round-out, the sex check, the technical-replicate
@@ -175,7 +174,7 @@ negatives, 0.9692; PXD004242 restricted to one plate group, 0.9733; the
 timepoint-rotation assignment, 0.9839). Cohort descriptions and the full AUC and sensitivity numbers belong
 in Table 1, where they can be read precisely.
 
-Specification, so a replacement figure stays consistent:
+Figure specifications:
 
 - **Size.** Journal of Proteome Research (ACS) artwork rules: double-column
   figures 176 mm (499 pt; JPR allows 300–504 pt), Figure 3 single column 84 mm

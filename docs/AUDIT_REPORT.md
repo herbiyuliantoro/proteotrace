@@ -1,4 +1,4 @@
-# ProteoTrace: adversarial audit report
+# ProteoTrace: analysis and software audit
 
 Audit of branch `audit` at `323818e` (= `main` at `5f5d5b4` plus the original
 audit brief). Audit date: 2026-10-02. See the [audit scope](AUDIT_SCOPE.md).
@@ -21,15 +21,15 @@ fixed behaviour. One example: the failed run in F10 now gets `unscorable`.
 
 ## Audit summary
 
-**The central result survives.** I re-derived it independently from the raw
-inputs:
+The central discrimination result was reproduced using a separate
+implementation and the raw inputs:
 
 - Both AUCs reproduce to four decimals.
 - Fitting the preprocessing on held-out donors costs only 0.005–0.015 AUC.
-- I found no residual plate leak.
+- No residual plate-pair leakage was detected in the checks performed.
 
-Two pieces of framing do not survive, and the shipped tool's validation does
-not measure what its table says:
+The audit identified two problems with the interpretation and validation of
+the version examined:
 
 1. **"Batch correction is the method" is not what the data show.** The
    "raw" baseline (0.7827 / 0.8463) leaves out *two* steps: the batch-median
@@ -49,8 +49,7 @@ not measure what its table says:
    Planting swaps uniformly across batches gives **72–74% / 97–98%**
    sensitivity, against the reported 80.6% / 93.3%.
 
-You expected the tuned margin (attack 1) to hurt most. It is the smallest
-problem I found. Nested tuning costs 0.01–0.02 in Youden J. A margin tuned on
+Nested margin tuning costs 0.01–0.02 in Youden J. A margin tuned on
 either cohort lands within 0.008 J of the other cohort's own optimum.
 
 ---
@@ -67,9 +66,9 @@ either cohort lands within 0.008 J of the other cohort's own optimum.
 | 6 | Top-273 0.976/0.715 vs random-273 0.953/0.526 | **Holds, with caveat** | Top-273 reproduced exactly (`a2`). Random-273 reproduced exactly under the rotation assignment (`a9`). Under the same random assignments as top-273, random-273 gives 0.9347/0.466, so the published contrast is *conservative*. The random panels have median coverage 0.25, so this compares dense with sparse features, not "quality vs size" in general. |
 | 7 | 93.3% at 4.9%; 80.6% at 12.2% | **Does not hold as a description of the tool** | Reproduced with the repo's script. The planted set is one batch, the "false alarm" figure mixes in collateral, and `review` is omitted (F2). Representative numbers are in F2. |
 
-Attack-by-attack:
+Results by audit question:
 
-| Attack | Result |
+| Audit question | Result |
 |---|---|
 | 1. Margin tuned on the reported cohorts | Real but small: about 0.01–0.02 in J (F3). |
 | 2. Nothing held out | Unsupervised steps leak little: −0.005 / −0.015 AUC. The threshold transfers across donors. Batch medians must come from the cohort itself (F7). |
@@ -113,7 +112,7 @@ At 99% specificity the two steps interact strongly:
 So batch correction matters most exactly where the tool operates. That is a
 defensible claim; "batch correction is the whole method" is not.
 
-**Cheapest honest fix.** Put the 2×2 table in the paper (Table 1 or a
+**Recommended change.** Put the 2×2 table in the paper (Table 1 or a
 supplement). Retitle Figure 2 so it names both steps, or add the z-only
 column. Rewrite the README's "The trick is..." paragraph to say that
 per-protein standardisation plus within-batch centring together turn a weak
@@ -162,13 +161,13 @@ uninvolved runs, plus about 80% of the swapped donors' other runs". The
 second part is not a false alarm. It is the tool saying that one of four
 runs is wrong without being able to say which.
 
-**Cheapest honest fix.** Plant swaps uniformly across batches. Use 30 or
+**Recommended change.** Plant swaps uniformly across batches. Use 30 or
 more repeats and report Monte-Carlo spread. Report three rates: planted
 runs caught, uninvolved runs flagged, and other runs of affected donors
 flagged. Add the clean-cohort verdict table (including `review`) to the
 README and tutorial.
 
-### F3. Margin-tuning optimism (attack 1): small. Put the number in the paper.
+### F3. Margin-tuning optimism (audit question 1)
 
 **Demonstration** (`audit/a5_margin.py`). Each cohort is split into donor
 halves, by twin pair for PXD001064. The tool is run on each half as its own
@@ -221,7 +220,7 @@ rotation and say in the caption that it lies above all 200 random
 assignments. Then `export_pxd004242_pairs.py` should freeze that draw's
 AUCs instead of the rotation's.
 
-### F5. The two headline AUCs are different estimands (attack 3), and the PXD004242 one is the favourable variant
+### F5. The two headline AUCs use different pair definitions (audit question 3)
 
 **What differs:**
 
@@ -247,7 +246,7 @@ plate-pair-stratified AUC=0.9836  vs pooled 0.9839        (no plate-pair leak)
 same-date negatives score lower (-0.068 vs -0.035); positives share a date 3.2% vs 1.5%  (no date leak)
 ```
 
-**Attack 5 verdict.** Restricting to within-group pairs does remove the
+**Audit question 5.** Restricting to within-group pairs does remove the
 confound it was meant to remove. There is no leak at the plate-pair or
 date level. But plate-group structure *does* survive into the score,
 because within-group pairs sit about 0.03 lower. That structure is what
@@ -262,7 +261,7 @@ with donor-cluster CIs. Keep the within-group number as a design-aware
 secondary analysis. Replace "same answer" with "consistent within
 uncertainty". The CIs (F8) are far wider than the difference.
 
-### F6. Label permutation vs physical swap (attack 4)
+### F6. Label permutation vs physical swap (audit question 4)
 
 **When the permutation is faithful.** The scores depend only on batch,
 never on donor labels, so a within-batch label permutation produces exactly
@@ -297,7 +296,7 @@ one-sided mislabel would not.
 only. Report the intruder result. Change the `swap_suspected` description so
 it does not imply the named donor is the true source.
 
-### F7. Leakage when nothing is held out (attack 2): small, with one design constraint
+### F7. Preprocessing without held-out donors (audit question 2)
 
 **Demonstration** (`a4_leak.py`). There are 50 donor splits; PXD001064 is
 split by twin pair and PXD004242 is stratified by plate group. The
@@ -328,7 +327,7 @@ that matters. The decision threshold uses labels, but it transfers.
 ### F8. No confidence intervals anywhere
 
 Every interval in the paper is an assignment or panel range, and the
-captions say so. That is honest, but no actual uncertainty is reported.
+captions say so, but these ranges do not estimate sampling uncertainty.
 Donor-cluster bootstrap (`a8`, 300 resamples):
 
 ```text
@@ -379,7 +378,7 @@ All of these are reproduced in `a6_robust.py`:
 | **One bad run changes everyone's features.** The 99%-coverage selection is cohort-wide. | That same run dropped the panel from 273 to 259 features for all runs. | Report it in `summary.json`; consider excluding unscorable runs before selection. |
 | **Tiny batches give silent artefacts.** A run alone in its batch is centred to zero: its own-donor score goes 0.467 → −0.027 and it becomes `review`. Two runs alone in a batch become anti-correlated (r = −0.941), and one of them is called `swap_suspected`. | `two runs alone in a batch: r between them=-0.941; verdicts=['swap_suspected','ok']` | Warn or refuse below a minimum batch size (at least 5–10 runs, say). |
 | **The single-batch warning points the wrong way.** The CLI says scores "will be optimistic". Dropping batch correction actually multiplies false swap calls. | `no batch annotation: PXD001064 swap_suspected 67 (vs 7); PXD004242 22 (vs 5)` | Reword: expect many more false flags. |
-| **Tutorial claims contradicted by the tool's own behaviour.** It says `review` "usually means the run itself is weak", but review runs barely differ from ok runs in missingness (0.205 vs 0.187) and not at all in total intensity (8.831 vs 8.839). It says a stranger match "is not something noise usually produces", but uninvolved clean runs are flagged at 1.5–4% and intruders get a stranger 33–83% of the time. | `a6`, F2, F6 | Remove both sentences, or support them with a measurement. The `review` one is a *hypothesis*: I did not test run quality beyond these two proxies. |
+| **Tutorial claims contradicted by the tool's own behaviour.** It says `review` "usually means the run itself is weak", but review runs barely differ from ok runs in missingness (0.205 vs 0.187) and not at all in total intensity (8.831 vs 8.839). It says a stranger match "is not something noise usually produces", but uninvolved clean runs are flagged at 1.5–4% and intruders get a stranger 33–83% of the time. | `a6`, F2, F6 | Remove both sentences, or support them with a measurement. Run quality was assessed only through these two proxies. |
 | **Dedup depends on row order.** Duplicate donor/visit runs are resolved by the first run in matrix row order. | `keep="last"` gives AUC 0.9690, sensitivity 0.667 (vs 0.9692 / 0.677) | Document the rule; it does not change any conclusion. |
 
 **Checked and fine:**
@@ -464,28 +463,28 @@ shipped tool and a visit-count subsample.
 
 ---
 
-## 4. What I did not check, and why
+## 4. Analyses outside the audit scope
 
 - **Not re-derived:**
   - the leave-one-acquisition-day-out (0.9681 / 0.9705) and
     leave-one-plate(-round)-out analyses;
   - the fixed-replicate diagnostics;
   - the 99.75% within-plate swap result (`analysis_pxd004242_swap_simulation.py`);
-  - the swap reference curve's exact published values (I re-implemented
-    only the comparison in F11).
+  - the swap reference curve's exact published values (only the comparison
+    in F11 was reimplemented).
 
   None of these is among claims 1–7. Their scripts share preprocessing with
-  code I did reproduce, but I have not verified their numbers.
+  the reproduced analyses, but their numerical results were not verified.
 - **Sex check (PXD062541) and timestamp probe:** not looked at. They are
   presented as negative or supporting results, not claims.
 - **Twin-pair labels vs the publication's Table S1:** not checked, because
-  Table S1 is not in the repo. I verified only internal consistency
+  Table S1 is not in the repo. Only internal consistency was verified
   (zygosity agrees within all 58 pairs; 36 MZ, 22 DZ).
-- **PXD004242 structure:** I verified 43 longitudinal donors, 300
+- **PXD004242 structure:** the SDRF confirmed 43 longitudinal donors, 300
   samples, 1,200 runs, plate groups of 12/13/12/6 donors and no donor in
-  two groups, all from the SDRF. I verified that the tracked matrix is
-  byte-equivalent in values to a fresh extraction from the zip. I did not
-  reconcile the 1,294 vs 1,290 file counts.
+  two groups. The tracked matrix was verified to have the same values as a
+  fresh extraction from the zip. The 1,294 vs 1,290 file counts were not
+  reconciled.
 - **I/O readers:** the DIA-NN reader and the MaxQuant zip reader were not
   exercised on real DIA-NN or MaxQuant outputs. Only the generic matrix path
   was run end to end.

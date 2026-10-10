@@ -1,11 +1,11 @@
-# 📖 Tutorial
+# Tutorial
 
-Everything below is a real run on data that ships with this repository, so you
-can follow along and get the same numbers.
+This tutorial uses the included PXD001064 protein-abundance matrix and sample
+annotations. The example output below was obtained with the default settings.
 
 ---
 
-## 1. Install 📦
+## 1. Install
 
 ```sh
 git clone https://github.com/herbiyuliantoro/proteotrace.git
@@ -14,13 +14,13 @@ pip install -e .
 proteotrace --version
 ```
 
-You need Python 3.10 or newer, and numpy and pandas, which pip pulls in.
+Python 3.10 or newer is required. pip installs numpy and pandas automatically.
 
 ---
 
-## 2. Run it on data that is already here ▶️
+## 2. Run the included example
 
-No download needed — one of the validation cohorts is in the repository:
+The matrix and sample table for this validation cohort are included:
 
 ```sh
 proteotrace check \
@@ -29,7 +29,7 @@ proteotrace check \
   --out     qc/
 ```
 
-It takes about a minute. Here is what it prints:
+The console output is:
 
 ```text
 231 runs · 116 donors · 273 features
@@ -56,59 +56,57 @@ yanliu_L130313_029_SW Twin pair-49-B                   0.142   Twin pair-10-B   
 
 ---
 
-## 3. What the header is telling you 🔎
+## 3. Interpret the console output
 
-**`273 features`** — the proteins measured in nearly every run. Everything else
-is dropped, because a protein missing from half the runs cannot compare them.
-`summary.json` records that 439 proteins were dropped here.
+**`273 features`** — the protein groups passing the coverage filter. Selecting
+proteins measured in nearly every run provides a consistent set for comparison.
+`summary.json` records that 439 proteins were excluded here.
 
-**`threshold 0.3161`** — nothing is hard-coded. The tool takes the pairs in
-*your* cohort that are known to be different donors, and puts the line where
-only 1% of them fall above it. On a different platform the number will come
-out different, and that is the point: score scales do not transfer.
+**`threshold 0.3161`** — the 99th percentile of eligible different-donor pair
+scores in this cohort, using the supplied donor annotations. The threshold is
+estimated for each cohort because the score distributions can differ between
+datasets. Pairwise specificity does not set the false-flag rate per run.
 
-**`swap margin 0.20`** — how much better another donor has to look before the
-tool will say "this belongs to somebody else". See §6.
+**`swap margin 0.20`** — the minimum difference between the best other-donor
+score and the assigned-donor score for a suspected swap. The assigned-donor
+score must also be below threshold and the other-donor score above threshold.
+See §8 for settings.
 
 ---
 
-## 4. Reading the verdicts 🚦
+## 4. Read the verdicts
 
 | Verdict | Count | Meaning |
 |:--|--:|:--|
-| ✅ `ok` | 126 | Matches its own donor above threshold |
-| 🔍 `review` | 53 | Doesn't convincingly match its own donor, but nobody else claims it |
-| 🚩 `swap_suspected` | 7 | Fails its own donor, and another donor matches it better |
-| ⛔ `unscorable` | 0 | Shares too few features with the other runs to be scored at all |
-| ➖ `no_reference` | 45 | This donor has no other run on a different batch, so nothing can be said |
+| `ok` | 126 | Assigned-donor score reaches the match threshold |
+| `review` | 53 | Assigned-donor score is below threshold, but the suspected-swap criteria are not met |
+| `swap_suspected` | 7 | Assigned-donor score is below threshold; another donor reaches threshold and exceeds it by more than the margin |
+| `unscorable` | 0 | Too few shared features to score the run against at least half of the other runs |
+| `no_reference` | 45 | No usable repeat run from the assigned donor |
 
-`no_reference` is large here for a design reason, not because donors were
-sampled once. Only 1 of these 45 runs is a genuine single-run donor. The other
-44 belong to donors whose two visits were both run on the same acquisition day.
-The tool never compares two runs from the same batch, because a shared batch
-offset looks like shared identity, so those donors have nothing to be compared
-against. If assessing every donor matters, spread each donor's runs over
-different batches.
+Of the 45 `no_reference` runs, 1 belongs to a donor sampled once. The other
+44 belong to donors whose two visits were measured on the same acquisition day.
+With multiple batches, comparisons normally use runs from different batches to
+reduce the influence of shared technical effects. These donors therefore have
+no eligible repeat run. When all runs are in one batch, or batch labels are
+absent, the CLI uses all eligible pairs instead. If a run has no scorable
+cross-batch partner at all, the report also falls back to its scorable pairs.
 
-`review` is not a soft accusation, and it is common: 53 of 231 here, 52 of 300
-in the other validation cohort, with nothing planted. It mostly reflects the
-ceiling of the score itself. At 99% specificity, only about two in three genuine
-same-donor pairs clear the threshold, and with two visits the judgement rests on
-one pair. Review runs here are barely different in quality from `ok` runs
-(median missingness 20.5% vs 18.7%, same total intensity). So treat `review`
-as "not confirmed", not as "bad run", and look harder only if something else
-points the same way.
+The unmodified validation cohorts contain 53 `review` runs out of 231 and
+52 out of 300. At 99% specificity, about two in three same-donor pairs exceed
+the threshold; with two visits, the assigned-donor score rests on one pair.
+In PXD001064, `review` and `ok` runs have similar median missingness
+(20.5% vs 18.7%) and total intensity. A `review` verdict alone does not establish
+poor measurement quality or a label error. Check it alongside other QC results.
 
-`unscorable` is the verdict for a run that failed as a measurement. If most of
-its values are missing, it cannot be scored against at least half of the other
-runs.
+`unscorable` means that fewer than half of the possible pair scores are finite.
+This can occur when too few proteins are measured in common with other runs.
 
 ---
 
-## 5. Now look harder at those 7 flags 🧐
+## 5. Inspect the seven flagged runs
 
-This is the part that matters, and it is why the tool prints the rival rather
-than just a verdict. Look at who the rival is:
+Check `best_other_donor` against the study metadata:
 
 ```text
 yanliu_L130109_027_SW   Twin pair-41-B  →  Twin pair-41-A    ← the donor's own twin (DZ)
@@ -121,27 +119,25 @@ yanliu_L130104_027_SW   Twin pair-29-A  →  Twin pair-44-B    ← unrelated don
 yanliu_L130313_029_SW   Twin pair-49-B  →  Twin pair-10-B    ← unrelated donor
 ```
 
-Three of the seven point at the donor's **own twin**: one identical, two
-fraternal. That is expected in a twin cohort. Identical twins score almost as
+Three of the seven point at the donor's own twin: one identical, two
+fraternal. Identical twins score almost as
 high as the same person, and fraternal twins clear the threshold about one
 time in five (against fewer than one in a hundred for unrelated pairs). These
-three are not evidence of a mix-up.
+three flags do not establish a sample mix-up.
 
-The other four point at **unrelated** donors. Those are worth a look, but keep
-the base rate in mind. On a clean cohort, the tool flags about 2–4% of runs
-this way by chance. And when a sample comes from someone outside the cohort,
-the tool still names *some* enrolled donor as the best rival. A flag says "this
-run does not look like its claimed donor"; the named rival is a lead, not an
-identification. Two flags on the same donor (both runs of Twin pair-41-B here)
-are more telling than one.
+The other four point at unrelated donors and need review. In the simulated-swap
+evaluations, about 2–4% of runs from uninvolved donors were also flagged.
+When a sample comes from someone outside the cohort, the tool still names the
+best-scoring enrolled donor. That donor is a candidate to investigate; the
+score does not identify the sample's source. Both runs of Twin pair-41-B are
+flagged here, so neither provides a reliable reference for the other.
 
-So the practical rule: 🔑 **read the rival, not just the flag.** A rival who is
-a relative, a twin, or the same person under a second study ID is a different
-situation from a rival who is a stranger.
+When reviewing a flag, check for relatives and for participants entered under
+more than one study ID.
 
 ---
 
-## 6. The three output files 📂
+## 6. Output files
 
 ```text
 qc/run_report.tsv    one row per run — start here
@@ -164,13 +160,13 @@ qc/summary.json      counts, thresholds, settings, caveats
 | `margin` | claimed minus best other; negative means the rival won |
 | `verdict` | ok / review / swap_suspected / no_reference / unscorable |
 
-⚠️ Watch `n_reference_runs`. If it is 1, the whole judgement rests on a single
-pair and is noisy. Two visits per donor is the hardest case; more visits makes
-the tool much more reliable.
+Check `n_reference_runs`. A value of 1 means that the assigned-donor score rests
+on a single pair. Additional visits provide more comparisons; detection rates
+by visit count are reported in the analysis log.
 
 ---
 
-## 7. Preparing your own `samples.tsv` ✍️
+## 7. Prepare a sample table
 
 Three columns, tab or comma separated:
 
@@ -182,31 +178,32 @@ Plate2_A01    subj_014   plate2
 Plate2_A02    subj_027   plate2
 ```
 
-**`run`** must match the row names of your matrix *exactly*. This is the most
-common thing to get wrong. For MaxQuant, the run names are whatever follows
+**`run`** must match the row names of your matrix exactly.
+For MaxQuant, the run names are whatever follows
 `Intensity ` in `proteinGroups.txt`.
 
 **`donor`** is the subject the sample is supposed to be from. Any string.
 
 **`batch`** is whatever groups runs technically: plate, acquisition day, LC
-column, instrument, digestion batch. Pick the one that changes most between
-runs. If you genuinely have one batch, leave the column out and the tool will
-say so. Expect many more false swap flags, though: without the batch
-correction our two validation cohorts gave 4–10 times as many.
+column, instrument or digestion batch. Choose labels that reflect the study's
+technical design. If all runs form one batch, the column may be omitted. The
+CLI then uses all eligible pairs and reports the absence of batch information.
+Removing batch annotation from the two development cohorts increased the
+number of suspected swaps 4–10-fold; this is not an estimated error rate for
+every single-batch study.
 
-Two more things about batches. Each needs enough runs: below 5, the batch
-median is mostly the runs themselves, and the tool warns. And the tool
-deliberately computes each batch's median from *your* runs, including the
-ones it is checking. Don't try to save time by reusing medians from another
-study; they do not centre new runs and every score inflates.
+With multiple batches, the tool warns about batches containing fewer than
+5 runs because their protein medians can be unstable. Batch medians are
+estimated from the cohort being checked, including its evaluation runs.
+Use these medians rather than estimates from another study.
 
-Spread each donor's runs over different batches if you can. Pairs on the same
-batch are never used, so a donor whose runs share one batch gets
-`no_reference`.
+For studies with multiple batches, distribute repeat samples across batches
+where possible. A donor whose runs share one batch normally lacks an eligible
+reference. The single-batch mode and the fallback described in §4 are exceptions.
 
 ---
 
-## 8. Turning the knobs 🎛️
+## 8. Settings
 
 ```sh
 proteotrace check --matrix ... --samples ... --out qc/ \
@@ -215,9 +212,9 @@ proteotrace check --matrix ... --samples ... --out qc/ \
   --specificity 0.99
 ```
 
-**`--margin`** (default 0.20) is the main one. It trades catching swaps against
-disturbing runs that have nothing to do with the swap. Measured on our two
-cohorts with `validate_tool.py`:
+**`--margin`** (default 0.20) controls the required advantage of the best
+other-donor score. Lower margins detect more swaps but also flag more runs from
+uninvolved donors. Results from `validate_tool.py`:
 
 | margin | swaps caught | uninvolved runs flagged |
 |--:|--:|--:|
@@ -226,28 +223,30 @@ cohorts with `validate_tool.py`:
 | 0.25 | 67% / 96% | 2.2% / 0.8% |
 
 (first number PXD001064, two visits per donor; second PXD004242, six to seven.)
-Lower it if a missed swap is worse than a wasted hour; raise it if you are
-drowning in flags. The default was picked on these same two cohorts, so treat
-it as a reasonable start rather than as tuned for your data.
+Choose the margin according to the sensitivity and review workload needed for
+the study. The default was selected on these same two development cohorts;
+its performance on a new dataset can differ.
 
-**`--rival-adjust`** (default 1, off) raises the bar for the rival instead. It
-costs far more sensitivity than raising `--margin` for the same drop in flags.
+**`--rival-adjust`** (default 1, off) raises the other-donor match threshold.
+In the development evaluations, it reduced sensitivity more than increasing
+`--margin` for a similar reduction in flags.
 Above about 10 it stops having any effect.
 
 **`--min-coverage`** (default 0.99) decides which proteins are used: those seen
-in at least this share of runs. A protein missing from just one run is always
-kept, so a single failed run cannot empty the panel. If your data are shallow
-(many missing values per run, as in our third validation cohort), 0.90 can
-work clearly better. There it raised the AUC from 0.89 to 0.94. Decide on this
-*before* you look at the verdicts; picking the setting that gives the answer
-you hoped for defeats the check.
+in at least this fraction of runs. A protein missing from just one run is also
+kept unless the setting is 1.0. In the shallower PXD062541 cohort, reducing the
+setting to 0.90 raised AUC from 0.89 to 0.94 in a sensitivity analysis.
+Select the coverage rule before inspecting the verdicts to avoid choosing a
+setting that favours a preferred result.
 
-**`--specificity`** (default 0.99) moves the match threshold. Leave it alone
-unless you know why you are changing it.
+**`--specificity`** (default 0.99) sets the percentile of eligible
+different-donor pair scores used as the match threshold. Increasing it raises
+the threshold and usually reduces sensitivity. It does not specify the
+false-flag rate per run.
 
 ---
 
-## 9. When it complains 🧯
+## 9. Troubleshooting
 
 **`only N runs appear in both files`** — your `run` column doesn't match the
 matrix row names. Compare them side by side; usually it's a `.raw` extension,
@@ -263,11 +262,14 @@ values parsed as numbers. Usually the column layout or the format is wrong; try
 
 **`note: values use a decimal comma`** — not an error. The export was written
 with a European locale (`7,04E+12`), and the tool read the commas as decimal
-points. Files that mix `.` and `,` in the same column are not converted, so
-they will fail loudly rather than be misread.
+points. Conversion is skipped if any value contains both `.` and `,`, or if
+replacing commas does not parse at least 99% of the previously unparsed values.
+Remaining unparseable values become missing values. Check the export's number
+format before analysis; a mixed format does not always cause an error.
 
 **`missing the column(s) ['donor']`** — the annotation needs `run` and `donor`
-at minimum, lower-case.
+at minimum. Column names are stripped of surrounding spaces and converted to
+lower case when read.
 
 **`these runs appear more than once`** — duplicate run names. If they are
 technical replicates, either give them distinct names or keep one per sample.
@@ -281,22 +283,19 @@ verdicts on those runs.
 
 ---
 
-## 10. What it cannot tell you 🚧
+## 10. Limits of interpretation
 
-- 👯 **Relatives.** Identical twins are not separable, and a twin swap can pass
-  as `ok`. Fraternal twins (and so, most likely, siblings) also score high
-  enough to appear as rivals.
-- 🧍 **Donors with no cross-batch pair.** Single-run donors, and donors whose
-  runs all share one batch, get no verdict.
-- 🕵️ **Who a stray sample belongs to.** If a sample comes from someone outside
-  the cohort, the tool still names the closest enrolled donor.
-- ❓ **Why** a sample is wrong. It flags an inconsistency; the cause could be a
-  swap, a mislabelled tube, a duplicated subject ID, or a sample from the same
-  person entered twice under different IDs.
-- ✋ **Proof.** `ok` means consistent with the claimed donor, not identity
-  confirmed. Treat flags as a worklist, not a verdict.
+- Identical twins are not reliably separable, and a twin swap can pass as
+  `ok`. Fraternal twins also score high enough to appear as alternative matches.
+- A single-run donor has no repeat reference. With multiple batches, donors
+  whose runs share one batch normally receive `no_reference` (see §4).
+- For a sample from outside the cohort, the named alternative is still an
+  enrolled donor. Its identity cannot be inferred from this comparison.
+- A flag does not establish the cause of an inconsistency. Possible causes
+  include a swap, a mislabelled tube, or a participant entered under two IDs.
+- `ok` means consistent with the assigned donor. Confirm suspected label
+  errors using sample records or independent measurements.
 
 ---
 
-Something unclear or broken? Open an issue:
-<https://github.com/herbiyuliantoro/proteotrace/issues> 🙏
+Report problems through the [issue tracker](https://github.com/herbiyuliantoro/proteotrace/issues).
